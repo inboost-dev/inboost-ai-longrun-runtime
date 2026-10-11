@@ -1,0 +1,50 @@
+{
+  "name": "@inboost-pro/inboost-longrun",
+  "version": "0.1.0",
+  "description": "InBoost LongRun: Local context conservation, quota extension, and verification engine for AI coding agents.",
+  "main": "bin/inboost-longrun.js",
+  "bin": {
+    "inboost-longrun": "./bin/inboost-longrun.js",
+    "inboost-ai-longrun": "./bin/inboost-longrun.js"
+  },
+  "files": [
+    "bin",
+    "inboost.lic",
+    "configs",
+    "README.md",
+    "LICENSE_EVALUATION.md"
+  ],
+  "scripts": {
+    "start": "node bin/inboost-longrun.js serve",
+    "test": "node bin/inboost-longrun.js status",
+    "version": "node bin/inboost-longrun.js version",
+    "postinstall": "node bin/inboost-longrun.js --postinstall"
+  },
+  "keywords": [
+    "inboost",
+    "longrun",
+    "mcp",
+    "ai-agents",
+    "claude-code",
+    "cursor",
+    "ast",
+    "testing",
+    "developer-tools"
+  ],
+  "author": "InBoost Technologies <inbound@inboost.pro>",
+  "license": "InBoost LongRun Evaluation License Agreement",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inboost-dev/inboost-ai-longrun-runtime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inboost-dev/inboost-ai-longrun-runtime/issues"
+  },
+  "homepage": "https://inboost.pro",
+  "publishConfig": {
+    "access": "public"
+  }
+}

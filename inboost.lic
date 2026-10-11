@@ -1,0 +1,17 @@
+{
+  "payload": {
+    "customer": "Pilot Evaluation",
+    "features": [
+      "l0_clean_test_log",
+      "l0_run_test",
+      "l0_savings_report",
+      "l0_verify_edit_scope",
+      "l0_verify_syntax",
+      "l0_view_outline"
+    ],
+    "tier": "enterprise_pilot",
+    "valid_from": "2026-10-11T00:00:00Z",
+    "valid_until": "2026-11-11T23:59:59Z"
+  },
+  "signature": "/ZPIbL7XcHeLn/c1Uutbh6aTPHGTP8fkkoB+gS03XhmQgNQL1lFzHly0KYA8t7tHNq7+VOKapa6YFY3sH4BfAw=="
+}
