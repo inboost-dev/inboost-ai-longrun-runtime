@@ -6,6 +6,7 @@
  * Supports:
  *   npx inboost-longrun
  *   npx inboost-longrun status
+ *   npx inboost-longrun init
  *   npx inboost-longrun serve
  *   npm install -g inboost-longrun
  */
@@ -16,8 +17,17 @@ const fs = require("fs");
 const os = require("os");
 const https = require("https");
 
-const VERSION = "0.1.0-eval";
+const VERSION = "0.2.1-eval";
 const GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime";
+
+const RULES_CONTENT = `# InBoost LongRun Optimization Rules
+
+1. **Context Conservation**: Before reading large files, use \`l0_view_outline\` to inspect declarations and structure.
+2. **Test Failure Isolation**: Filter test logs and runtime exceptions via \`l0_clean_test_log\` to eliminate noise and isolate failing lines.
+3. **Syntax Integrity**: Validate all code modifications and diffs with \`l0_verify_syntax\` prior to finalizing changes.
+4. **Edit Scope Compliance**: Ensure edits remain focused and within budget. Verify with \`l0_verify_edit_scope\`.
+5. **Execution Optimization**: Run test commands via \`l0_run_test\` for compact results. Check session economy with \`l0_savings_report\`.
+`;
 
 function getBinaryName() {
   const platform = process.platform;
@@ -57,6 +67,78 @@ function ensureLicenseInstalled(packageDir) {
       }
     }
   }
+}
+
+function runInit(packageDir) {
+  const userHome = os.homedir();
+  const cwd = process.cwd();
+
+  // 1. Копирует правило в глобальный ~/.claude/rules/inboost_longrun.md и ~/.agents/rules/inboost_longrun.md
+  try {
+    const globalClaudeDir = path.join(userHome, ".claude", "rules");
+    fs.mkdirSync(globalClaudeDir, { recursive: true });
+    fs.writeFileSync(path.join(globalClaudeDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+  } catch (err) {}
+
+  try {
+    const globalAgentsDir = path.join(userHome, ".agents", "rules");
+    fs.mkdirSync(globalAgentsDir, { recursive: true });
+    fs.writeFileSync(path.join(globalAgentsDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+  } catch (err) {}
+
+  // 2. Копирует правило в текущий ./.cursorrules или ./.claude/rules/ или ./.agents/rules/
+  try {
+    const localClaudeDir = path.join(cwd, ".claude", "rules");
+    fs.mkdirSync(localClaudeDir, { recursive: true });
+    fs.writeFileSync(path.join(localClaudeDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+  } catch (err) {}
+
+  try {
+    const localAgentsDir = path.join(cwd, ".agents", "rules");
+    fs.mkdirSync(localAgentsDir, { recursive: true });
+    fs.writeFileSync(path.join(localAgentsDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+  } catch (err) {}
+
+  try {
+    const cursorrulesPath = path.join(cwd, ".cursorrules");
+    let existing = "";
+    if (fs.existsSync(cursorrulesPath)) {
+      existing = fs.readFileSync(cursorrulesPath, "utf-8");
+    }
+    if (!existing.includes("InBoost LongRun Optimization Rules")) {
+      const glue = existing.trim() ? "\n\n" : "";
+      fs.writeFileSync(cursorrulesPath, existing + glue + RULES_CONTENT, "utf-8");
+    }
+  } catch (err) {}
+
+  // 3. Добавляет в .cursor/mcp.json (если файл существует или создает его)
+  try {
+    const cursorDir = path.join(cwd, ".cursor");
+    fs.mkdirSync(cursorDir, { recursive: true });
+    const mcpPath = path.join(cursorDir, "mcp.json");
+    let mcpJson = { mcpServers: {} };
+    if (fs.existsSync(mcpPath)) {
+      try {
+        mcpJson = JSON.parse(fs.readFileSync(mcpPath, "utf-8"));
+        if (!mcpJson.mcpServers || typeof mcpJson.mcpServers !== "object") {
+          mcpJson.mcpServers = {};
+        }
+      } catch (e) {
+        mcpJson = { mcpServers: {} };
+      }
+    }
+    mcpJson.mcpServers["inboost-longrun"] = {
+      command: "inboost-longrun",
+      args: ["serve"]
+    };
+    fs.writeFileSync(mcpPath, JSON.stringify(mcpJson, null, 2) + "\n", "utf-8");
+  } catch (err) {}
+
+  // Ensure license is also verified and installed to ~/.inboost/inboost.lic
+  ensureLicenseInstalled(packageDir);
+
+  process.stdout.write("✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!\n");
+  process.exit(0);
 }
 
 function findBinary(packageDir) {
@@ -141,6 +223,11 @@ async function main() {
   const rawArgs = process.argv.slice(2);
   if (rawArgs.includes("--postinstall")) {
     process.stdout.write("InBoost LongRun postinstall: verified configuration.\n");
+    process.exit(0);
+  }
+
+  if (rawArgs.includes("init")) {
+    runInit(packageDir);
     process.exit(0);
   }
 

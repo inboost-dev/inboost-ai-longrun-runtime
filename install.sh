@@ -13,7 +13,7 @@ COLOR_YELLOW="\033[1;33m"
 COLOR_RED="\033[1;31m"
 COLOR_BOLD="\033[1m"
 
-VERSION="${INBOOST_LONGRUN_VERSION:-0.1.0-eval}"
+VERSION="${INBOOST_LONGRUN_VERSION:-0.2.1-eval}"
 GITHUB_REPO="inboost-dev/inboost-ai-longrun-runtime"
 
 echo -e "${COLOR_CYAN}┌────────────────────────────────────────────────────────┐${COLOR_RESET}"

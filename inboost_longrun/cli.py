@@ -4,6 +4,7 @@ CLI launcher for InBoost LongRun Evaluation Runtime.
 Resolves platform-native binary, ensures license is placed, and executes the engine.
 """
 
+import json
 import os
 import platform
 import shutil
@@ -13,8 +14,17 @@ import sys
 import urllib.request
 from pathlib import Path
 
-VERSION = "0.1.0-eval"
+VERSION = "0.2.1-eval"
 GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime"
+
+RULES_CONTENT = """# InBoost LongRun Optimization Rules
+
+1. **Context Conservation**: Before reading large files, use `l0_view_outline` to inspect declarations and structure.
+2. **Test Failure Isolation**: Filter test logs and runtime exceptions via `l0_clean_test_log` to eliminate noise and isolate failing lines.
+3. **Syntax Integrity**: Validate all code modifications and diffs with `l0_verify_syntax` prior to finalizing changes.
+4. **Edit Scope Compliance**: Ensure edits remain focused and within budget. Verify with `l0_verify_edit_scope`.
+5. **Execution Optimization**: Run test commands via `l0_run_test` for compact results. Check session economy with `l0_savings_report`.
+"""
 
 
 def get_binary_name() -> str:
@@ -56,6 +66,75 @@ def ensure_license_installed(package_root: Path) -> None:
                     break
                 except Exception:
                     pass
+
+
+def handle_init(package_root: Path) -> None:
+    user_home = Path.home()
+    cwd = Path.cwd()
+
+    # 1. Global Claude Code rules (~/.claude/rules/inboost_longrun.md)
+    try:
+        global_claude = user_home / ".claude" / "rules"
+        global_claude.mkdir(parents=True, exist_ok=True)
+        (global_claude / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    except Exception:
+        pass
+
+    try:
+        global_agents = user_home / ".agents" / "rules"
+        global_agents.mkdir(parents=True, exist_ok=True)
+        (global_agents / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    except Exception:
+        pass
+
+    # 2. Local rules in current directory (.claude/rules and .cursorrules)
+    try:
+        local_claude = cwd / ".claude" / "rules"
+        local_claude.mkdir(parents=True, exist_ok=True)
+        (local_claude / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    except Exception:
+        pass
+
+    try:
+        local_agents = cwd / ".agents" / "rules"
+        local_agents.mkdir(parents=True, exist_ok=True)
+        (local_agents / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    except Exception:
+        pass
+
+    try:
+        cursorrules = cwd / ".cursorrules"
+        existing = cursorrules.read_text(encoding="utf-8") if cursorrules.exists() else ""
+        if "InBoost LongRun Optimization Rules" not in existing:
+            glue = "\n\n" if existing.strip() else ""
+            cursorrules.write_text(existing + glue + RULES_CONTENT, encoding="utf-8")
+    except Exception:
+        pass
+
+    # 3. .cursor/mcp.json
+    try:
+        cursor_dir = cwd / ".cursor"
+        cursor_dir.mkdir(parents=True, exist_ok=True)
+        mcp_file = cursor_dir / "mcp.json"
+        mcp_config = {"mcpServers": {}}
+        if mcp_file.exists():
+            try:
+                mcp_config = json.loads(mcp_file.read_text(encoding="utf-8"))
+                if "mcpServers" not in mcp_config or not isinstance(mcp_config["mcpServers"], dict):
+                    mcp_config["mcpServers"] = {}
+            except Exception:
+                mcp_config = {"mcpServers": {}}
+        mcp_config["mcpServers"]["inboost-longrun"] = {
+            "command": "inboost-longrun",
+            "args": ["serve"]
+        }
+        mcp_file.write_text(json.dumps(mcp_config, indent=2) + "\n", encoding="utf-8")
+    except Exception:
+        pass
+
+    ensure_license_installed(package_root)
+    sys.stdout.write("✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!\n")
+    sys.exit(0)
 
 
 def find_or_download_binary() -> Path:
@@ -108,6 +187,10 @@ def find_or_download_binary() -> Path:
 
 def main() -> None:
     package_root = Path(__file__).resolve().parent.parent
+
+    if "init" in sys.argv[1:]:
+        handle_init(package_root)
+
     ensure_license_installed(package_root)
 
     try:

@@ -40,7 +40,28 @@ InBoost LongRun is distributed across official package registries and standalone
 
 ## 🚀 Quick Install
 
-### Option 1: Instant Execution via `npx` (Recommended)
+### ⚡️ 2-Line Zero-Friction Setup (Recommended)
+
+Install globally and run `init` to automatically configure rules and MCP servers across Claude Code, Cursor, and Antigravity:
+
+```bash
+npm install -g @inboost-pro/inboost-longrun
+inboost-longrun init
+```
+
+*Or run instantly with zero installation via `npx`:*
+```bash
+npx @inboost-pro/inboost-longrun init
+```
+
+The `init` command automatically:
+1. Copies optimization directives to global `~/.claude/rules/inboost_longrun.md` and `~/.agents/rules/inboost_longrun.md`.
+2. Configures project directives in `.cursorrules` and `.claude/rules/inboost_longrun.md`.
+3. Registers the `inboost-longrun` MCP server inside `.cursor/mcp.json`.
+
+---
+
+### Option 1: Instant Execution via `npx`
 
 Run directly with zero pre-installation:
 

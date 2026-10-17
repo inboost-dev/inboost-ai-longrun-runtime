@@ -5,6 +5,7 @@ Reads tokens from ~/.env safely without exposing credentials to stdout or transc
 """
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
@@ -33,11 +34,12 @@ def publish_npm(npm_token: str):
     print("▶ Publishing 4 npm packages to npmjs.org...")
     print("==================================================")
 
+    version = json.loads((REPO_ROOT / "package.json").read_text(encoding="utf-8"))["version"]
     tarballs = [
-        DIST_NPM_DIR / "inboost-pro-inboost-ai-longrun-0.1.0.tgz",
-        DIST_NPM_DIR / "inboost-pro-inboost-longrun-0.1.0.tgz",
-        DIST_NPM_DIR / "inboost-ai-longrun-0.1.0.tgz",
-        DIST_NPM_DIR / "inboost-longrun-0.1.0.tgz",
+        DIST_NPM_DIR / f"inboost-pro-inboost-ai-longrun-{version}.tgz",
+        DIST_NPM_DIR / f"inboost-pro-inboost-longrun-{version}.tgz",
+        DIST_NPM_DIR / f"inboost-ai-longrun-{version}.tgz",
+        DIST_NPM_DIR / f"inboost-longrun-{version}.tgz",
     ]
 
     with tempfile.NamedTemporaryFile("w", delete=False) as tf:
@@ -55,7 +57,7 @@ def publish_npm(npm_token: str):
                 "npm",
                 "--userconfig", userconfig_path,
                 "publish",
-                str(t),
+                str(t.resolve()),
                 "--access", "public",
             ]
             res = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)

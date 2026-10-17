@@ -261,3 +261,36 @@ def test_distribution_checksums():
                 hasher.update(chunk)
         actual_hash = hasher.hexdigest()
         assert actual_hash == expected_hash, f"Hash mismatch for {filename}: {actual_hash} != {expected_hash}"
+
+
+def test_node_init_command(tmp_path):
+    js_cli = REPO_ROOT / "bin" / "inboost-longrun.js"
+    res = subprocess.run(
+        ["node", str(js_cli), "init"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!" in res.stdout
+    assert (tmp_path / ".cursorrules").exists()
+    assert (tmp_path / ".cursor" / "mcp.json").exists()
+    assert (tmp_path / ".claude" / "rules" / "inboost_longrun.md").exists()
+    mcp_data = json.loads((tmp_path / ".cursor" / "mcp.json").read_text(encoding="utf-8"))
+    assert "inboost-longrun" in mcp_data["mcpServers"]
+
+
+def test_python_init_command(tmp_path):
+    py_cli = REPO_ROOT / "inboost_longrun" / "cli.py"
+    res = subprocess.run(
+        [sys.executable, str(py_cli), "init"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!" in res.stdout
+    assert (tmp_path / ".cursorrules").exists()
+    assert (tmp_path / ".cursor" / "mcp.json").exists()
+    assert (tmp_path / ".claude" / "rules" / "inboost_longrun.md").exists()
+
