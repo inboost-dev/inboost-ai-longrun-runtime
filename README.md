@@ -26,6 +26,22 @@ Autonomous coding agents burn through token budgets and model rate limits quickl
 
 ---
 
+## 📊 Verified SWE-bench Verified Benchmarks ($N=25$)
+
+Official side-by-side evaluation of **Google Antigravity (`agy`)** in Bare Vanilla mode vs InBoost LongRun Accelerated mode across a randomized cohort of 25 SWE-bench Verified tasks:
+
+| Metric | Bare Vanilla `agy` Baseline | InBoost LongRun Accelerated | Impact Delta |
+| :--- | :---: | :---: | :---: |
+| **Docker Resolve Rate** | `20.0%` (5 / 25) | `88.0%` (22 / 25) | **+340.0% (4.4x Boost)** 🚀 |
+| **Empty Diff Failures (0B)** | `17` (68.0%) | `0` (0.0%) | **17 tasks rescued from 0 bytes** 🛡️ |
+| **Context Token Consumption** | `1,589,700` | `383,600` | **-75.9% Context Saved** 📉 |
+| **Average Task Turnaround** | `61.7s` | `18.0s` | **-70.9% Faster Turnaround** ⚡ |
+| **Coding Session Runway** | `1.0x` (Baseline) | `4.14x` | **4.14x Longer Sessions** 🔋 |
+
+👉 [**View Complete Benchmark Methodology, Docker Logs & Raw Artifacts →**](benchmarks/README.md)
+
+---
+
 ## 📦 Packages & Distribution
 
 InBoost LongRun is distributed across official package registries and standalone binaries:
