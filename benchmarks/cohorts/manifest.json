@@ -1,89 +1,1051 @@
 {
-  "version": "1.0",
-  "description": "SWE-bench Verified Modular Cohort Registry (10-task increments)",
+  "version": "2.0",
+  "description": "SWE-bench Verified Complete 500-Task Stratified Cohort Registry (50 Cohorts x 10 Tasks)",
+  "total_tasks": 500,
+  "total_cohorts": 50,
+  "created_at": "2026-10-18T13:33:05.481488+00:00",
+  "total_docker_cached_images": 78,
   "cohorts": [
     {
       "cohort_id": 1,
       "name": "Cohort 01",
       "task_count": 10,
-      "config_file": "cohorts/cohort_01.json",
       "indices": [
         1,
         10
       ],
+      "config_file": "cohorts/cohort_01.json",
       "cached_docker_images": 10,
+      "repo_distribution": {
+        "pylint-dev/pylint": 1,
+        "django/django": 6,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 2
+      },
       "status": "COMPLETED",
-      "created_at": "2026-10-18T13:19:07.182282+00:00",
-      "scorecard": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun-runtime/benchmarks/runs/cohort50_chunk_1/SCORECARD.md"
+      "scorecard": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun-runtime/benchmarks/runs/cohort_01/SCORECARD.md"
     },
     {
       "cohort_id": 2,
       "name": "Cohort 02",
       "task_count": 10,
-      "config_file": "cohorts/cohort_02.json",
       "indices": [
         11,
         20
       ],
+      "config_file": "cohorts/cohort_02.json",
       "cached_docker_images": 10,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "mwaskom/seaborn": 1,
+        "pallets/flask": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
       "status": "PENDING",
-      "created_at": "2026-10-18T13:19:07.185370+00:00",
       "scorecard": null
     },
     {
       "cohort_id": 3,
       "name": "Cohort 03",
       "task_count": 10,
-      "config_file": "cohorts/cohort_03.json",
       "indices": [
         21,
         30
       ],
-      "cached_docker_images": 6,
+      "config_file": "cohorts/cohort_03.json",
+      "cached_docker_images": 10,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "mwaskom/seaborn": 1,
+        "psf/requests": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
       "status": "PENDING",
-      "created_at": "2026-10-18T13:19:07.191336+00:00",
       "scorecard": null
     },
     {
       "cohort_id": 4,
       "name": "Cohort 04",
       "task_count": 10,
-      "config_file": "cohorts/cohort_04.json",
       "indices": [
         31,
         40
       ],
-      "cached_docker_images": 2,
+      "config_file": "cohorts/cohort_04.json",
+      "cached_docker_images": 10,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
       "status": "PENDING",
-      "created_at": "2026-10-18T13:19:07.195428+00:00",
       "scorecard": null
     },
     {
       "cohort_id": 5,
       "name": "Cohort 05",
       "task_count": 10,
-      "config_file": "cohorts/cohort_05.json",
       "indices": [
         41,
         50
       ],
-      "cached_docker_images": 1,
+      "config_file": "cohorts/cohort_05.json",
+      "cached_docker_images": 6,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
       "status": "PENDING",
-      "created_at": "2026-10-18T13:19:07.198114+00:00",
       "scorecard": null
     },
     {
       "cohort_id": 6,
       "name": "Cohort 06",
       "task_count": 10,
-      "config_file": "cohorts/cohort_06.json",
       "indices": [
         51,
         60
       ],
-      "cached_docker_images": 10,
+      "config_file": "cohorts/cohort_06.json",
+      "cached_docker_images": 4,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
       "status": "PENDING",
-      "created_at": "2026-10-18T13:19:14.607615+00:00",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 7,
+      "name": "Cohort 07",
+      "task_count": 10,
+      "indices": [
+        61,
+        70
+      ],
+      "config_file": "cohorts/cohort_07.json",
+      "cached_docker_images": 3,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 8,
+      "name": "Cohort 08",
+      "task_count": 10,
+      "indices": [
+        71,
+        80
+      ],
+      "config_file": "cohorts/cohort_08.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 9,
+      "name": "Cohort 09",
+      "task_count": 10,
+      "indices": [
+        81,
+        90
+      ],
+      "config_file": "cohorts/cohort_09.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 10,
+      "name": "Cohort 10",
+      "task_count": 10,
+      "indices": [
+        91,
+        100
+      ],
+      "config_file": "cohorts/cohort_10.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "psf/requests": 1,
+        "pydata/xarray": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 11,
+      "name": "Cohort 11",
+      "task_count": 10,
+      "indices": [
+        101,
+        110
+      ],
+      "config_file": "cohorts/cohort_11.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 12,
+      "name": "Cohort 12",
+      "task_count": 10,
+      "indices": [
+        111,
+        120
+      ],
+      "config_file": "cohorts/cohort_12.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 13,
+      "name": "Cohort 13",
+      "task_count": 10,
+      "indices": [
+        121,
+        130
+      ],
+      "config_file": "cohorts/cohort_13.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 14,
+      "name": "Cohort 14",
+      "task_count": 10,
+      "indices": [
+        131,
+        140
+      ],
+      "config_file": "cohorts/cohort_14.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 15,
+      "name": "Cohort 15",
+      "task_count": 10,
+      "indices": [
+        141,
+        150
+      ],
+      "config_file": "cohorts/cohort_15.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 16,
+      "name": "Cohort 16",
+      "task_count": 10,
+      "indices": [
+        151,
+        160
+      ],
+      "config_file": "cohorts/cohort_16.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 17,
+      "name": "Cohort 17",
+      "task_count": 10,
+      "indices": [
+        161,
+        170
+      ],
+      "config_file": "cohorts/cohort_17.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 18,
+      "name": "Cohort 18",
+      "task_count": 10,
+      "indices": [
+        171,
+        180
+      ],
+      "config_file": "cohorts/cohort_18.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 19,
+      "name": "Cohort 19",
+      "task_count": 10,
+      "indices": [
+        181,
+        190
+      ],
+      "config_file": "cohorts/cohort_19.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pylint-dev/pylint": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 20,
+      "name": "Cohort 20",
+      "task_count": 10,
+      "indices": [
+        191,
+        200
+      ],
+      "config_file": "cohorts/cohort_20.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 21,
+      "name": "Cohort 21",
+      "task_count": 10,
+      "indices": [
+        201,
+        210
+      ],
+      "config_file": "cohorts/cohort_21.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 22,
+      "name": "Cohort 22",
+      "task_count": 10,
+      "indices": [
+        211,
+        220
+      ],
+      "config_file": "cohorts/cohort_22.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 23,
+      "name": "Cohort 23",
+      "task_count": 10,
+      "indices": [
+        221,
+        230
+      ],
+      "config_file": "cohorts/cohort_23.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 24,
+      "name": "Cohort 24",
+      "task_count": 10,
+      "indices": [
+        231,
+        240
+      ],
+      "config_file": "cohorts/cohort_24.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 25,
+      "name": "Cohort 25",
+      "task_count": 10,
+      "indices": [
+        241,
+        250
+      ],
+      "config_file": "cohorts/cohort_25.json",
+      "cached_docker_images": 2,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pydata/xarray": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 26,
+      "name": "Cohort 26",
+      "task_count": 10,
+      "indices": [
+        251,
+        260
+      ],
+      "config_file": "cohorts/cohort_26.json",
+      "cached_docker_images": 1,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 27,
+      "name": "Cohort 27",
+      "task_count": 10,
+      "indices": [
+        261,
+        270
+      ],
+      "config_file": "cohorts/cohort_27.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 28,
+      "name": "Cohort 28",
+      "task_count": 10,
+      "indices": [
+        271,
+        280
+      ],
+      "config_file": "cohorts/cohort_28.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 29,
+      "name": "Cohort 29",
+      "task_count": 10,
+      "indices": [
+        281,
+        290
+      ],
+      "config_file": "cohorts/cohort_29.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 30,
+      "name": "Cohort 30",
+      "task_count": 10,
+      "indices": [
+        291,
+        300
+      ],
+      "config_file": "cohorts/cohort_30.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 1,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 31,
+      "name": "Cohort 31",
+      "task_count": 10,
+      "indices": [
+        301,
+        310
+      ],
+      "config_file": "cohorts/cohort_31.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 32,
+      "name": "Cohort 32",
+      "task_count": 10,
+      "indices": [
+        311,
+        320
+      ],
+      "config_file": "cohorts/cohort_32.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 33,
+      "name": "Cohort 33",
+      "task_count": 10,
+      "indices": [
+        321,
+        330
+      ],
+      "config_file": "cohorts/cohort_33.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 34,
+      "name": "Cohort 34",
+      "task_count": 10,
+      "indices": [
+        331,
+        340
+      ],
+      "config_file": "cohorts/cohort_34.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 35,
+      "name": "Cohort 35",
+      "task_count": 10,
+      "indices": [
+        341,
+        350
+      ],
+      "config_file": "cohorts/cohort_35.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "matplotlib/matplotlib": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 36,
+      "name": "Cohort 36",
+      "task_count": 10,
+      "indices": [
+        351,
+        360
+      ],
+      "config_file": "cohorts/cohort_36.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 37,
+      "name": "Cohort 37",
+      "task_count": 10,
+      "indices": [
+        361,
+        370
+      ],
+      "config_file": "cohorts/cohort_37.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 38,
+      "name": "Cohort 38",
+      "task_count": 10,
+      "indices": [
+        371,
+        380
+      ],
+      "config_file": "cohorts/cohort_38.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "pytest-dev/pytest": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 39,
+      "name": "Cohort 39",
+      "task_count": 10,
+      "indices": [
+        381,
+        390
+      ],
+      "config_file": "cohorts/cohort_39.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 40,
+      "name": "Cohort 40",
+      "task_count": 10,
+      "indices": [
+        391,
+        400
+      ],
+      "config_file": "cohorts/cohort_40.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 41,
+      "name": "Cohort 41",
+      "task_count": 10,
+      "indices": [
+        401,
+        410
+      ],
+      "config_file": "cohorts/cohort_41.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 42,
+      "name": "Cohort 42",
+      "task_count": 10,
+      "indices": [
+        411,
+        420
+      ],
+      "config_file": "cohorts/cohort_42.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 43,
+      "name": "Cohort 43",
+      "task_count": 10,
+      "indices": [
+        421,
+        430
+      ],
+      "config_file": "cohorts/cohort_43.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 44,
+      "name": "Cohort 44",
+      "task_count": 10,
+      "indices": [
+        431,
+        440
+      ],
+      "config_file": "cohorts/cohort_44.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 45,
+      "name": "Cohort 45",
+      "task_count": 10,
+      "indices": [
+        441,
+        450
+      ],
+      "config_file": "cohorts/cohort_45.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 46,
+      "name": "Cohort 46",
+      "task_count": 10,
+      "indices": [
+        451,
+        460
+      ],
+      "config_file": "cohorts/cohort_46.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 4,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "matplotlib/matplotlib": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 47,
+      "name": "Cohort 47",
+      "task_count": 10,
+      "indices": [
+        461,
+        470
+      ],
+      "config_file": "cohorts/cohort_47.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 48,
+      "name": "Cohort 48",
+      "task_count": 10,
+      "indices": [
+        471,
+        480
+      ],
+      "config_file": "cohorts/cohort_48.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 49,
+      "name": "Cohort 49",
+      "task_count": 10,
+      "indices": [
+        481,
+        490
+      ],
+      "config_file": "cohorts/cohort_49.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 50,
+      "name": "Cohort 50",
+      "task_count": 10,
+      "indices": [
+        491,
+        500
+      ],
+      "config_file": "cohorts/cohort_50.json",
+      "cached_docker_images": 0,
+      "repo_distribution": {
+        "django/django": 5,
+        "sympy/sympy": 2,
+        "astropy/astropy": 1,
+        "scikit-learn/scikit-learn": 1,
+        "sphinx-doc/sphinx": 1
+      },
+      "status": "PENDING",
       "scorecard": null
     }
   ]
