@@ -173,7 +173,7 @@ fi
 echo ""
 echo "[Step 4/5] Running Docker Verification for Bare agy predictions..."
 BARE_PREDS="${BARE_OUT}/predictions.jsonl"
-BARE_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${BARE_PREDS}" --config "${COHORT_CONFIG}")
+BARE_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${BARE_PREDS}" --config "${COHORT_CONFIG}" --timeout "${TIMEOUT}")
 if [[ -n "${MOCK_DOCKER}" ]]; then BARE_EVAL_CMD+=(${MOCK_DOCKER}); fi
 "${BARE_EVAL_CMD[@]}"
 
@@ -181,7 +181,7 @@ if [[ -n "${MOCK_DOCKER}" ]]; then BARE_EVAL_CMD+=(${MOCK_DOCKER}); fi
 echo ""
 echo "[Step 5/5] Running Docker Verification for InBoost LongRun predictions..."
 LONGRUN_PREDS="${LONGRUN_OUT}/predictions.jsonl"
-LONGRUN_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${LONGRUN_PREDS}" --config "${COHORT_CONFIG}")
+LONGRUN_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${LONGRUN_PREDS}" --config "${COHORT_CONFIG}" --timeout "${TIMEOUT}")
 if [[ -n "${MOCK_DOCKER}" ]]; then LONGRUN_EVAL_CMD+=(${MOCK_DOCKER}); fi
 "${LONGRUN_EVAL_CMD[@]}"
 

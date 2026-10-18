@@ -270,7 +270,7 @@ def main() -> int:
     parser.add_argument("--config", type=str, default="configs/swebench_cohort_25_random.json", help="Path to cohort config")
     parser.add_argument("--output-dir", type=str, default=None, help="Output directory (default: <pred_dir>/eval)")
     parser.add_argument("--mock", action="store_true", help="Force mock/structural evaluation mode")
-    parser.add_argument("--timeout", type=int, default=600, help="Per-task docker timeout in seconds")
+    parser.add_argument("--timeout", type=int, default=1200, help="Per-task docker timeout in seconds (default: 1200)")
     args = parser.parse_args()
 
     scripts_dir = Path(__file__).resolve().parent
