@@ -1,0 +1,90 @@
+{
+  "version": "1.0",
+  "description": "SWE-bench Verified Modular Cohort Registry (10-task increments)",
+  "cohorts": [
+    {
+      "cohort_id": 1,
+      "name": "Cohort 01",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_01.json",
+      "indices": [
+        1,
+        10
+      ],
+      "cached_docker_images": 10,
+      "status": "COMPLETED",
+      "created_at": "2026-10-18T13:19:07.182282+00:00",
+      "scorecard": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun-runtime/benchmarks/runs/cohort50_chunk_1/SCORECARD.md"
+    },
+    {
+      "cohort_id": 2,
+      "name": "Cohort 02",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_02.json",
+      "indices": [
+        11,
+        20
+      ],
+      "cached_docker_images": 10,
+      "status": "PENDING",
+      "created_at": "2026-10-18T13:19:07.185370+00:00",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 3,
+      "name": "Cohort 03",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_03.json",
+      "indices": [
+        21,
+        30
+      ],
+      "cached_docker_images": 6,
+      "status": "PENDING",
+      "created_at": "2026-10-18T13:19:07.191336+00:00",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 4,
+      "name": "Cohort 04",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_04.json",
+      "indices": [
+        31,
+        40
+      ],
+      "cached_docker_images": 2,
+      "status": "PENDING",
+      "created_at": "2026-10-18T13:19:07.195428+00:00",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 5,
+      "name": "Cohort 05",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_05.json",
+      "indices": [
+        41,
+        50
+      ],
+      "cached_docker_images": 1,
+      "status": "PENDING",
+      "created_at": "2026-10-18T13:19:07.198114+00:00",
+      "scorecard": null
+    },
+    {
+      "cohort_id": 6,
+      "name": "Cohort 06",
+      "task_count": 10,
+      "config_file": "cohorts/cohort_06.json",
+      "indices": [
+        51,
+        60
+      ],
+      "cached_docker_images": 10,
+      "status": "PENDING",
+      "created_at": "2026-10-18T13:19:14.607615+00:00",
+      "scorecard": null
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "runner": "run_inboost_longrun",
+  "cohort_size": 1,
+  "total_instances_submitted": 1,
+  "empty_patch_count": 0,
+  "non_empty_patch_count": 1,
+  "empty_patch_percentage": 0.0,
+  "total_tokens_consumed": 14450,
+  "avg_tokens_per_task": 14450.0,
+  "total_tokens_saved_by_crusher": 43000,
+  "total_wall_clock_seconds": 13.7,
+  "avg_wall_clock_seconds": 13.7,
+  "tasks": [
+    {
+      "instance_id": "pylint-dev__pylint-7080",
+      "mode": "inboost_longrun",
+      "wall_clock_seconds": 13.7,
+      "gpu_occupancy_seconds": 5.48,
+      "input_tokens": 13500,
+      "output_tokens": 950,
+      "total_tokens": 14450,
+      "traceback_crushed_lines": 7650,
+      "tokens_saved_by_crusher": 43000,
+      "patch_length_bytes": 193,
+      "is_empty_patch": false,
+      "exit_code": 0
+    }
+  ]
+}

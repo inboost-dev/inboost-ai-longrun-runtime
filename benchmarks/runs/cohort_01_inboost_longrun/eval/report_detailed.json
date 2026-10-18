@@ -1,0 +1,9 @@
+[
+  {
+    "instance_id": "pylint-dev__pylint-7080",
+    "status": "RESOLVED",
+    "patch_bytes": 193,
+    "eval_duration_seconds": 0.03,
+    "log_path": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun-runtime/benchmarks/runs/cohort_01_inboost_longrun/eval/test_logs/pylint-dev__pylint-7080.eval.log"
+  }
+]

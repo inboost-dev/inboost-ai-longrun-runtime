@@ -28,14 +28,17 @@ CUSTOM_PREFIX=""
 
 TIMEOUT="1200"
 
+COHORT_NUM=""
+
 function print_usage() {
     cat <<EOF
 Usage: ./run_all_benchmark.sh [OPTIONS]
 
 Options:
-  --chunk <1-5>       Run a specific 10-task chunk from the 50-task cohort (e.g. --chunk 1)
+  --cohort <N>        Run a registered cohort by number (e.g. --cohort 1, --cohort 6)
+  --chunk <1-5>       Run a specific 10-task chunk from legacy configs (e.g. --chunk 1)
   --config <path>     Path to cohort JSON config (default: configs/swebench_cohort_25_random.json)
-  --output-prefix <str> Directory prefix for run outputs (default: cohort25 or cohort50_chunk_N)
+  --output-prefix <str> Directory prefix for run outputs (default: cohort25, cohort_0N, or cohort50_chunk_N)
   --seed <int>        Random seed for cohort sampling (default: 42)
   --max-tasks <int>   Limit execution to N tasks (e.g. 5, default: all tasks in config)
   --timeout <int>     Per-task timeout in seconds (default: 1200, 20 minutes)
@@ -49,6 +52,10 @@ EOF
 # Parse command line flags
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --cohort)
+            COHORT_NUM="$2"
+            shift 2
+            ;;
         --chunk)
             CHUNK_NUM="$2"
             shift 2
@@ -98,7 +105,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ -n "${CHUNK_NUM}" ]]; then
+COHORTS_DIR="${BENCHMARKS_DIR}/cohorts"
+
+if [[ -n "${COHORT_NUM}" ]]; then
+    printf -v PADDED_COHORT "%02d" "${COHORT_NUM}"
+    COHORT_CONFIG="${COHORTS_DIR}/cohort_${PADDED_COHORT}.json"
+    RUN_PREFIX="cohort_${PADDED_COHORT}"
+elif [[ -n "${CHUNK_NUM}" ]]; then
     COHORT_CONFIG="${CONFIG_DIR}/cohort50_chunk_${CHUNK_NUM}.json"
     RUN_PREFIX="cohort50_chunk_${CHUNK_NUM}"
 elif [[ -n "${CUSTOM_CONFIG}" ]]; then
