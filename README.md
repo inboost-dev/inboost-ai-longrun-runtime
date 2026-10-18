@@ -74,6 +74,22 @@ The `init` command automatically:
 1. Copies optimization directives to global `~/.claude/rules/inboost_longrun.md` and `~/.agents/rules/inboost_longrun.md`.
 2. Configures project directives in `.cursorrules` and `.claude/rules/inboost_longrun.md`.
 3. Registers the `inboost-longrun` MCP server inside `.cursor/mcp.json`.
+4. Runs a non-blocking diagnostic of host tools and detected AI agents.
+
+### 🩺 System Diagnostics (`doctor` / `check`)
+
+Verify that your system has all required offload tools and detect available AI agents:
+
+```bash
+inboost-longrun doctor
+# Or via npx:
+npx inboost-longrun doctor
+```
+
+The diagnostic verifies:
+- **Core Offload Utilities:** `find`, `grep`, `diff`, `patch`, `git`, `python3` (with automated package manager guidance on Linux, macOS `brew`, and Windows `winget`).
+- **Acceleration Linters:** `ast-grep` (<2ms AST search), `ruff` (<2ms Python lint), `biome` (<2ms JS/TS), `docker`.
+- **Target AI Agents & IDEs:** Automatically discovers `Claude Code`, `Google Antigravity` (`agy`), `Cursor IDE`, and `VS Code` with ready-to-run setup commands.
 
 ---
 

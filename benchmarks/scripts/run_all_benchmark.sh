@@ -12,8 +12,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="${SCRIPT_DIR}/configs"
-RUNS_DIR="${SCRIPT_DIR}/runs"
+BENCHMARKS_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+CONFIG_DIR="${BENCHMARKS_DIR}/configs"
+RUNS_DIR="${BENCHMARKS_DIR}/runs"
 COHORT_CONFIG="${CONFIG_DIR}/swebench_cohort_25_random.json"
 
 SEED="42"
@@ -22,6 +23,8 @@ DRY_RUN=""
 SKIP_RUNS=false
 MOCK_DOCKER=""
 
+TIMEOUT="1200"
+
 function print_usage() {
     cat <<EOF
 Usage: ./run_all_benchmark.sh [OPTIONS]
@@ -29,6 +32,7 @@ Usage: ./run_all_benchmark.sh [OPTIONS]
 Options:
   --seed <int>        Random seed for cohort sampling (default: 42)
   --max-tasks <int>   Limit execution to N tasks (e.g. 5, default: all 25)
+  --timeout <int>     Per-task timeout in seconds (default: 1200, 20 minutes)
   --dry-run           Execute in synthetic/simulation mode (no API tokens or heavy GPU compute)
   --mock-docker       Force mock/structural Docker verification (useful if docker daemon is restricted)
   --skip-runs         Skip task execution and jump straight to Docker verification & scorecard
@@ -45,6 +49,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --max-tasks)
             MAX_TASKS="$2"
+            shift 2
+            ;;
+        --timeout)
+            TIMEOUT="$2"
             shift 2
             ;;
         --dry-run)
@@ -72,6 +80,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+
 echo "======================================================================"
 echo " InBoost LongRun vs Bare agy: SWE-bench Verified (N=25) Benchmark"
 echo "======================================================================"
@@ -98,7 +107,7 @@ if [ "${SKIP_RUNS}" = false ]; then
     # Step 2: Run Bare agy Vanilla Baseline
     echo ""
     echo "[Step 2/5] Running BARE AGY Vanilla Baseline..."
-    BARE_CMD=(python3 "${SCRIPT_DIR}/run_bare_agy.py" --config "${COHORT_CONFIG}" --output-dir "${RUNS_DIR}/cohort25_bare_agy")
+    BARE_CMD=(python3 "${SCRIPT_DIR}/run_bare_agy.py" --config "${COHORT_CONFIG}" --output-dir "${RUNS_DIR}/cohort25_bare_agy" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then BARE_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then BARE_CMD+=(${DRY_RUN}); fi
     "${BARE_CMD[@]}"
@@ -106,7 +115,7 @@ if [ "${SKIP_RUNS}" = false ]; then
     # Step 3: Run InBoost LongRun Accelerated agy
     echo ""
     echo "[Step 3/5] Running INBOOST LONGRUN Accelerated agy..."
-    LONGRUN_CMD=(python3 "${SCRIPT_DIR}/run_inboost_longrun.py" --config "${COHORT_CONFIG}" --output-dir "${RUNS_DIR}/cohort25_inboost_longrun")
+    LONGRUN_CMD=(python3 "${SCRIPT_DIR}/run_inboost_longrun.py" --config "${COHORT_CONFIG}" --output-dir "${RUNS_DIR}/cohort25_inboost_longrun" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then LONGRUN_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then LONGRUN_CMD+=(${DRY_RUN}); fi
     "${LONGRUN_CMD[@]}"

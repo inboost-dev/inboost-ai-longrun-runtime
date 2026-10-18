@@ -18,7 +18,7 @@ const os = require("os");
 const https = require("https");
 
 const VERSION = "0.2.1-eval";
-const GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime";
+const GITHUB_REPO = "inboost-dev/inboost-longrun";
 
 const RULES_CONTENT = `# InBoost LongRun Optimization Rules
 
@@ -216,17 +216,164 @@ function downloadBinary(binName) {
   });
 }
 
+function checkSystemDependencies(isStrict = false) {
+  const isWin = process.platform === "win32";
+  const isMac = process.platform === "darwin";
+
+  function findWindowsGitTool(tool) {
+    if (!isWin) return null;
+    const candidates = [
+      process.env.ProgramFiles || "C:\\Program Files",
+      process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)",
+      process.env.LOCALAPPDATA ? path.join(process.env.LOCALAPPDATA, "Programs") : null,
+      process.env.ProgramW6432 || "C:\\Program Files",
+    ].filter(Boolean);
+
+    for (const base of candidates) {
+      const toolPath = path.join(base, "Git", "usr", "bin", `${tool}.exe`);
+      if (fs.existsSync(toolPath)) {
+        return toolPath;
+      }
+    }
+    return null;
+  }
+
+  function which(cmd) {
+    try {
+      const lookup = isWin ? `where ${cmd}` : `command -v ${cmd}`;
+      const res = spawnSync(isWin ? "cmd.exe" : "sh", [isWin ? "/c" : "-c", lookup], {
+        encoding: "utf-8",
+        stdio: ["pipe", "pipe", "ignore"],
+      });
+      if (res.status === 0 && res.stdout) {
+        return res.stdout.trim().split(/\r?\n/)[0] || null;
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  process.stdout.write("\nChecking system dependencies for Local Offload:\n");
+
+  const mandatoryTools = ["find", "grep", "diff", "patch", "git", "python3"];
+  const missingMandatory = [];
+
+  for (const tool of mandatoryTools) {
+    let p = which(tool);
+    if (!p && isWin && tool === "python3") {
+      p = which("python") || which("py");
+    }
+    if (isWin) {
+      if (tool === "find") {
+        if (p && p.toLowerCase().includes("system32")) {
+          p = null;
+        }
+        if (!p) {
+          p = findWindowsGitTool("find");
+        }
+      } else if (!p && ["diff", "patch", "grep"].includes(tool)) {
+        p = findWindowsGitTool(tool);
+      }
+    }
+    if (p) {
+      process.stdout.write(`  [\x1b[1;32m✓\x1b[0m] ${tool} (${p})\n`);
+    } else {
+      process.stdout.write(`  [\x1b[1;31m✗\x1b[0m] ${tool} (missing)\n`);
+      missingMandatory.push(tool);
+    }
+  }
+
+  const recommendedTools = [
+    { name: "ast-grep", fallbacks: ["sg"] },
+    { name: "ruff", fallbacks: [] },
+    { name: "biome", fallbacks: [] },
+    { name: "docker", fallbacks: [] },
+  ];
+
+  for (const item of recommendedTools) {
+    let found = which(item.name);
+    if (!found) {
+      for (const fb of item.fallbacks) {
+        found = which(fb);
+        if (found) break;
+      }
+    }
+    if (found) {
+      process.stdout.write(`  [\x1b[1;32m✓\x1b[0m] ${item.name} (${found}) [recommended acceleration]\n`);
+    } else {
+      process.stdout.write(`  [\x1b[1;33m○\x1b[0m] ${item.name} (optional, recommended for <2ms local linting)\n`);
+    }
+  }
+
+  // Target AI Coding Agents & IDEs
+  process.stdout.write("\nChecking AI Coding Agents & IDEs:\n");
+  const agentTools = [
+    { name: "Claude Code", cmd: "claude", hint: "claude mcp add inboost-longrun -- inboost-longrun serve" },
+    { name: "Google Antigravity", cmd: "agy", hint: "agy mcp add inboost-longrun inboost-longrun serve" },
+    { name: "Cursor IDE", cmd: "cursor", hint: "inboost-longrun init (configures .cursor/mcp.json)" },
+    { name: "VS Code", cmd: "code", hint: "add to .vscode/mcp.json or workspace rules" },
+  ];
+
+  for (const agent of agentTools) {
+    let foundAgent = which(agent.cmd);
+    if (!foundAgent && isWin) {
+      foundAgent = which(`${agent.cmd}.cmd`) || which(`${agent.cmd}.exe`);
+    }
+    if (!foundAgent && agent.cmd === "cursor") {
+      if (fs.existsSync(path.join(process.cwd(), ".cursor")) || fs.existsSync(path.join(os.homedir(), ".cursor"))) {
+        foundAgent = "detected via .cursor/ directory";
+      }
+    }
+    if (foundAgent) {
+      process.stdout.write(`  [\x1b[1;32m✓\x1b[0m] ${agent.name} (${foundAgent})\n       Integration: ${agent.hint}\n`);
+    } else {
+      process.stdout.write(`  [\x1b[1;33m○\x1b[0m] ${agent.name} (optional, not found in PATH)\n`);
+    }
+  }
+
+  if (missingMandatory.length > 0) {
+    const pkgList = missingMandatory.map((t) => (t === "find" ? "findutils" : t === "diff" ? "diffutils" : t)).join(" ");
+    process.stderr.write(`\n\x1b[1;31mError: Required tools missing for InBoost LongRun Local Offload: ${missingMandatory.join(", ")}\x1b[0m\n`);
+    process.stderr.write("InBoost LongRun requires these tools locally to inspect outlines, calculate AST diffs, and filter test traces.\n");
+    process.stderr.write("Please install the missing packages before proceeding:\n");
+    if (isMac) {
+      process.stderr.write(`  \x1b[1;36mbrew install ${pkgList}\x1b[0m\n\n`);
+    } else if (isWin) {
+      process.stderr.write(`  \x1b[1;36mwinget install --id Git.Git\x1b[0m (provides find, grep, diff, patch)\n\n`);
+    } else {
+      process.stderr.write(`  Debian/Ubuntu: \x1b[1;36msudo apt-get update && sudo apt-get install -y ${pkgList}\x1b[0m\n`);
+      process.stderr.write(`  RHEL/Fedora:   \x1b[1;36msudo dnf install -y ${pkgList}\x1b[0m\n`);
+      process.stderr.write(`  Alpine:        \x1b[1;36msudo apk add ${pkgList}\x1b[0m\n`);
+      process.stderr.write(`  Arch Linux:    \x1b[1;36msudo pacman -S ${pkgList}\x1b[0m\n\n`);
+    }
+
+    if (isStrict && process.env.INBOOST_IGNORE_MISSING_DEPS !== "1") {
+      process.exit(1);
+    }
+    return false;
+  } else {
+    process.stdout.write("\x1b[1;32m✓ All core offload tools verified.\x1b[0m\n\n");
+    return true;
+  }
+}
+
 async function main() {
   const packageDir = path.resolve(__dirname, "..");
   ensureLicenseInstalled(packageDir);
 
   const rawArgs = process.argv.slice(2);
+  if (rawArgs.includes("check") || rawArgs.includes("doctor") || rawArgs.includes("--check")) {
+    const ok = checkSystemDependencies(true);
+    process.exit(ok ? 0 : 1);
+  }
+
   if (rawArgs.includes("--postinstall")) {
-    process.stdout.write("InBoost LongRun postinstall: verified configuration.\n");
+    checkSystemDependencies(false);
+    process.stdout.write("InBoost LongRun postinstall: verified configuration and local offload tools.\n");
     process.exit(0);
   }
 
   if (rawArgs.includes("init")) {
+    checkSystemDependencies(false);
     runInit(packageDir);
     process.exit(0);
   }

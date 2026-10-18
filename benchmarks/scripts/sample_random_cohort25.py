@@ -298,7 +298,7 @@ def main() -> int:
         "--output",
         "-o",
         type=Path,
-        default=Path(__file__).parent / "configs" / "swebench_cohort_25_random.json",
+        default=Path(__file__).resolve().parent.parent / "configs" / "swebench_cohort_25_random.json",
         help="Target output JSON path",
     )
     args = parser.parse_args()

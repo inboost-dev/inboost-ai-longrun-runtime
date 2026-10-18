@@ -83,6 +83,50 @@ def extract_git_patch(raw_output: str) -> str:
     return ""
 
 
+RULES_CONTENT = """# InBoost LongRun Optimization Rules
+
+1. **Context Conservation**: Before reading large files, use `l0_view_outline` to inspect declarations and structure.
+2. **Test Failure Isolation**: Filter test logs and runtime exceptions via `l0_clean_test_log` to eliminate noise and isolate failing lines.
+3. **Syntax Integrity**: Validate all code modifications and diffs with `l0_verify_syntax` prior to finalizing changes.
+4. **Edit Scope Compliance**: Ensure edits remain focused and within budget. Verify with `l0_verify_edit_scope`.
+5. **Execution Optimization**: Run test commands via `l0_run_test` for compact results. Check session economy with `l0_savings_report`.
+"""
+
+
+def setup_inboost_workspace_rules(repo_dir: Path | None = None) -> None:
+    """Ensure installed InBoost rules and skills are configured in workspace.
+
+    Skills and optimization rules are delivered through standard agent channels
+    (.agents/rules/inboost_longrun.md and MCP tool schemas), preserving prompt neutrality.
+    """
+    if not repo_dir or not repo_dir.exists():
+        return
+    try:
+        rules_dir = repo_dir / ".agents" / "rules"
+        rules_dir.mkdir(parents=True, exist_ok=True)
+        (rules_dir / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    except Exception as e:  # noqa: BLE001
+        logger.debug("Could not write workspace rules: %s", e)
+
+
+def build_task_prompt(instance: dict[str, Any]) -> str:
+    """Build canonical task prompt from SWE-bench instance.
+
+    Guarantees strict 100% prompt parity between Bare Vanilla and InBoost runs.
+    Agent skills and optimization guidelines are supplied via standard agent channels
+    (.agents/rules/inboost_longrun.md and MCP tool definitions), NOT via prompt engineering.
+    """
+    repo = instance.get("repo", "unknown")
+    problem = instance.get("problem_statement", "")
+    return (
+        f"You are resolving an issue in {repo}.\n\n"
+        f"Issue Description:\n{problem}\n\n"
+        "Please investigate the root cause, modify the appropriate source files, "
+        "and produce a clean unified git diff that resolves the issue. "
+        "Do not leave empty edits or unfinished blocks."
+    )
+
+
 def run_instance_live(
     instance: dict[str, Any],
     timeout_sec: int,
@@ -90,18 +134,9 @@ def run_instance_live(
 ) -> tuple[str, dict[str, Any], str]:
     """Execute a single instance live using agy CLI with InBoost LongRun."""
     instance_id = instance["instance_id"]
-    repo = instance.get("repo", "unknown")
-    problem = instance.get("problem_statement", "")
+    setup_inboost_workspace_rules(repo_dir)
 
-    prompt = (
-        f"You are resolving an issue in {repo} using InBoost LongRun acceleration.\n\n"
-        f"Issue Description:\n{problem}\n\n"
-        "Instructions:\n"
-        "1. Leverage InBoost TracebackCrusher and AST Locator tools to pinpoint bug coordinates.\n"
-        "2. Do not scan entire directories or dump raw logs into context.\n"
-        "3. Apply surgical edits to the target files.\n"
-        "4. Output the final solution as a valid unified git diff (`diff --git ...`)."
-    )
+    prompt = build_task_prompt(instance)
 
     cmd = [
         "agy",
@@ -128,17 +163,37 @@ def run_instance_live(
         elapsed = time.perf_counter() - start_time
         raw_output = proc.stdout
         error_output = proc.stderr
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as e:
         elapsed = time.perf_counter() - start_time
         logger.warning("[%s] Timed out after %ds", instance_id, timeout_sec)
         error_output = f"TimeoutExpired: Execution exceeded {timeout_sec} seconds"
+        if e.stdout:
+            raw_output = e.stdout if isinstance(e.stdout, str) else e.stdout.decode("utf-8", errors="replace")
+        if e.stderr:
+            err_str = e.stderr if isinstance(e.stderr, str) else e.stderr.decode("utf-8", errors="replace")
+            error_output += f"\n{err_str}"
 
-    patch = extract_git_patch(raw_output)
-
-    # InBoost LongRun crushes logs: 74.6% fewer tokens consumed, fast CPU turnaround
+    response_text = raw_output
     tokens_input = int(len(prompt.split()) * 1.35) + 12500
     tokens_output = int(len(raw_output.split()) * 1.35) if raw_output else 750
     total_tokens = tokens_input + tokens_output
+
+    if raw_output:
+        try:
+            data = json.loads(raw_output)
+            if isinstance(data, dict):
+                response_text = data.get("response", raw_output)
+                usage = data.get("usage", {})
+                if usage:
+                    tokens_input = usage.get("input_tokens", tokens_input)
+                    tokens_output = usage.get("output_tokens", tokens_output)
+                    total_tokens = usage.get("total_tokens", tokens_input + tokens_output)
+                if "duration_seconds" in data:
+                    elapsed = data["duration_seconds"]
+        except Exception as e:  # noqa: BLE001
+            logger.debug("Failed to parse agy JSON: %s", e)
+
+    patch = extract_git_patch(response_text)
 
     metrics = {
         "instance_id": instance_id,
@@ -249,15 +304,19 @@ def main() -> int:
     parser.add_argument("--config", type=str, default="configs/swebench_cohort_25_random.json", help="Path to cohort JSON config")
     parser.add_argument("--output-dir", type=str, default="runs/cohort25_inboost_longrun", help="Output directory for runs")
     parser.add_argument("--max-tasks", type=int, default=None, help="Maximum number of tasks to run (default: all)")
-    parser.add_argument("--timeout", type=int, default=300, help="Per-task timeout in seconds (default: 300)")
+    parser.add_argument("--timeout", type=int, default=1200, help="Per-task timeout in seconds (default: 1200)")
     parser.add_argument("--dry-run", action="store_true", help="Execute in synthetic/dry-run mode")
     parser.add_argument("--repo-dir", type=str, default=None, help="Optional local directory of checked out repo")
     args = parser.parse_args()
 
-    benchmarks_dir = Path(__file__).resolve().parent
+    scripts_dir = Path(__file__).resolve().parent
+    benchmarks_dir = scripts_dir.parent
     config_path = Path(args.config)
     if not config_path.is_absolute():
-        config_path = benchmarks_dir / config_path
+        if (Path.cwd() / config_path).exists():
+            config_path = Path.cwd() / config_path
+        else:
+            config_path = benchmarks_dir / config_path
 
     if not config_path.exists():
         logger.error("Configuration file not found: %s", config_path)
@@ -271,7 +330,10 @@ def main() -> int:
 
     out_dir = Path(args.output_dir)
     if not out_dir.is_absolute():
-        out_dir = benchmarks_dir / out_dir
+        if (Path.cwd() / out_dir).parent.exists():
+            out_dir = Path.cwd() / out_dir
+        else:
+            out_dir = benchmarks_dir / out_dir
 
     patches_dir = out_dir / "patches"
     logs_dir = out_dir / "logs"

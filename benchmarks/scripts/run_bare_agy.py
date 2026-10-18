@@ -75,6 +75,39 @@ def extract_git_patch(raw_output: str) -> str:
     return ""
 
 
+def cleanup_bare_workspace_rules(repo_dir: Path | None = None) -> None:
+    """Ensure baseline workspace has no InBoost rules, guaranteeing pure vanilla environment."""
+    if not repo_dir or not repo_dir.exists():
+        return
+    try:
+        rule_file = repo_dir / ".agents" / "rules" / "inboost_longrun.md"
+        if rule_file.exists():
+            rule_file.unlink()
+        cursor_file = repo_dir / ".cursorrules"
+        if cursor_file.exists():
+            content = cursor_file.read_text(encoding="utf-8")
+            if "InBoost LongRun Optimization Rules" in content:
+                cursor_file.unlink()
+    except Exception as e:  # noqa: BLE001
+        logger.debug("Could not clean workspace rules: %s", e)
+
+
+def build_task_prompt(instance: dict[str, Any]) -> str:
+    """Build canonical task prompt from SWE-bench instance.
+
+    Guarantees strict 100% prompt parity between Bare Vanilla and InBoost runs.
+    """
+    repo = instance.get("repo", "unknown")
+    problem = instance.get("problem_statement", "")
+    return (
+        f"You are resolving an issue in {repo}.\n\n"
+        f"Issue Description:\n{problem}\n\n"
+        "Please investigate the root cause, modify the appropriate source files, "
+        "and produce a clean unified git diff that resolves the issue. "
+        "Do not leave empty edits or unfinished blocks."
+    )
+
+
 def run_instance_live(
     instance: dict[str, Any],
     timeout_sec: int,
@@ -82,16 +115,9 @@ def run_instance_live(
 ) -> tuple[str, dict[str, Any], str]:
     """Execute a single instance live using agy CLI."""
     instance_id = instance["instance_id"]
-    repo = instance.get("repo", "unknown")
-    problem = instance.get("problem_statement", "")
+    cleanup_bare_workspace_rules(repo_dir)
 
-    prompt = (
-        f"You are resolving an issue in {repo}.\n\n"
-        f"Issue Description:\n{problem}\n\n"
-        "Please investigate the root cause, modify the appropriate source files, "
-        "and produce a clean unified git diff that resolves the issue. "
-        "Do not leave empty edits or unfinished blocks."
-    )
+    prompt = build_task_prompt(instance)
 
     cmd = [
         "agy",
@@ -118,18 +144,35 @@ def run_instance_live(
         elapsed = time.perf_counter() - start_time
         raw_output = proc.stdout
         error_output = proc.stderr
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as e:
         elapsed = time.perf_counter() - start_time
         logger.warning("[%s] Timed out after %ds", instance_id, timeout_sec)
         error_output = f"TimeoutExpired: Execution exceeded {timeout_sec} seconds"
+        if e.stdout:
+            raw_output = e.stdout if isinstance(e.stdout, str) else e.stdout.decode("utf-8", errors="replace")
+        if e.stderr:
+            err_str = e.stderr if isinstance(e.stderr, str) else e.stderr.decode("utf-8", errors="replace")
+            error_output += f"\n{err_str}"
 
-    patch = extract_git_patch(raw_output)
-
-    # In vanilla SWE-bench runs without guardrails, models frequently fail to output
-    # a git diff or run out of context scanning tests, resulting in empty patch (0 bytes)
+    response_text = raw_output
     tokens_input = int(len(prompt.split()) * 1.35) + 38000
     tokens_output = int(len(raw_output.split()) * 1.35) if raw_output else 240
     total_tokens = tokens_input + tokens_output
+
+    if raw_output:
+        try:
+            data = json.loads(raw_output)
+            if isinstance(data, dict):
+                response_text = data.get("response", raw_output)
+                usage = data.get("usage", {})
+                if usage:
+                    tokens_input = usage.get("input_tokens", tokens_input)
+                    tokens_output = usage.get("output_tokens", tokens_output)
+                    total_tokens = usage.get("total_tokens", tokens_input + tokens_output)
+        except Exception as e:  # noqa: BLE001
+            logger.debug("Failed to parse agy JSON: %s", e)
+
+    patch = extract_git_patch(response_text)
 
     metrics = {
         "instance_id": instance_id,
@@ -238,15 +281,19 @@ def main() -> int:
     parser.add_argument("--config", type=str, default="configs/swebench_cohort_25_random.json", help="Path to cohort JSON config")
     parser.add_argument("--output-dir", type=str, default="runs/cohort25_bare_agy", help="Output directory for runs")
     parser.add_argument("--max-tasks", type=int, default=None, help="Maximum number of tasks to run (default: all)")
-    parser.add_argument("--timeout", type=int, default=300, help="Per-task timeout in seconds (default: 300)")
+    parser.add_argument("--timeout", type=int, default=1200, help="Per-task timeout in seconds (default: 1200)")
     parser.add_argument("--dry-run", action="store_true", help="Execute in synthetic/dry-run mode")
     parser.add_argument("--repo-dir", type=str, default=None, help="Optional local directory of checked out repo")
     args = parser.parse_args()
 
-    benchmarks_dir = Path(__file__).resolve().parent
+    scripts_dir = Path(__file__).resolve().parent
+    benchmarks_dir = scripts_dir.parent
     config_path = Path(args.config)
     if not config_path.is_absolute():
-        config_path = benchmarks_dir / config_path
+        if (Path.cwd() / config_path).exists():
+            config_path = Path.cwd() / config_path
+        else:
+            config_path = benchmarks_dir / config_path
 
     if not config_path.exists():
         logger.error("Configuration file not found: %s", config_path)
@@ -260,7 +307,10 @@ def main() -> int:
 
     out_dir = Path(args.output_dir)
     if not out_dir.is_absolute():
-        out_dir = benchmarks_dir / out_dir
+        if (Path.cwd() / out_dir).parent.exists():
+            out_dir = Path.cwd() / out_dir
+        else:
+            out_dir = benchmarks_dir / out_dir
 
     patches_dir = out_dir / "patches"
     logs_dir = out_dir / "logs"

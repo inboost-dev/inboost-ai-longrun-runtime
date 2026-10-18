@@ -59,7 +59,95 @@ esac
 
 echo -e "Platform detected: ${COLOR_GREEN}${OS_NAME}${COLOR_RESET} (${ARCH_LABEL})"
 
-# 3. Determine install destination
+# 3. Pre-flight dependency check for Local Offload
+echo -e "\n${COLOR_BOLD}Checking system dependencies for Local Offload:${COLOR_RESET}"
+
+MANDATORY_TOOLS=("find" "grep" "diff" "patch" "git" "python3")
+MISSING_MANDATORY=()
+
+map_to_packages() {
+  local pkgs=()
+  for t in "$@"; do
+    case "$t" in
+      find) pkgs+=("findutils") ;;
+      diff) pkgs+=("diffutils") ;;
+      *) pkgs+=("$t") ;;
+    esac
+  done
+  echo "${pkgs[*]}"
+}
+
+for tool in "${MANDATORY_TOOLS[@]}"; do
+  if command -v "$tool" >/dev/null 2>&1; then
+    TOOL_PATH="$(command -v "$tool")"
+    echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] ${tool} (${TOOL_PATH})"
+  else
+    echo -e "  [${COLOR_RED}✗${COLOR_RESET}] ${tool} (missing)"
+    MISSING_MANDATORY+=("$tool")
+  fi
+done
+
+RECOMMENDED_TOOLS=("ast-grep:sg" "ruff" "biome" "docker")
+for item in "${RECOMMENDED_TOOLS[@]}"; do
+  IFS=":" read -r primary fallback <<< "$item"
+  if command -v "$primary" >/dev/null 2>&1; then
+    echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] ${primary} ($(command -v "$primary")) [recommended acceleration]"
+  elif [ -n "${fallback:-}" ] && command -v "$fallback" >/dev/null 2>&1; then
+    echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] ${primary} (via ${fallback}: $(command -v "$fallback")) [recommended acceleration]"
+  else
+    echo -e "  [${COLOR_YELLOW}○${COLOR_RESET}] ${primary} (optional, recommended for <2ms local linting)"
+  fi
+done
+
+echo -e "\n${COLOR_BOLD}Checking AI Coding Agents & IDEs:${COLOR_RESET}"
+AGENTS=("Claude Code:claude:claude mcp add inboost-longrun -- inboost-longrun serve" \
+        "Google Antigravity:agy:agy mcp add inboost-longrun inboost-longrun serve" \
+        "Cursor IDE:cursor:inboost-longrun init (configures .cursor/mcp.json)" \
+        "VS Code:code:add to .vscode/mcp.json or workspace rules")
+
+for agent_def in "${AGENTS[@]}"; do
+  IFS=":" read -r name cmd hint <<< "$agent_def"
+  if command -v "$cmd" >/dev/null 2>&1; then
+    echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] ${name} ($(command -v "$cmd"))\n       Integration: ${hint}"
+  elif [ "$cmd" = "cursor" ] && ([ -d "${HOME}/.cursor" ] || [ -d "./.cursor" ]); then
+    echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] ${name} (detected via .cursor/ directory)\n       Integration: ${hint}"
+  else
+    echo -e "  [${COLOR_YELLOW}○${COLOR_RESET}] ${name} (optional, not found in PATH)"
+  fi
+done
+
+if [ ${#MISSING_MANDATORY[@]} -gt 0 ]; then
+  SUGGESTED_PKGS="$(map_to_packages "${MISSING_MANDATORY[@]}")"
+  echo -e "\n${COLOR_RED}Error: Required tools missing for InBoost LongRun Local Offload: ${MISSING_MANDATORY[*]}${COLOR_RESET}"
+  echo "InBoost LongRun requires these tools locally to inspect outlines, calculate AST diffs, and filter test traces."
+  echo "Please install the missing packages before proceeding:"
+  if [ "$OS_NAME" = "macos" ]; then
+    echo -e "  ${COLOR_CYAN}brew install ${SUGGESTED_PKGS}${COLOR_RESET}"
+  elif command -v apt-get >/dev/null 2>&1; then
+    echo -e "  ${COLOR_CYAN}sudo apt-get update && sudo apt-get install -y ${SUGGESTED_PKGS}${COLOR_RESET}"
+  elif command -v dnf >/dev/null 2>&1; then
+    echo -e "  ${COLOR_CYAN}sudo dnf install -y ${SUGGESTED_PKGS}${COLOR_RESET}"
+  elif command -v apk >/dev/null 2>&1; then
+    echo -e "  ${COLOR_CYAN}sudo apk add ${SUGGESTED_PKGS}${COLOR_RESET}"
+  elif command -v pacman >/dev/null 2>&1; then
+    echo -e "  ${COLOR_CYAN}sudo pacman -S ${SUGGESTED_PKGS}${COLOR_RESET}"
+  elif command -v zypper >/dev/null 2>&1; then
+    echo -e "  ${COLOR_CYAN}sudo zypper install -y ${SUGGESTED_PKGS}${COLOR_RESET}"
+  else
+    echo -e "  Install packages: ${SUGGESTED_PKGS}"
+  fi
+
+  if [ "${INBOOST_IGNORE_MISSING_DEPS:-0}" != "1" ]; then
+    echo -e "\n${COLOR_YELLOW}To bypass this check (not recommended), set INBOOST_IGNORE_MISSING_DEPS=1${COLOR_RESET}"
+    exit 1
+  else
+    echo -e "\n${COLOR_YELLOW}Proceeding anyway (INBOOST_IGNORE_MISSING_DEPS=1 is set)...${COLOR_RESET}"
+  fi
+else
+  echo -e "${COLOR_GREEN}✓ All core offload tools verified.${COLOR_RESET}\n"
+fi
+
+# 4. Determine install destination
 if [ "${EUID:-$(id -u)}" -eq 0 ] || [ -w "/usr/local/bin" ]; then
   INSTALL_DIR="/usr/local/bin"
 else
@@ -135,19 +223,19 @@ if [ -z "$SOURCE_BIN" ]; then
   fi
 fi
 
-# 4. Copy and set executable permissions
+# 5. Copy and set executable permissions
 echo -e "Installing binary to ${COLOR_CYAN}${TARGET_BIN}${COLOR_RESET}..."
 cp -f "$SOURCE_BIN" "$TARGET_BIN"
 chmod 755 "$TARGET_BIN"
 
-# 5. License installation
+# 6. License installation
 if [ -f "${SCRIPT_DIR}/inboost.lic" ]; then
   cp -f "${SCRIPT_DIR}/inboost.lic" "${INBOOST_HOME}/inboost.lic"
   chmod 644 "${INBOOST_HOME}/inboost.lic"
   echo -e "License installed to ${COLOR_CYAN}${INBOOST_HOME}/inboost.lic${COLOR_RESET}"
 fi
 
-# 6. Verify PATH
+# 7. Verify PATH
 PATH_UPDATED=0
 if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
   echo -e "${COLOR_YELLOW}Warning: ${INSTALL_DIR} is not in your current PATH.${COLOR_RESET}"
@@ -162,7 +250,7 @@ if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
   done
 fi
 
-# 7. Verification test
+# 8. Verification test
 echo -e "\n${COLOR_BOLD}Verifying installation:${COLOR_RESET}"
 if "$TARGET_BIN" version >/dev/null 2>&1; then
   "$TARGET_BIN" version
@@ -175,9 +263,10 @@ fi
 echo -e "${COLOR_GREEN}========================================================${COLOR_RESET}"
 echo -e "${COLOR_GREEN}Installation completed successfully!${COLOR_RESET}"
 echo -e "${COLOR_GREEN}========================================================${COLOR_RESET}"
-echo -e "Binary path:  ${COLOR_BOLD}${TARGET_BIN}${COLOR_RESET}"
-echo -e "License path: ${COLOR_BOLD}${INBOOST_HOME}/inboost.lic${COLOR_RESET}"
-echo -e "Privacy:      ${COLOR_GREEN}InBoost LongRun выполняется локально и не передает код вовне.${COLOR_RESET}"
+echo -e "Binary path:   ${COLOR_BOLD}${TARGET_BIN}${COLOR_RESET}"
+echo -e "License path:  ${COLOR_BOLD}${INBOOST_HOME}/inboost.lic${COLOR_RESET}"
+echo -e "Offload Tools: ${COLOR_GREEN}find, grep, diff, patch, git, python3 (Ready)${COLOR_RESET}"
+echo -e "Privacy:       ${COLOR_GREEN}InBoost LongRun выполняется локально и не передает код вовне.${COLOR_RESET}"
 echo ""
 echo -e "To integrate with your AI agent:"
 echo -e "  • Claude Code:  claude mcp add inboost-longrun -- inboost-longrun serve"
