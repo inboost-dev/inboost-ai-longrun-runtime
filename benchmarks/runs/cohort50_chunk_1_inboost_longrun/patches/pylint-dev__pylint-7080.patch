@@ -1,0 +1,9 @@
+diff --git a/pylint/core.py b/pylint/core.py
+--- a/pylint/core.py
++++ b/pylint/core.py
+@@ -1,3 +1,4 @@
+ # Core Handler
+-val = None
++val = default_val
++val_normalized = True
+ # End Core Handler
