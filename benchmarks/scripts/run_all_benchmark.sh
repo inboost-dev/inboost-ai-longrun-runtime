@@ -26,6 +26,7 @@ CHUNK_NUM=""
 CUSTOM_CONFIG=""
 CUSTOM_PREFIX=""
 
+SEQUENTIAL_DOCKER=false
 TIMEOUT="1200"
 
 COHORT_NUM=""
@@ -44,6 +45,7 @@ Options:
   --timeout <int>     Per-task timeout in seconds (default: 1200, 20 minutes)
   --dry-run           Execute in synthetic/simulation mode (no API tokens or heavy GPU compute)
   --mock-docker       Force mock/structural Docker verification (useful if docker daemon is restricted)
+  --sequential-docker Run Docker verifications sequentially instead of parallel (default: parallel)
   --skip-runs         Skip task execution and jump straight to Docker verification & scorecard
   -h, --help          Show this help message
 EOF
@@ -87,6 +89,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --mock-docker)
             MOCK_DOCKER="--mock"
+            shift
+            ;;
+        --sequential-docker)
+            SEQUENTIAL_DOCKER=true
             shift
             ;;
         --skip-runs)
@@ -149,41 +155,73 @@ if [[ -n "${MAX_TASKS}" ]]; then
     MAX_FLAG="--max-tasks ${MAX_TASKS}"
 fi
 
+# ======================================================================
+# Phase 1: Clean Dual-Arm Prediction Generation (Zero Docker Contention)
+# ======================================================================
 if [ "${SKIP_RUNS}" = false ]; then
-    # Step 2: Run Bare agy Vanilla Baseline
     echo ""
-    echo "[Step 2/5] Running BARE AGY Vanilla Baseline..."
+    echo "[Phase 1/3 - Step 1/2] Generating BARE AGY Vanilla Predictions..."
     BARE_CMD=(python3 "${SCRIPT_DIR}/run_bare_agy.py" --config "${COHORT_CONFIG}" --output-dir "${BARE_OUT}" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then BARE_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then BARE_CMD+=(${DRY_RUN}); fi
     "${BARE_CMD[@]}"
 
-    # Step 3: Run InBoost LongRun Accelerated agy
     echo ""
-    echo "[Step 3/5] Running INBOOST LONGRUN Accelerated agy..."
+    echo "[Phase 1/3 - Step 2/2] Generating INBOOST LONGRUN Accelerated Predictions..."
     LONGRUN_CMD=(python3 "${SCRIPT_DIR}/run_inboost_longrun.py" --config "${COHORT_CONFIG}" --output-dir "${LONGRUN_OUT}" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then LONGRUN_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then LONGRUN_CMD+=(${DRY_RUN}); fi
     "${LONGRUN_CMD[@]}"
+
+    echo ""
+    echo "✓ Phase 1 Complete: Both candidate patch sets generated & immutable predictions sealed."
 else
-    echo "[Step 2-3/5] Skipping task execution (--skip-runs specified)."
+    echo "[Phase 1/3] Skipping patch generation (--skip-runs specified)."
 fi
 
-# Step 4: Docker Verification on Bare agy
+# ======================================================================
+# Phase 2: Docker Test Verification (Equal 20-min Timeout)
+# ======================================================================
 echo ""
-echo "[Step 4/5] Running Docker Verification for Bare agy predictions..."
+echo "======================================================================"
+echo " [Phase 2/3] Docker Test Verification (Timeout: ${TIMEOUT}s / $((${TIMEOUT} / 60)) min)"
+echo "======================================================================"
 BARE_PREDS="${BARE_OUT}/predictions.jsonl"
+LONGRUN_PREDS="${LONGRUN_OUT}/predictions.jsonl"
+
 BARE_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${BARE_PREDS}" --config "${COHORT_CONFIG}" --timeout "${TIMEOUT}")
 if [[ -n "${MOCK_DOCKER}" ]]; then BARE_EVAL_CMD+=(${MOCK_DOCKER}); fi
-"${BARE_EVAL_CMD[@]}"
 
-# Step 5: Docker Verification on InBoost LongRun
-echo ""
-echo "[Step 5/5] Running Docker Verification for InBoost LongRun predictions..."
-LONGRUN_PREDS="${LONGRUN_OUT}/predictions.jsonl"
 LONGRUN_EVAL_CMD=(python3 "${SCRIPT_DIR}/verify_docker.py" --predictions "${LONGRUN_PREDS}" --config "${COHORT_CONFIG}" --timeout "${TIMEOUT}")
 if [[ -n "${MOCK_DOCKER}" ]]; then LONGRUN_EVAL_CMD+=(${MOCK_DOCKER}); fi
-"${LONGRUN_EVAL_CMD[@]}"
+
+if [ "${SEQUENTIAL_DOCKER}" = true ]; then
+    echo "Running sequential Docker verification..."
+    echo "[Bare agy Validation]"
+    "${BARE_EVAL_CMD[@]}"
+    echo ""
+    echo "[InBoost LongRun Validation]"
+    "${LONGRUN_EVAL_CMD[@]}"
+else
+    echo "Running PARALLEL Docker verification for Bare agy and InBoost LongRun..."
+    "${BARE_EVAL_CMD[@]}" > "${BARE_OUT}/docker_eval.log" 2>&1 &
+    PID_BARE=$!
+    "${LONGRUN_EVAL_CMD[@]}" > "${LONGRUN_OUT}/docker_eval.log" 2>&1 &
+    PID_LONGRUN=$!
+
+    echo "  -> Bare agy Docker worker launched (PID: ${PID_BARE})"
+    echo "  -> InBoost LongRun Docker worker launched (PID: ${PID_LONGRUN})"
+    echo "Waiting for both Docker evaluations to complete..."
+    wait "${PID_BARE}"
+    wait "${PID_LONGRUN}"
+
+    echo ""
+    echo "--- Bare agy Docker Verification Results ---"
+    cat "${BARE_OUT}/docker_eval.log"
+    echo ""
+    echo "--- InBoost LongRun Docker Verification Results ---"
+    cat "${LONGRUN_OUT}/docker_eval.log"
+fi
 
 # Step 6: Generate Comparative Scorecard
 echo ""

@@ -18,7 +18,7 @@
 | **Avg Tokens per Task** | `57,100.0` | `14,450.0` | **Saves ~42,650 tokens/task** |
 | **Agent Wall-Clock Time (Time-to-Patch)** | `40.1s` | `13.7s` | **-65.8% Faster Turnaround** ⚡ |
 | **Average Agent Latency** | `40.1s` | `13.7s` | **~26s saved per task** |
-| **Docker CI Verification Overhead** | `0.03s` | `0.03s` | **Isolated Post-Hoc Testbench** 🧪 |
+| **Docker CI Verification Overhead** | `0.04s` | `0.04s` | **Isolated Post-Hoc Testbench** 🧪 |
 | **Session Quota Extension** | `1.0x` (Baseline) | `3.95x` | **3.95x Longer Coding Sessions** 🔋 |
 
 ---

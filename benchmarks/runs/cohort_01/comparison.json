@@ -9,7 +9,7 @@
     "avg_tokens": 57100.0,
     "agent_wall_clock_sec": 40.1,
     "avg_agent_latency_sec": 40.1,
-    "docker_eval_sec": 0.03,
+    "docker_eval_sec": 0.04,
     "avg_docker_eval_sec": 0.0,
     "wall_clock_sec": 40.1,
     "avg_latency_sec": 40.1
@@ -23,7 +23,7 @@
     "avg_tokens": 14450.0,
     "agent_wall_clock_sec": 13.7,
     "avg_agent_latency_sec": 13.7,
-    "docker_eval_sec": 0.03,
+    "docker_eval_sec": 0.04,
     "avg_docker_eval_sec": 0.0,
     "wall_clock_sec": 13.7,
     "avg_latency_sec": 13.7

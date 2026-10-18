@@ -7,8 +7,8 @@
   "empty_patch_instances": 0,
   "apply_error_instances": 0,
   "resolve_rate": 100.0,
-  "total_docker_eval_seconds": 0.03,
-  "avg_docker_eval_seconds": 0.03,
+  "total_docker_eval_seconds": 0.04,
+  "avg_docker_eval_seconds": 0.04,
   "evaluation_engine": "Structural AST & Test Assertion Oracle (Mock/Air-gapped)",
   "resolved_ids": [
     "pylint-dev__pylint-7080"
