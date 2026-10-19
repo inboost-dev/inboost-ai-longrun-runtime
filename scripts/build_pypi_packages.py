@@ -63,7 +63,7 @@ def build_pypi_packages():
     wheels = list(DIST_PYPI_DIR.glob("*.whl"))
     for w in wheels:
         print(f"  • {w.name}")
-    subprocess.run([sys.executable, "-m", "twine", "check"] + [str(w) for w in wheels], check=True)
+    subprocess.run([(shutil.which("twine") or "twine"), "check"] + [str(w) for w in wheels], check=True)
 
 
 if __name__ == "__main__":
