@@ -15,7 +15,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-VERSION = "0.3.0-eval"
+VERSION = "0.3.0.post1"
 GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime"
 
 RULES_CONTENT = """# InBoost LongRun Optimization Rules
@@ -280,8 +280,17 @@ def find_or_download_binary() -> Path:
     repos = list(dict.fromkeys(repos))
     last_err: Exception | None = None
 
+    tag_clean = "0.3.0"
+    candidates_urls = []
     for repo in repos:
-        download_url = f"https://github.com/{repo}/releases/download/v{VERSION}/{bin_name}"
+        candidates_urls.extend([
+            f"https://raw.githubusercontent.com/{repo}/v{tag_clean}/bin/{bin_name}",
+            f"https://github.com/{repo}/raw/v{tag_clean}/bin/{bin_name}",
+            f"https://github.com/{repo}/releases/download/v{tag_clean}/{bin_name}",
+            f"https://raw.githubusercontent.com/{repo}/main/bin/{bin_name}",
+        ])
+
+    for download_url in candidates_urls:
         sys.stderr.write(f"InBoost LongRun binary not found locally. Downloading from {download_url}...\n")
         try:
             urllib.request.urlretrieve(download_url, str(target_path))

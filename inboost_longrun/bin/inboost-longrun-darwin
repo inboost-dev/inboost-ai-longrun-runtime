@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+DIR="$(cd "$(dirname "$0")" && pwd)"
+ARCH="$(uname -m)"
+if [ "$ARCH" = "arm64" ] || [ "$ARCH" = "aarch64" ]; then
+    exec "$DIR/inboost-longrun-darwin-arm64" "$@"
+else
+    exec "$DIR/inboost-longrun-darwin-amd64" "$@"
+fi

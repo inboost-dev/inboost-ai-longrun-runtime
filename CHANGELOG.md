@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0.post1] - 2026-10-19
+
+### Fixed
+- **Bundled Multi-Platform Native Binaries in PyPI Wheel**:
+  - Bundled all precompiled native standalone binaries (`inboost_longrun/bin/`) directly inside the wheel distribution (6.9 MB), eliminating network download requirements upon `pip install inboost-longrun`.
+  - Added resilient fallback in `inboost_longrun/cli.py` and `bin/inboost-longrun.js` to download directly from GitHub Git Tag raw CDN (`raw.githubusercontent.com/.../v0.3.0/bin/`) when GitHub Releases API is unavailable.
+
 ## [0.3.0] - 2026-10-19
 
 ### Added

@@ -183,20 +183,32 @@ function downloadBinary(binName) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
     const targetPath = path.join(targetDir, binName);
-    const downloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/${binName}`;
+    const candidateUrls = [
+      `https://raw.githubusercontent.com/${GITHUB_REPO}/v0.3.0/bin/${binName}`,
+      `https://github.com/${GITHUB_REPO}/raw/v0.3.0/bin/${binName}`,
+      `https://github.com/${GITHUB_REPO}/releases/download/v0.3.0/${binName}`,
+      `https://raw.githubusercontent.com/${GITHUB_REPO}/main/bin/${binName}`,
+    ];
 
-    process.stderr.write(`InBoost LongRun binary not found locally. Downloading from ${downloadUrl}...\n`);
+    process.stderr.write(`InBoost LongRun binary not found locally. Downloading from GitHub CDN...\n`);
 
     const file = fs.createWriteStream(targetPath);
+    let urlIndex = 0;
+
+    function tryNextUrl() {
+      if (urlIndex >= candidateUrls.length) {
+        return reject(new Error("Failed to download InBoost LongRun binary from all release mirrors"));
+      }
+      const url = candidateUrls[urlIndex++];
+      getUrl(url);
+    }
     function getUrl(url) {
       https.get(url, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           return getUrl(res.headers.location);
         }
         if (res.statusCode !== 200) {
-          file.close();
-          try { fs.unlinkSync(targetPath); } catch (e) {}
-          return reject(new Error(`Download failed with status ${res.statusCode}`));
+          return tryNextUrl();
         }
         res.pipe(file);
         file.on("finish", () => {
@@ -207,12 +219,11 @@ function downloadBinary(binName) {
             resolve(targetPath);
           });
         });
-      }).on("error", (err) => {
-        try { fs.unlinkSync(targetPath); } catch (e) {}
-        reject(err);
+      }).on("error", () => {
+        tryNextUrl();
       });
     }
-    getUrl(downloadUrl);
+    tryNextUrl();
   });
 }
 
