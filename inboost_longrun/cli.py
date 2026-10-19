@@ -15,7 +15,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-VERSION = "0.2.1-eval"
+VERSION = "0.3.0-eval"
 GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime"
 
 RULES_CONTENT = """# InBoost LongRun Optimization Rules

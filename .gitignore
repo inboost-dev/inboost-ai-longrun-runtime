@@ -22,3 +22,5 @@ dist_pypi/
 dist_npm/
 *.egg-info/
 .pytest_cache/
+
+.tests_old/

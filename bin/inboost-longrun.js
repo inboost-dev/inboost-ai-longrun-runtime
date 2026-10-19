@@ -17,7 +17,7 @@ const fs = require("fs");
 const os = require("os");
 const https = require("https");
 
-const VERSION = "0.2.1-eval";
+const VERSION = "0.3.0-eval";
 const GITHUB_REPO = "inboost-dev/inboost-longrun";
 
 const RULES_CONTENT = `# InBoost LongRun Optimization Rules

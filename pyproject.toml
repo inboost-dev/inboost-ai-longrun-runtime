@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "inboost-longrun"
-version = "0.2.1"
+version = "0.3.0"
 description = "InBoost LongRun: Local context conservation, quota extension, and verification engine for AI coding agents."
 readme = "README.md"
 license = { text = "InBoost LongRun Evaluation License Agreement" }
@@ -27,6 +27,7 @@ urls = { Homepage = "https://inboost.pro", Repository = "https://github.com/inbo
 
 [project.scripts]
 inboost-longrun = "inboost_longrun.cli:main"
+inboost-ai-longrun = "inboost_longrun.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
