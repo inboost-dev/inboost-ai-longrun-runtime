@@ -80,11 +80,14 @@ def publish_pypi(pypi_token: str):
     print("▶ Publishing wheels to pypi.org...")
     print("==================================================")
 
+    import shutil
+    twine_bin = shutil.which("twine") or "twine"
+
     wheels = list(DIST_PYPI_DIR.glob("*.whl"))
     for w in wheels:
         print(f"Publishing {w.name}...")
         cmd = [
-            sys.executable, "-m", "twine", "upload",
+            twine_bin, "upload",
             str(w),
             "--username", "__token__",
             "--password", pypi_token,
