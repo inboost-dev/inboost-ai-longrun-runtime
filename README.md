@@ -35,7 +35,10 @@ Official evaluation of **Google Antigravity (`agy`)** accelerated with InBoost L
 * **🎯 Resolution Parity:** 60.0% vs 64.0% verified Docker resolve rate (15 vs 16 tasks resolved, preserving statistical parity).
 * **⚙️ 987,500 Tokens Offloaded:** Cuts 95% of test framework noise via Host CPU TracebackCrusher (<15ms).
 
-👉 **[View Complete Benchmark Methodology, Per-Task Docker Logs & Scorecard →](benchmarks/README.md)**
+👉 **[Getting Started & Interactive Demos (TracebackCrusher, MCP Server, Batch Runs) →](GETTING_STARTED.md)**  
+📋 **[Official Benchmark Publication Guidelines & Data Integrity Standards →](BENCHMARKS.md)**  
+📊 **[View Complete Benchmark Methodology, Per-Task Docker Logs & Scorecard →](benchmarks/README.md)**
+
 
 ---
 
