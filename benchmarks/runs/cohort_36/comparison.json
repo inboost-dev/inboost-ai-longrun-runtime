@@ -1,0 +1,139 @@
+{
+  "cohort_size": 10,
+  "bare_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_36_bare_agy",
+  "longrun_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_36_inboost_longrun",
+  "bare_agy": {
+    "resolved": 6,
+    "resolve_rate": 60.0,
+    "empty_patches": 1,
+    "empty_pct": 10.0,
+    "total_tokens": 197088,
+    "input_tokens": 193980,
+    "output_tokens": 3108,
+    "thinking_tokens": 0,
+    "cache_read_tokens": 70098,
+    "avg_tokens": 19709.0,
+    "agent_wall_clock_sec": 1041.0,
+    "avg_agent_latency_sec": 104.1,
+    "docker_eval_sec": 0.0,
+    "avg_docker_eval_sec": 0.0,
+    "wall_clock_sec": 1041.0,
+    "avg_latency_sec": 104.1
+  },
+  "inboost_longrun": {
+    "resolved": 7,
+    "resolve_rate": 70.0,
+    "empty_patches": 0,
+    "empty_pct": 0.0,
+    "total_tokens": 127290,
+    "input_tokens": 123882,
+    "output_tokens": 3408,
+    "thinking_tokens": 875,
+    "cache_read_tokens": 70098,
+    "avg_tokens": 12729.0,
+    "agent_wall_clock_sec": 676.65,
+    "avg_agent_latency_sec": 67.7,
+    "docker_eval_sec": 0.0,
+    "avg_docker_eval_sec": 0.0,
+    "wall_clock_sec": 676.65,
+    "avg_latency_sec": 67.7
+  },
+  "bare_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 6,
+    "unresolved_instances": 3,
+    "empty_patch_instances": 1,
+    "apply_error_instances": 0,
+    "resolve_rate": 60.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "astropy__astropy-12907",
+      "django__django-15161",
+      "scikit-learn__scikit-learn-13328",
+      "sphinx-doc__sphinx-8593",
+      "sympy__sympy-19040",
+      "sympy__sympy-19346"
+    ],
+    "unresolved_ids": [
+      "django__django-15252",
+      "django__django-15277",
+      "pytest-dev__pytest-7521"
+    ],
+    "empty_patch_ids": [
+      "django__django-15128"
+    ],
+    "apply_error_ids": []
+  },
+  "longrun_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 7,
+    "unresolved_instances": 3,
+    "empty_patch_instances": 0,
+    "apply_error_instances": 0,
+    "resolve_rate": 70.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "astropy__astropy-12907",
+      "django__django-15128",
+      "django__django-15161",
+      "scikit-learn__scikit-learn-13328",
+      "sphinx-doc__sphinx-8593",
+      "sympy__sympy-19040",
+      "sympy__sympy-19346"
+    ],
+    "unresolved_ids": [
+      "django__django-15252",
+      "django__django-15277",
+      "pytest-dev__pytest-7521"
+    ],
+    "empty_patch_ids": [],
+    "apply_error_ids": []
+  },
+  "deltas": {
+    "resolve_delta_pct": 16.7,
+    "resolve_multiplier": 1.17,
+    "rescued_empty_patches": 1,
+    "token_savings_pct": 35.4,
+    "wall_clock_speedup_pct": 35.0,
+    "quota_extension_multiplier": 1.55,
+    "rescued_ids": [
+      "django__django-15128"
+    ]
+  },
+  "quota_telemetry": {
+    "final": {
+      "Gemini Models: Weekly Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 81.1,
+        "reset_time": "2026-10-31T12:29:56Z",
+        "window": "weekly"
+      },
+      "Gemini Models: Five Hour Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 93.4,
+        "reset_time": "2026-10-25T10:14:53Z",
+        "window": "5h"
+      },
+      "Claude and GPT models: Weekly Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 44.8,
+        "reset_time": "2026-10-26T07:18:31Z",
+        "window": "weekly"
+      },
+      "Claude and GPT models: Five Hour Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 100,
+        "reset_time": "2026-10-25T10:31:19Z",
+        "window": "5h"
+      }
+    }
+  }
+}

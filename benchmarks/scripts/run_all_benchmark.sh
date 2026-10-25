@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# InBoost AI LongRun vs Bare agy: Master Benchmark & Docker Verification Suite
+# InBoost AI LongRun vs Bare: Master Benchmark & Docker Verification Suite
 # ==============================================================================
-# Evaluates Google Antigravity (`agy`) in Bare Vanilla mode vs InBoost LongRun
-# on a random cohort of 25 tasks from SWE-bench Verified.
+# Evaluates Google Antigravity (`agy`) in Bare mode vs InBoost LongRun
+# across SWE-bench Verified cohorts (50 cohorts x 10 tasks = N=500).
 #
 # Usage:
-#   ./run_all_benchmark.sh [--dry-run] [--max-tasks 25] [--seed 42]
+#   ./run_all_benchmark.sh --audit
+#   ./run_all_benchmark.sh --cohort 1 [--dry-run]
+#   ./run_all_benchmark.sh --all [--dry-run]
 # ==============================================================================
 
 set -euo pipefail
@@ -30,18 +32,21 @@ SEQUENTIAL_DOCKER=false
 TIMEOUT="1200"
 
 COHORT_NUM=""
+RUN_ALL_COHORTS=false
+DO_AUDIT=false
 
 function print_usage() {
     cat <<EOF
 Usage: ./run_all_benchmark.sh [OPTIONS]
 
 Options:
-  --cohort <N>        Run a registered cohort by number (e.g. --cohort 1, --cohort 6)
-  --chunk <1-5>       Run a specific 10-task chunk from legacy configs (e.g. --chunk 1)
-  --config <path>     Path to cohort JSON config (default: configs/swebench_cohort_25_random.json)
-  --output-prefix <str> Directory prefix for run outputs (default: cohort25, cohort_0N, or cohort50_chunk_N)
+  --audit             Run instant offline audit and verification across all 50 cohorts (N=500)
+  --all               Execute benchmark pipeline across all 50 cohorts sequentially
+  --cohort <1-50>     Run a registered cohort by number (default: 1)
+  --config <path>     Path to custom cohort JSON config
+  --output-prefix <str> Directory prefix for run outputs (default: cohort_0N)
   --seed <int>        Random seed for cohort sampling (default: 42)
-  --max-tasks <int>   Limit execution to N tasks (e.g. 5, default: all tasks in config)
+  --max-tasks <int>   Limit execution to N tasks per cohort (e.g. 5, default: all tasks in config)
   --timeout <int>     Per-task timeout in seconds (default: 1200, 20 minutes)
   --dry-run           Execute in synthetic/simulation mode (no API tokens or heavy GPU compute)
   --mock-docker       Force mock/structural Docker verification (useful if docker daemon is restricted)
@@ -54,6 +59,14 @@ EOF
 # Parse command line flags
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --audit)
+            DO_AUDIT=true
+            shift
+            ;;
+        --all)
+            RUN_ALL_COHORTS=true
+            shift
+            ;;
         --cohort)
             COHORT_NUM="$2"
             shift 2
@@ -84,7 +97,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --dry-run)
             DRY_RUN="--dry-run"
-            MOCK_DOCKER="--mock"
             shift
             ;;
         --mock-docker)
@@ -111,7 +123,32 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+if [ "${DO_AUDIT}" = true ]; then
+    echo "Running instant offline audit across all 50 cohorts (N=500)..."
+    python3 "${SCRIPT_DIR}/audit_swebench_500.py"
+    exit $?
+fi
+
 COHORTS_DIR="${BENCHMARKS_DIR}/cohorts"
+
+if [ "${RUN_ALL_COHORTS}" = true ]; then
+    echo "======================================================================"
+    echo " Executing Full SWE-bench Verified Benchmark Suite (Cohorts 01 - 50)"
+    echo "======================================================================"
+    for c in $(seq 1 50); do
+        echo ">>> Launching Cohort ${c}/50..."
+        ARGS=(--cohort "${c}" --timeout "${TIMEOUT}")
+        if [[ -n "${DRY_RUN}" ]]; then ARGS+=(${DRY_RUN}); fi
+        if [[ -n "${MAX_TASKS}" ]]; then ARGS+=(--max-tasks "${MAX_TASKS}"); fi
+        if [[ -n "${MOCK_DOCKER}" ]]; then ARGS+=(${MOCK_DOCKER}); fi
+        if [ "${SEQUENTIAL_DOCKER}" = true ]; then ARGS+=(--sequential-docker); fi
+        if [ "${SKIP_RUNS}" = true ]; then ARGS+=(--skip-runs); fi
+        "${SCRIPT_DIR}/run_all_benchmark.sh" "${ARGS[@]}"
+    done
+    echo ">>> All 50 cohorts finished! Running master audit..."
+    python3 "${SCRIPT_DIR}/audit_swebench_500.py"
+    exit 0
+fi
 
 if [[ -n "${COHORT_NUM}" ]]; then
     printf -v PADDED_COHORT "%02d" "${COHORT_NUM}"
@@ -124,7 +161,12 @@ elif [[ -n "${CUSTOM_CONFIG}" ]]; then
     COHORT_CONFIG="${CUSTOM_CONFIG}"
     RUN_PREFIX="${CUSTOM_PREFIX:-custom_run}"
 else
-    RUN_PREFIX="${CUSTOM_PREFIX:-cohort25}"
+    # Default to cohort 1 of 50
+    COHORT_NUM=1
+    printf -v PADDED_COHORT "%02d" "${COHORT_NUM}"
+    COHORT_CONFIG="${COHORTS_DIR}/cohort_${PADDED_COHORT}.json"
+    RUN_PREFIX="cohort_${PADDED_COHORT}"
+    echo "[Info] No cohort specified; defaulting to Cohort 01 (use --cohort <1-50> or --all)."
 fi
 
 BARE_OUT="${RUNS_DIR}/${RUN_PREFIX}_bare_agy"
@@ -132,7 +174,7 @@ LONGRUN_OUT="${RUNS_DIR}/${RUN_PREFIX}_inboost_longrun"
 SCORECARD_OUT_DIR="${RUNS_DIR}/${RUN_PREFIX}"
 
 echo "======================================================================"
-echo " InBoost LongRun vs Bare agy: SWE-bench Verified Benchmark"
+echo " InBoost LongRun vs Bare: SWE-bench Verified Benchmark"
 echo "======================================================================"
 echo " Directory:     ${SCRIPT_DIR}"
 echo " Config:        ${COHORT_CONFIG}"
@@ -142,12 +184,12 @@ echo " Dry Run:       ${DRY_RUN:-No (Live agy Execution)}"
 echo " Mock Docker:   ${MOCK_DOCKER:-Auto (Check daemon access)}"
 echo "======================================================================"
 
-# Step 1: Ensure Cohort Sampling
+# Step 1: Ensure Cohort Configuration Exists
 if [[ ! -f "${COHORT_CONFIG}" ]]; then
-    echo "[Step 1/5] Sampling random cohort of tasks from SWE-bench Verified..."
-    python3 "${SCRIPT_DIR}/sample_random_cohort25.py" --seed "${SEED}" --output "${COHORT_CONFIG}"
+    echo "Error: Cohort configuration not found at ${COHORT_CONFIG}"
+    exit 1
 else
-    echo "[Step 1/5] Cohort configuration ready: ${COHORT_CONFIG}"
+    echo "[Step 1/3] Cohort configuration ready: ${COHORT_CONFIG}"
 fi
 
 MAX_FLAG=""
@@ -160,7 +202,7 @@ fi
 # ======================================================================
 if [ "${SKIP_RUNS}" = false ]; then
     echo ""
-    echo "[Phase 1/3 - Step 1/2] Generating BARE AGY Vanilla Predictions..."
+    echo "[Phase 1/3 - Step 1/2] Generating BARE Predictions..."
     BARE_CMD=(python3 "${SCRIPT_DIR}/run_bare_agy.py" --config "${COHORT_CONFIG}" --output-dir "${BARE_OUT}" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then BARE_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then BARE_CMD+=(${DRY_RUN}); fi
@@ -168,7 +210,7 @@ if [ "${SKIP_RUNS}" = false ]; then
 
     echo ""
     echo "[Phase 1/3 - Step 2/2] Generating INBOOST LONGRUN Accelerated Predictions..."
-    LONGRUN_CMD=(python3 "${SCRIPT_DIR}/run_inboost_longrun.py" --config "${COHORT_CONFIG}" --output-dir "${LONGRUN_OUT}" --timeout "${TIMEOUT}")
+    LONGRUN_CMD=(python3 "${SCRIPT_DIR}/run_inboost_longrun_agy.py" --config "${COHORT_CONFIG}" --output-dir "${LONGRUN_OUT}" --timeout "${TIMEOUT}")
     if [[ -n "${MAX_TASKS}" ]]; then LONGRUN_CMD+=(--max-tasks "${MAX_TASKS}"); fi
     if [[ -n "${DRY_RUN}" ]]; then LONGRUN_CMD+=(${DRY_RUN}); fi
     "${LONGRUN_CMD[@]}"
@@ -197,26 +239,26 @@ if [[ -n "${MOCK_DOCKER}" ]]; then LONGRUN_EVAL_CMD+=(${MOCK_DOCKER}); fi
 
 if [ "${SEQUENTIAL_DOCKER}" = true ]; then
     echo "Running sequential Docker verification..."
-    echo "[Bare agy Validation]"
+    echo "[Bare Validation]"
     "${BARE_EVAL_CMD[@]}"
     echo ""
     echo "[InBoost LongRun Validation]"
     "${LONGRUN_EVAL_CMD[@]}"
 else
-    echo "Running PARALLEL Docker verification for Bare agy and InBoost LongRun..."
+    echo "Running PARALLEL Docker verification for Bare and InBoost LongRun..."
     "${BARE_EVAL_CMD[@]}" > "${BARE_OUT}/docker_eval.log" 2>&1 &
     PID_BARE=$!
     "${LONGRUN_EVAL_CMD[@]}" > "${LONGRUN_OUT}/docker_eval.log" 2>&1 &
     PID_LONGRUN=$!
 
-    echo "  -> Bare agy Docker worker launched (PID: ${PID_BARE})"
+    echo "  -> Bare Docker worker launched (PID: ${PID_BARE})"
     echo "  -> InBoost LongRun Docker worker launched (PID: ${PID_LONGRUN})"
     echo "Waiting for both Docker evaluations to complete..."
     wait "${PID_BARE}"
     wait "${PID_LONGRUN}"
 
     echo ""
-    echo "--- Bare agy Docker Verification Results ---"
+    echo "--- Bare Docker Verification Results ---"
     cat "${BARE_OUT}/docker_eval.log"
     echo ""
     echo "--- InBoost LongRun Docker Verification Results ---"

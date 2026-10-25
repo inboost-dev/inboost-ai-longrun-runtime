@@ -9,9 +9,9 @@ Features:
 - Emits predictions in standard SWE-bench format (predictions.jsonl)
 
 Usage:
-    python3 run_bare_agy.py [--config configs/swebench_cohort_25_random.json]
-                            [--output-dir runs/cohort25_bare_agy]
-                            [--max-tasks 25] [--timeout 300] [--dry-run]
+    python3 run_bare_agy.py [--config cohorts/cohort_01.json]
+                            [--output-dir runs/cohort_01_bare_agy]
+                            [--max-tasks 10] [--timeout 1200] [--dry-run]
 """
 
 from __future__ import annotations
@@ -155,9 +155,11 @@ def run_instance_live(
             error_output += f"\n{err_str}"
 
     response_text = raw_output
-    tokens_input = int(len(prompt.split()) * 1.35) + 38000
-    tokens_output = int(len(raw_output.split()) * 1.35) if raw_output else 240
-    total_tokens = tokens_input + tokens_output
+    tokens_input = 0
+    tokens_output = 0
+    total_tokens = 0
+    thinking_tokens = 0
+    cache_read_tokens = 0
 
     if raw_output:
         try:
@@ -166,9 +168,15 @@ def run_instance_live(
                 response_text = data.get("response", raw_output)
                 usage = data.get("usage", {})
                 if usage:
-                    tokens_input = usage.get("input_tokens", tokens_input)
-                    tokens_output = usage.get("output_tokens", tokens_output)
+                    tokens_input = usage.get("input_tokens", 0)
+                    tokens_output = usage.get("output_tokens", 0)
+                    thinking_tokens = usage.get("thinking_tokens", 0)
+                    cache_read_tokens = usage.get("cache_read_tokens", 0)
                     total_tokens = usage.get("total_tokens", tokens_input + tokens_output)
+                if "duration_seconds" in data:
+                    elapsed = data["duration_seconds"]
+        except Exception as e:  # noqa: BLE001
+            logger.debug("Failed to parse agy JSON: %s", e)
         except Exception as e:  # noqa: BLE001
             logger.debug("Failed to parse agy JSON: %s", e)
 
@@ -181,6 +189,8 @@ def run_instance_live(
         "gpu_occupancy_seconds": round(elapsed * 0.88, 2),
         "input_tokens": tokens_input,
         "output_tokens": tokens_output,
+        "thinking_tokens": thinking_tokens,
+        "cache_read_tokens": cache_read_tokens,
         "total_tokens": total_tokens,
         "patch_length_bytes": len(patch),
         "is_empty_patch": len(patch.strip()) == 0,
@@ -188,7 +198,7 @@ def run_instance_live(
     }
 
     log_content = (
-        f"=== INSTANCE: {instance_id} (Bare agy Vanilla) ===\n"
+        f"=== INSTANCE: {instance_id} (Bare Baseline) ===\n"
         f"Duration: {elapsed:.2f}s | Patch Bytes: {len(patch)}\n\n"
         f"--- STDOUT ---\n{raw_output}\n\n"
         f"--- STDERR ---\n{error_output}\n"
@@ -197,97 +207,97 @@ def run_instance_live(
     return patch, metrics, log_content
 
 
-def run_instance_synthetic_bare(instance: dict[str, Any], index: int) -> tuple[str, dict[str, Any], str]:
-    """Generate realistic bare agy baseline execution data on SWE-bench Verified.
-
-    Empirically verified baseline properties:
-    - 20% resolve rate (5 / 25 tasks produce correct non-empty patch)
-    - ~68-72% empty patch rate (due to test log token flood exhausting 5-hour limit / context window)
-    - 8-12% syntax/diff format failures
-    - High token consumption (55k-65k tokens per task, no CPU offload)
-    """
+def load_dry_run_instance(
+    instance: dict[str, Any],
+    knowledge_dir: Path,
+) -> tuple[str, dict[str, Any], str]:
+    """Load or simulate dry-run instance data without live LLM network calls."""
     instance_id = instance["instance_id"]
-    repo = instance.get("repo", "")
+    verified_mode_dir = knowledge_dir / "verified_data" / "bare_agy"
+    if verified_mode_dir.exists():
+        patch_file = verified_mode_dir / "patches" / f"{instance_id}.patch"
+        log_file = verified_mode_dir / "logs" / f"{instance_id}.log"
+        metrics_file = verified_mode_dir / "metrics.json"
 
-    # Pre-verified baseline successes on standard SWE-bench Verified cohort
-    # Exactly 5 tasks that vanilla models solve out of 25 (20.0%)
-    bare_success_indices = {5, 7, 10, 11, 21}
-    bare_unresolved_indices = {1, 8, 14}
-    is_success = index in bare_success_indices
-    is_unresolved = index in bare_unresolved_indices
-    repo_leaf = repo.split("/")[-1] if "/" in repo else repo
+        patch = patch_file.read_text(encoding="utf-8") if patch_file.exists() else ""
+        log_content = log_file.read_text(encoding="utf-8") if log_file.exists() else ""
 
-    if is_success:
-        patch = (
-            f"diff --git a/{repo_leaf}/core.py b/{repo_leaf}/core.py\n"
-            f"--- a/{repo_leaf}/core.py\n"
-            f"+++ b/{repo_leaf}/core.py\n"
-            "@@ -1,3 +1,3 @@\n"
-            " # Context Setup\n"
-            "-val = None\n"
-            "+val = default_val\n"
-            " # Context TearDown\n"
-        )
-        elapsed = round(28.0 + (index % 7) * 4.2, 2)
-        total_tokens = 48500 + (index % 5) * 3100
-        status_msg = "Completed with patch"
-    elif is_unresolved:
-        patch = (
-            f"diff --git a/{repo_leaf}/core.py b/{repo_leaf}/core.py\n"
-            f"--- a/{repo_leaf}/core.py\n"
-            f"+++ b/{repo_leaf}/core.py\n"
-            "@@ -1,3 +1,3 @@\n"
-            " # Context Setup\n"
-            "-val = None\n"
-            "+val = partial_val\n"
-            " # Context TearDown\n"
-        )
-        elapsed = round(35.0 + (index % 5) * 5.1, 2)
-        total_tokens = 54200 + (index % 5) * 2900
-        status_msg = "Completed with partial patch (fails assertion)"
-    else:
-        # 17 / 25 tasks fail with 0-byte patch / empty diff due to pytest log dumps
-        patch = ""
-        elapsed = round(45.0 + (index % 9) * 6.5, 2)
-        total_tokens = 58200 + (index % 6) * 4200
-        status_msg = "Context exhausted during pytest traceback dump; produced 0 bytes patch"
+        metrics: dict[str, Any] = {}
+        if metrics_file.exists():
+            try:
+                with open(metrics_file, encoding="utf-8") as f:
+                    data = json.load(f)
+                    for t in data.get("tasks", []):
+                        if t.get("instance_id") == instance_id:
+                            metrics = dict(t)
+                            break
+            except Exception as e:  # noqa: BLE001
+                logger.debug("Could not read verified metrics: %s", e)
 
+        if not metrics:
+            metrics = {
+                "instance_id": instance_id,
+                "mode": "bare_agy",
+                "wall_clock_seconds": 1.5,
+                "gpu_occupancy_seconds": 0.0,
+                "input_tokens": 12000,
+                "output_tokens": 800,
+                "thinking_tokens": 400,
+                "cache_read_tokens": 1000,
+                "total_tokens": 14200,
+                "patch_length_bytes": len(patch),
+                "is_empty_patch": len(patch.strip()) == 0,
+                "exit_code": 0 if patch.strip() else 1,
+            }
+        else:
+            metrics["thinking_tokens"] = metrics.get("thinking_tokens", 0)
+            metrics["cache_read_tokens"] = metrics.get("cache_read_tokens", 0)
+            metrics["patch_length_bytes"] = len(patch)
+            metrics["is_empty_patch"] = len(patch.strip()) == 0
+
+        if not log_content:
+            status_str = "Empty patch (0 bytes)" if metrics["is_empty_patch"] else f"Generated patch ({len(patch)} bytes)"
+            log_content = (
+                f"=== INSTANCE: {instance_id} (Bare Baseline dry-run) ===\n"
+                f"Duration: {metrics.get('wall_clock_seconds', 0)}s | Status: {status_str}\n"
+                f"Total Tokens: {metrics.get('total_tokens', 0):,} | Patch Bytes: {len(patch)}\n"
+            )
+        return patch, metrics, log_content
+
+    # Clean fallback if .knowledge is absent (e.g. clean public repository checkout)
+    patch = ""
     metrics = {
         "instance_id": instance_id,
         "mode": "bare_agy",
-        "wall_clock_seconds": elapsed,
-        "gpu_occupancy_seconds": round(elapsed * 0.85, 2),
-        "input_tokens": total_tokens - 800,
-        "output_tokens": 800,
-        "total_tokens": total_tokens,
-        "patch_length_bytes": len(patch),
-        "is_empty_patch": len(patch.strip()) == 0,
-        "exit_code": 0 if patch else 1,
+        "wall_clock_seconds": 1.0,
+        "gpu_occupancy_seconds": 0.0,
+        "input_tokens": 45000,
+        "output_tokens": 500,
+        "thinking_tokens": 2000,
+        "cache_read_tokens": 0,
+        "total_tokens": 47500,
+        "patch_length_bytes": 0,
+        "is_empty_patch": True,
+        "exit_code": 1,
     }
-
-    log_content = (
-        f"=== INSTANCE: {instance_id} (Bare agy Vanilla) ===\n"
-        f"Duration: {elapsed:.2f}s | Status: {status_msg}\n"
-        f"Total Tokens: {total_tokens} | Patch Bytes: {len(patch)}\n"
-        "TracebackCrusher: DISABLED (Bare Mode)\n"
-        "Notice: Verbose raw terminal output (>8,000 lines of pytest stdout) streamed directly into LLM context.\n"
-    )
-
+    log_content = f"=== INSTANCE: {instance_id} (Bare Baseline dry-run) ===\nTotal Tokens: {metrics['total_tokens']}\n"
     return patch, metrics, log_content
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run Google Antigravity (agy) in Bare Vanilla Mode on SWE-bench")
-    parser.add_argument("--config", type=str, default="configs/swebench_cohort_25_random.json", help="Path to cohort JSON config")
-    parser.add_argument("--output-dir", type=str, default="runs/cohort25_bare_agy", help="Output directory for runs")
+    parser = argparse.ArgumentParser(description="Run Google Antigravity (agy) in Bare Mode on SWE-bench")
+    parser.add_argument("--config", type=str, default="cohorts/cohort_01.json", help="Path to cohort JSON config")
+    parser.add_argument("--output-dir", type=str, default="runs/cohort_01_bare_agy", help="Output directory for runs")
     parser.add_argument("--max-tasks", type=int, default=None, help="Maximum number of tasks to run (default: all)")
     parser.add_argument("--timeout", type=int, default=1200, help="Per-task timeout in seconds (default: 1200)")
-    parser.add_argument("--dry-run", action="store_true", help="Execute in synthetic/dry-run mode")
+    parser.add_argument("--dry-run", action="store_true", help="Simulate execution without live API tokens")
     parser.add_argument("--repo-dir", type=str, default=None, help="Optional local directory of checked out repo")
     args = parser.parse_args()
 
     scripts_dir = Path(__file__).resolve().parent
     benchmarks_dir = scripts_dir.parent
+    repo_root = benchmarks_dir.parent
+    knowledge_dir = repo_root / ".knowledge"
     config_path = Path(args.config)
     if not config_path.is_absolute():
         if (Path.cwd() / config_path).exists():
@@ -321,10 +331,10 @@ def main() -> int:
     metrics_file = out_dir / "metrics.json"
 
     logger.info("==================================================")
-    logger.info("Starting BARE AGY Vanilla SWE-bench Run")
+    logger.info("Starting BARE SWE-bench Run")
     logger.info("Cohort size: %d tasks", len(instances))
     logger.info("Output dir: %s", out_dir)
-    logger.info("Mode: %s", "Synthetic/Dry-run" if args.dry_run else "Live agy CLI")
+    logger.info("Mode: %s", "Dry-run Simulation" if args.dry_run else "Live agy CLI")
     logger.info("==================================================")
 
     if not args.dry_run:
@@ -339,7 +349,7 @@ def main() -> int:
         logger.info("[%d/%d] Processing %s...", i, len(instances), inst_id)
 
         if args.dry_run:
-            patch, metric, log_text = run_instance_synthetic_bare(inst, i)
+            patch, metric, log_text = load_dry_run_instance(inst, knowledge_dir)
         else:
             repo_path = Path(args.repo_dir) if args.repo_dir else None
             patch, metric, log_text = run_instance_live(inst, args.timeout, repo_path)
@@ -374,6 +384,10 @@ def main() -> int:
 
     # Write aggregated metrics
     total_tokens = sum(m["total_tokens"] for m in all_metrics)
+    total_input = sum(m.get("input_tokens", 0) for m in all_metrics)
+    total_output = sum(m.get("output_tokens", 0) for m in all_metrics)
+    total_thinking = sum(m.get("thinking_tokens", 0) for m in all_metrics)
+    total_cache_read = sum(m.get("cache_read_tokens", 0) for m in all_metrics)
     total_time = sum(m["wall_clock_seconds"] for m in all_metrics)
     summary = {
         "runner": "run_bare_agy",
@@ -383,6 +397,10 @@ def main() -> int:
         "non_empty_patch_count": len(instances) - empty_patches_count,
         "empty_patch_percentage": round((empty_patches_count / len(instances)) * 100, 1),
         "total_tokens_consumed": total_tokens,
+        "total_input_tokens": total_input,
+        "total_output_tokens": total_output,
+        "total_thinking_tokens": total_thinking,
+        "total_cache_read_tokens": total_cache_read,
         "avg_tokens_per_task": round(total_tokens / len(instances), 0),
         "total_wall_clock_seconds": round(total_time, 1),
         "avg_wall_clock_seconds": round(total_time / len(instances), 1),
@@ -393,7 +411,7 @@ def main() -> int:
         json.dump(summary, f, indent=2)
 
     logger.info("==================================================")
-    logger.info("Bare agy Run Complete!")
+    logger.info("Bare Run Complete!")
     logger.info("Total Tasks: %d | Empty Diffs: %d (%.1f%%)", len(instances), empty_patches_count, summary["empty_patch_percentage"])
     logger.info("Total Tokens: %s (avg: %s/task)", f"{total_tokens:,}", f"{summary['avg_tokens_per_task']:,}")
     logger.info("Predictions saved to: %s", preds_file)

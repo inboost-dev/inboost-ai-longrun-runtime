@@ -539,7 +539,7 @@ def test_doctor_command_and_agent_detection():
 
 def test_benchmarks_harness_dry_run(tmp_path):
     bare_script = REPO_ROOT / "benchmarks" / "scripts" / "run_bare_agy.py"
-    lr_script = REPO_ROOT / "benchmarks" / "scripts" / "run_inboost_longrun.py"
+    lr_script = REPO_ROOT / "benchmarks" / "scripts" / "run_inboost_longrun_agy.py"
     score_script = REPO_ROOT / "benchmarks" / "scripts" / "compare_and_scorecard.py"
 
     bare_out = tmp_path / "bare_run"

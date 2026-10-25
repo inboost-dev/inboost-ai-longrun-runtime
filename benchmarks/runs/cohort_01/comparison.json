@@ -1,42 +1,140 @@
 {
-  "cohort_size": 1,
+  "cohort_size": 10,
+  "bare_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_01_bare_agy",
+  "longrun_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_01_inboost_longrun",
   "bare_agy": {
-    "resolved": 0,
-    "resolve_rate": 0.0,
-    "empty_patches": 0,
-    "empty_pct": 0.0,
-    "total_tokens": 57100,
-    "avg_tokens": 57100.0,
-    "agent_wall_clock_sec": 40.1,
-    "avg_agent_latency_sec": 40.1,
-    "docker_eval_sec": 0.04,
+    "resolved": 7,
+    "resolve_rate": 70.0,
+    "empty_patches": 1,
+    "empty_pct": 10.0,
+    "total_tokens": 319567,
+    "input_tokens": 213624,
+    "output_tokens": 105943,
+    "thinking_tokens": 1979,
+    "cache_read_tokens": 161971,
+    "avg_tokens": 31957.0,
+    "agent_wall_clock_sec": 3908.6,
+    "avg_agent_latency_sec": 390.9,
+    "docker_eval_sec": 0.0,
     "avg_docker_eval_sec": 0.0,
-    "wall_clock_sec": 40.1,
-    "avg_latency_sec": 40.1
+    "wall_clock_sec": 3908.6,
+    "avg_latency_sec": 390.9
   },
   "inboost_longrun": {
-    "resolved": 1,
-    "resolve_rate": 100.0,
+    "resolved": 9,
+    "resolve_rate": 90.0,
     "empty_patches": 0,
     "empty_pct": 0.0,
-    "total_tokens": 14450,
-    "avg_tokens": 14450.0,
-    "agent_wall_clock_sec": 13.7,
-    "avg_agent_latency_sec": 13.7,
-    "docker_eval_sec": 0.04,
+    "total_tokens": 164648,
+    "input_tokens": 51653,
+    "output_tokens": 112995,
+    "thinking_tokens": 1979,
+    "cache_read_tokens": 161971,
+    "avg_tokens": 16465.0,
+    "agent_wall_clock_sec": 3188.2,
+    "avg_agent_latency_sec": 318.8,
+    "docker_eval_sec": 0.0,
     "avg_docker_eval_sec": 0.0,
-    "wall_clock_sec": 13.7,
-    "avg_latency_sec": 13.7
+    "wall_clock_sec": 3188.2,
+    "avg_latency_sec": 318.8
+  },
+  "bare_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 7,
+    "unresolved_instances": 2,
+    "empty_patch_instances": 1,
+    "apply_error_instances": 0,
+    "resolve_rate": 70.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "astropy__astropy-14508",
+      "django__django-11734",
+      "django__django-13417",
+      "django__django-13741",
+      "django__django-14034",
+      "scikit-learn__scikit-learn-25973",
+      "scikit-learn__scikit-learn-26323"
+    ],
+    "unresolved_ids": [
+      "django__django-11532",
+      "pylint-dev__pylint-7080"
+    ],
+    "empty_patch_ids": [
+      "django__django-12125"
+    ],
+    "apply_error_ids": []
+  },
+  "longrun_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 9,
+    "unresolved_instances": 1,
+    "empty_patch_instances": 0,
+    "apply_error_instances": 0,
+    "resolve_rate": 90.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "astropy__astropy-14508",
+      "django__django-11734",
+      "django__django-12125",
+      "django__django-13417",
+      "django__django-13741",
+      "django__django-14034",
+      "pylint-dev__pylint-7080",
+      "scikit-learn__scikit-learn-25973",
+      "scikit-learn__scikit-learn-26323"
+    ],
+    "unresolved_ids": [
+      "django__django-11532"
+    ],
+    "empty_patch_ids": [],
+    "apply_error_ids": []
   },
   "deltas": {
-    "resolve_delta_pct": 0,
-    "resolve_multiplier": 0,
-    "rescued_empty_patches": 0,
-    "token_savings_pct": 74.7,
-    "wall_clock_speedup_pct": 65.8,
-    "quota_extension_multiplier": 3.95,
+    "resolve_delta_pct": 28.6,
+    "resolve_multiplier": 1.29,
+    "rescued_empty_patches": 1,
+    "token_savings_pct": 48.5,
+    "wall_clock_speedup_pct": 18.4,
+    "quota_extension_multiplier": 1.94,
     "rescued_ids": [
+      "django__django-12125",
       "pylint-dev__pylint-7080"
     ]
+  },
+  "quota_telemetry": {
+    "final": {
+      "Gemini Models: Weekly Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 81.3,
+        "reset_time": "2026-10-31T12:29:56Z",
+        "window": "weekly"
+      },
+      "Gemini Models: Five Hour Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 94.2,
+        "reset_time": "2026-10-25T10:14:53Z",
+        "window": "5h"
+      },
+      "Claude and GPT models: Weekly Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 44.8,
+        "reset_time": "2026-10-26T07:18:31Z",
+        "window": "weekly"
+      },
+      "Claude and GPT models: Five Hour Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 100,
+        "reset_time": "2026-10-25T10:29:42Z",
+        "window": "5h"
+      }
+    }
   }
 }

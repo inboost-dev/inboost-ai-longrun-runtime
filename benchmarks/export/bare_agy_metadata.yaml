@@ -1,0 +1,10 @@
+name: "Google Antigravity (agy) Bare Baseline"
+org: "Google DeepMind"
+site: "https://deepmind.google"
+oss: false
+model: "gemini-3.8-flash-high / gemini-4-argon"
+model_org: "Google DeepMind"
+agent: "Google Antigravity (agy)"
+agent_org: "Google DeepMind"
+system:
+  attempts: 1

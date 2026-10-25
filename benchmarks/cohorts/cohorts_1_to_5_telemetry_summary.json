@@ -1,0 +1,42 @@
+{
+  "cohort_11": {
+    "tasks": 10,
+    "total_input_tokens": 97403,
+    "total_cache_read_tokens": 106859,
+    "total_prompt_context": 204262,
+    "total_output_tokens": 3989,
+    "avg_context_per_task": 20426.2
+  },
+  "cohort_12": {
+    "tasks": 10,
+    "total_input_tokens": 58111,
+    "total_cache_read_tokens": 143835,
+    "total_prompt_context": 201946,
+    "total_output_tokens": 4063,
+    "avg_context_per_task": 20194.6
+  },
+  "cohort_13": {
+    "tasks": 10,
+    "total_input_tokens": 39035,
+    "total_cache_read_tokens": 164267,
+    "total_prompt_context": 203302,
+    "total_output_tokens": 1689,
+    "avg_context_per_task": 20330.2
+  },
+  "cohort_14": {
+    "tasks": 10,
+    "total_input_tokens": 94307,
+    "total_cache_read_tokens": 108625,
+    "total_prompt_context": 202932,
+    "total_output_tokens": 1647,
+    "avg_context_per_task": 20293.2
+  },
+  "cohort_15": {
+    "tasks": 10,
+    "total_input_tokens": 114978,
+    "total_cache_read_tokens": 90330,
+    "total_prompt_context": 205308,
+    "total_output_tokens": 1256,
+    "avg_context_per_task": 20530.8
+  }
+}

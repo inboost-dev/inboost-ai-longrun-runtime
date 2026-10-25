@@ -1,0 +1,139 @@
+{
+  "cohort_size": 10,
+  "bare_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_02_bare_agy",
+  "longrun_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_02_inboost_longrun",
+  "bare_agy": {
+    "resolved": 7,
+    "resolve_rate": 70.0,
+    "empty_patches": 0,
+    "empty_pct": 0.0,
+    "total_tokens": 256132,
+    "input_tokens": 202045,
+    "output_tokens": 54087,
+    "thinking_tokens": 0,
+    "cache_read_tokens": 55086,
+    "avg_tokens": 25613.0,
+    "agent_wall_clock_sec": 1974.9,
+    "avg_agent_latency_sec": 197.5,
+    "docker_eval_sec": 0.0,
+    "avg_docker_eval_sec": 0.0,
+    "wall_clock_sec": 1974.9,
+    "avg_latency_sec": 197.5
+  },
+  "inboost_longrun": {
+    "resolved": 8,
+    "resolve_rate": 80.0,
+    "empty_patches": 0,
+    "empty_pct": 0.0,
+    "total_tokens": 181360,
+    "input_tokens": 146959,
+    "output_tokens": 34401,
+    "thinking_tokens": 0,
+    "cache_read_tokens": 55086,
+    "avg_tokens": 18136.0,
+    "agent_wall_clock_sec": 1282.5,
+    "avg_agent_latency_sec": 128.2,
+    "docker_eval_sec": 0.0,
+    "avg_docker_eval_sec": 0.0,
+    "wall_clock_sec": 1282.5,
+    "avg_latency_sec": 128.2
+  },
+  "bare_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 7,
+    "unresolved_instances": 2,
+    "empty_patch_instances": 0,
+    "apply_error_instances": 1,
+    "resolve_rate": 70.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "django__django-11099",
+      "django__django-11163",
+      "django__django-11292",
+      "mwaskom__seaborn-3069",
+      "pallets__flask-5014",
+      "scikit-learn__scikit-learn-10908",
+      "sphinx-doc__sphinx-10323"
+    ],
+    "unresolved_ids": [
+      "django__django-11400",
+      "sympy__sympy-15599"
+    ],
+    "empty_patch_ids": [],
+    "apply_error_ids": [
+      "sympy__sympy-12481"
+    ]
+  },
+  "longrun_eval": {
+    "total_instances": 10,
+    "submitted_instances": 10,
+    "completed_instances": 10,
+    "resolved_instances": 8,
+    "unresolved_instances": 2,
+    "empty_patch_instances": 0,
+    "apply_error_instances": 0,
+    "resolve_rate": 80.0,
+    "evaluation_engine": "Official SWE-bench Docker Engine",
+    "resolved_ids": [
+      "django__django-11099",
+      "django__django-11163",
+      "django__django-11292",
+      "mwaskom__seaborn-3069",
+      "pallets__flask-5014",
+      "scikit-learn__scikit-learn-10908",
+      "sphinx-doc__sphinx-10323",
+      "sympy__sympy-12481"
+    ],
+    "unresolved_ids": [
+      "django__django-11400",
+      "sympy__sympy-15599"
+    ],
+    "empty_patch_ids": [],
+    "apply_error_ids": []
+  },
+  "deltas": {
+    "resolve_delta_pct": 14.3,
+    "resolve_multiplier": 1.14,
+    "rescued_empty_patches": 0,
+    "token_savings_pct": 29.2,
+    "wall_clock_speedup_pct": 35.1,
+    "quota_extension_multiplier": 1.41,
+    "rescued_ids": [
+      "sympy__sympy-12481"
+    ]
+  },
+  "quota_telemetry": {
+    "final": {
+      "Gemini Models: Weekly Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 81.3,
+        "reset_time": "2026-10-31T12:29:56Z",
+        "window": "weekly"
+      },
+      "Gemini Models: Five Hour Limit Remaining": {
+        "group": "Gemini Models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 94.2,
+        "reset_time": "2026-10-25T10:14:53Z",
+        "window": "5h"
+      },
+      "Claude and GPT models: Weekly Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Weekly Limit Remaining",
+        "remaining_pct": 44.8,
+        "reset_time": "2026-10-26T07:18:31Z",
+        "window": "weekly"
+      },
+      "Claude and GPT models: Five Hour Limit Remaining": {
+        "group": "Claude and GPT models",
+        "name": "Five Hour Limit Remaining",
+        "remaining_pct": 100,
+        "reset_time": "2026-10-25T10:29:45Z",
+        "window": "5h"
+      }
+    }
+  }
+}

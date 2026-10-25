@@ -10,6 +10,9 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 echo "=== Running InBoost LongRun Smoke Tests ==="
 
+# Ensure binaries have execution permissions
+chmod +x "${REPO_ROOT}/bin/inboost-longrun"* 2>/dev/null || true
+
 # 1. Direct binary tests
 echo -n "Checking binary version: "
 "${REPO_ROOT}/bin/inboost-longrun" version >/dev/null 2>&1 && echo "PASS" || (echo "FAIL"; exit 1)

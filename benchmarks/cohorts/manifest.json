@@ -43,8 +43,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_02/SCORECARD.md"
     },
     {
       "cohort_id": 3,
@@ -64,8 +64,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_03/SCORECARD.md"
     },
     {
       "cohort_id": 4,
@@ -85,8 +85,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_04/SCORECARD.md"
     },
     {
       "cohort_id": 5,
@@ -106,8 +106,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_05/SCORECARD.md"
     },
     {
       "cohort_id": 6,
@@ -127,8 +127,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_06/SCORECARD.md"
     },
     {
       "cohort_id": 7,
@@ -148,8 +148,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_07/SCORECARD.md"
     },
     {
       "cohort_id": 8,
@@ -169,8 +169,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_08/SCORECARD.md"
     },
     {
       "cohort_id": 9,
@@ -190,8 +190,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_09/SCORECARD.md"
     },
     {
       "cohort_id": 10,
@@ -211,8 +211,8 @@
         "pydata/xarray": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "benchmarks/runs/cohort_10/SCORECARD.md"
     },
     {
       "cohort_id": 11,
@@ -232,8 +232,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_11/SCORECARD.md"
     },
     {
       "cohort_id": 12,
@@ -253,8 +253,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_12/SCORECARD.md"
     },
     {
       "cohort_id": 13,
@@ -274,8 +274,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_13/SCORECARD.md"
     },
     {
       "cohort_id": 14,
@@ -295,8 +295,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_14/SCORECARD.md"
     },
     {
       "cohort_id": 15,
@@ -316,8 +316,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_15/SCORECARD.md"
     },
     {
       "cohort_id": 16,
@@ -338,8 +338,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_16/SCORECARD.md"
     },
     {
       "cohort_id": 17,
@@ -360,8 +360,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_17/SCORECARD.md"
     },
     {
       "cohort_id": 18,
@@ -382,8 +382,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_18/SCORECARD.md"
     },
     {
       "cohort_id": 19,
@@ -404,8 +404,8 @@
         "pylint-dev/pylint": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_19/SCORECARD.md"
     },
     {
       "cohort_id": 20,
@@ -426,8 +426,8 @@
         "pytest-dev/pytest": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_20/SCORECARD.md"
     },
     {
       "cohort_id": 21,
@@ -447,8 +447,8 @@
         "pydata/xarray": 1,
         "pytest-dev/pytest": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_21/SCORECARD.md"
     },
     {
       "cohort_id": 22,
@@ -468,8 +468,8 @@
         "pydata/xarray": 1,
         "pytest-dev/pytest": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_22/SCORECARD.md"
     },
     {
       "cohort_id": 23,
@@ -489,8 +489,8 @@
         "pytest-dev/pytest": 1,
         "scikit-learn/scikit-learn": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_23/SCORECARD.md"
     },
     {
       "cohort_id": 24,
@@ -510,8 +510,8 @@
         "pytest-dev/pytest": 1,
         "scikit-learn/scikit-learn": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_24/SCORECARD.md"
     },
     {
       "cohort_id": 25,
@@ -531,8 +531,8 @@
         "pytest-dev/pytest": 1,
         "scikit-learn/scikit-learn": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_25/SCORECARD.md"
     },
     {
       "cohort_id": 26,
@@ -552,8 +552,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_26/SCORECARD.md"
     },
     {
       "cohort_id": 27,
@@ -573,8 +573,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_27/SCORECARD.md"
     },
     {
       "cohort_id": 28,
@@ -594,8 +594,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_28/SCORECARD.md"
     },
     {
       "cohort_id": 29,
@@ -615,8 +615,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_29/SCORECARD.md"
     },
     {
       "cohort_id": 30,
@@ -636,8 +636,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_30/SCORECARD.md"
     },
     {
       "cohort_id": 31,
@@ -657,8 +657,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_31/SCORECARD.md"
     },
     {
       "cohort_id": 32,
@@ -678,8 +678,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_32/SCORECARD.md"
     },
     {
       "cohort_id": 33,
@@ -699,8 +699,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_33/SCORECARD.md"
     },
     {
       "cohort_id": 34,
@@ -720,8 +720,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_34/SCORECARD.md"
     },
     {
       "cohort_id": 35,
@@ -741,8 +741,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_35/SCORECARD.md"
     },
     {
       "cohort_id": 36,
@@ -762,8 +762,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_36/SCORECARD.md"
     },
     {
       "cohort_id": 37,
@@ -783,8 +783,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_37/SCORECARD.md"
     },
     {
       "cohort_id": 38,
@@ -803,8 +803,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_38/SCORECARD.md"
     },
     {
       "cohort_id": 39,
@@ -823,8 +823,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_39/SCORECARD.md"
     },
     {
       "cohort_id": 40,
@@ -843,8 +843,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_40/SCORECARD.md"
     },
     {
       "cohort_id": 41,
@@ -863,8 +863,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_41/SCORECARD.md"
     },
     {
       "cohort_id": 42,
@@ -883,8 +883,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_42/SCORECARD.md"
     },
     {
       "cohort_id": 43,
@@ -903,8 +903,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_43/SCORECARD.md"
     },
     {
       "cohort_id": 44,
@@ -923,8 +923,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_44/SCORECARD.md"
     },
     {
       "cohort_id": 45,
@@ -944,8 +944,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_45/SCORECARD.md"
     },
     {
       "cohort_id": 46,
@@ -965,8 +965,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_46/SCORECARD.md"
     },
     {
       "cohort_id": 47,
@@ -985,8 +985,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_47/SCORECARD.md"
     },
     {
       "cohort_id": 48,
@@ -1005,8 +1005,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_48/SCORECARD.md"
     },
     {
       "cohort_id": 49,
@@ -1025,8 +1025,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_49/SCORECARD.md"
     },
     {
       "cohort_id": 50,
@@ -1045,8 +1045,8 @@
         "scikit-learn/scikit-learn": 1,
         "sphinx-doc/sphinx": 1
       },
-      "status": "PENDING",
-      "scorecard": null
+      "status": "COMPLETED",
+      "scorecard": "runs/cohort_50/SCORECARD.md"
     }
   ]
 }

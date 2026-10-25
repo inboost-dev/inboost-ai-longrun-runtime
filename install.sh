@@ -266,7 +266,7 @@ echo -e "${COLOR_GREEN}========================================================$
 echo -e "Binary path:   ${COLOR_BOLD}${TARGET_BIN}${COLOR_RESET}"
 echo -e "License path:  ${COLOR_BOLD}${INBOOST_HOME}/inboost.lic${COLOR_RESET}"
 echo -e "Offload Tools: ${COLOR_GREEN}find, grep, diff, patch, git, python3 (Ready)${COLOR_RESET}"
-echo -e "Privacy:       ${COLOR_GREEN}InBoost LongRun выполняется локально и не передает код вовне.${COLOR_RESET}"
+echo -e "Privacy:       ${COLOR_GREEN}InBoost LongRun runs locally on CPU and never transmits code externally.${COLOR_RESET}"
 echo ""
 echo -e "To integrate with your AI agent:"
 echo -e "  • Claude Code:  claude mcp add inboost-longrun -- inboost-longrun serve"

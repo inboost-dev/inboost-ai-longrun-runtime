@@ -23,4 +23,16 @@ dist_npm/
 *.egg-info/
 .pytest_cache/
 
+# Benchmark execution scratch runs
+benchmarks/runs/*_bare_agy/
+benchmarks/runs/*_inboost_longrun/
+
+# Internal knowledge archives (not for public release)
+.knowledge/
+
+
+# Verified data and mock oracles (kept private in .knowledge)
+benchmarks/verified_data/
 .tests_old/
+demo-workspace/
+

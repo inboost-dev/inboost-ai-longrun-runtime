@@ -1,0 +1,62 @@
+{
+  "initial": {
+    "Gemini Models: Weekly Limit Remaining": {
+      "group": "Gemini Models",
+      "name": "Weekly Limit Remaining",
+      "remaining_pct": 10.9,
+      "reset_time": "2026-10-24T12:29:56Z",
+      "window": "weekly"
+    },
+    "Gemini Models: Five Hour Limit Remaining": {
+      "group": "Gemini Models",
+      "name": "Five Hour Limit Remaining",
+      "remaining_pct": 72.3,
+      "reset_time": "2026-10-19T07:47:58Z",
+      "window": "5h"
+    },
+    "Claude and GPT models: Weekly Limit Remaining": {
+      "group": "Claude and GPT models",
+      "name": "Weekly Limit Remaining",
+      "remaining_pct": 100,
+      "reset_time": "2026-10-26T04:36:44Z",
+      "window": "weekly"
+    },
+    "Claude and GPT models: Five Hour Limit Remaining": {
+      "group": "Claude and GPT models",
+      "name": "Five Hour Limit Remaining",
+      "remaining_pct": 100,
+      "reset_time": "2026-10-19T09:36:44Z",
+      "window": "5h"
+    }
+  },
+  "final": {
+    "Gemini Models: Weekly Limit Remaining": {
+      "group": "Gemini Models",
+      "name": "Weekly Limit Remaining",
+      "remaining_pct": 10.7,
+      "reset_time": "2026-10-24T12:29:56Z",
+      "window": "weekly"
+    },
+    "Gemini Models: Five Hour Limit Remaining": {
+      "group": "Gemini Models",
+      "name": "Five Hour Limit Remaining",
+      "remaining_pct": 71.6,
+      "reset_time": "2026-10-19T07:47:58Z",
+      "window": "5h"
+    },
+    "Claude and GPT models: Weekly Limit Remaining": {
+      "group": "Claude and GPT models",
+      "name": "Weekly Limit Remaining",
+      "remaining_pct": 100,
+      "reset_time": "2026-10-26T04:38:22Z",
+      "window": "weekly"
+    },
+    "Claude and GPT models: Five Hour Limit Remaining": {
+      "group": "Claude and GPT models",
+      "name": "Five Hour Limit Remaining",
+      "remaining_pct": 100,
+      "reset_time": "2026-10-19T09:38:22Z",
+      "window": "5h"
+    }
+  }
+}

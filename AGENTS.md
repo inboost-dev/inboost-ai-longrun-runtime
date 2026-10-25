@@ -15,6 +15,6 @@
 
 ## 2. Invariants
 1. **Zero Proprietary Source Exposure:** Do not commit proprietary engine source code or private signing keys into this repository.
-2. **Privacy Guarantees:** Preserve the core privacy commitment: *"InBoost LongRun выполняется локально и не передает код вовне."*
+2. **Privacy Guarantees:** Preserve the core privacy commitment: *"InBoost LongRun runs locally on CPU and never transmits code externally."*
 3. **Commit Sign-Off:** Always sign off all commits using `git commit -s`.
 4. **Platform Parity:** Ensure installer scripts maintain parity across Linux, macOS, and Windows.

@@ -1,0 +1,10 @@
+{
+  "cohort_31": {
+    "tasks": 10,
+    "total_input_tokens": 89164,
+    "total_cache_read_tokens": 101139,
+    "total_prompt_context": 190303,
+    "total_output_tokens": 1012,
+    "avg_context_per_task": 19030.3
+  }
+}

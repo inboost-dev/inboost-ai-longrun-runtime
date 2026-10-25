@@ -1,0 +1,11 @@
+name: "Google Antigravity (agy) + InBoost LongRun"
+org: "InBoost"
+site: "https://inboost.pro"
+oss: false
+model: "gemini-3.8-flash-high / gemini-4-argon"
+model_org: "Google DeepMind"
+agent: "Google Antigravity (agy) + InBoost LongRun L0 Offload Engine"
+agent_org: "InBoost & Google DeepMind"
+system:
+  attempts: 1
+info: "https://inboost.pro"
