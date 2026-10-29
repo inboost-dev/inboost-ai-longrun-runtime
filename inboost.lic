@@ -10,8 +10,8 @@
       "l0_view_outline"
     ],
     "tier": "enterprise_pilot",
-    "valid_from": "2026-10-11T00:00:00Z",
-    "valid_until": "2026-11-11T23:59:59Z"
+    "valid_from": "2026-10-29T00:00:00Z",
+    "valid_until": "2027-01-27T23:59:59Z"
   },
-  "signature": "/ZPIbL7XcHeLn/c1Uutbh6aTPHGTP8fkkoB+gS03XhmQgNQL1lFzHly0KYA8t7tHNq7+VOKapa6YFY3sH4BfAw=="
+  "signature": "AwGHtPToUu6LY6QRsQHGnRkxJqKjgkJ3OwKSdvhGNG9OdFQ2GBhd6quvct78rKIN6rZfY4B9bPll8piomUzrDw=="
 }

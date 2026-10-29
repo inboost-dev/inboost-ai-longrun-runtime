@@ -13,7 +13,7 @@ COLOR_YELLOW="\033[1;33m"
 COLOR_RED="\033[1;31m"
 COLOR_BOLD="\033[1m"
 
-VERSION="${INBOOST_LONGRUN_VERSION:-0.3.0-eval}"
+VERSION="${INBOOST_LONGRUN_VERSION:-0.4.0}"
 GITHUB_REPO="inboost-dev/inboost-ai-longrun-runtime"
 
 echo -e "${COLOR_CYAN}┌────────────────────────────────────────────────────────┐${COLOR_RESET}"
@@ -208,6 +208,37 @@ if [ -z "$SOURCE_BIN" ]; then
   else
     echo -e "${COLOR_RED}Error: Neither curl nor wget was found.${COLOR_RESET}"
     exit 1
+  fi
+
+  # Supply chain security: Verify SHA-256 checksum
+  SUMS_URL="https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/SHA256SUMS"
+  SUMS_PATH="${TMP_DIR}/SHA256SUMS"
+  echo -e "Verifying SHA-256 checksum..."
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "$SUMS_URL" -o "$SUMS_PATH" 2>/dev/null || true
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q "$SUMS_URL" -O "$SUMS_PATH" 2>/dev/null || true
+  fi
+
+  if [ -f "$SUMS_PATH" ]; then
+    EXPECTED_HASH="$(grep "${ARCHIVE_NAME}" "$SUMS_PATH" | awk '{print $1}' || echo "")"
+    if [ -n "$EXPECTED_HASH" ]; then
+      if command -v sha256sum >/dev/null 2>&1; then
+        ACTUAL_HASH="$(sha256sum "$ARCHIVE_PATH" | awk '{print $1}')"
+      elif command -v shasum >/dev/null 2>&1; then
+        ACTUAL_HASH="$(shasum -a 256 "$ARCHIVE_PATH" | awk '{print $1}')"
+      else
+        ACTUAL_HASH="$(python3 -c "import hashlib; print(hashlib.sha256(open('$ARCHIVE_PATH','rb').read()).hexdigest())")"
+      fi
+
+      if [ "$EXPECTED_HASH" != "$ACTUAL_HASH" ]; then
+        echo -e "${COLOR_RED}Security Error: SHA-256 checksum verification failed!${COLOR_RESET}"
+        echo -e "Expected: ${EXPECTED_HASH}"
+        echo -e "Got:      ${ACTUAL_HASH}"
+        exit 1
+      fi
+      echo -e "  [${COLOR_GREEN}✓${COLOR_RESET}] SHA-256 verified: ${EXPECTED_HASH:0:16}..."
+    fi
   fi
 
   tar -xzf "$ARCHIVE_PATH" -C "$TMP_DIR"

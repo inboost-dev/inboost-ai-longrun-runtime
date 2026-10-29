@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host "    InBoost LongRun Evaluation Runtime Installer (Windows)  " -ForegroundColor Cyan
-Write-Host "    Privacy: InBoost LongRun выполняется локально           " -ForegroundColor Cyan
+Write-Host "    Privacy: 100% Local Execution                      " -ForegroundColor Cyan
 Write-Host "============================================================" -ForegroundColor Cyan
 
 # 1. Pre-flight dependency check for Local Offload
@@ -155,13 +155,40 @@ if (Test-Path $SourceCandidate) {
 } else {
     Write-Host "Downloading inboost-longrun-windows-x86_64.zip..." -ForegroundColor Yellow
     $TempZip = Join-Path $env:TEMP "inboost-longrun-windows.zip"
+    $TempSums = Join-Path $env:TEMP "inboost-SHA256SUMS"
     $TempExtract = Join-Path $env:TEMP "inboost-extract"
-    $DownloadUrl = "https://github.com/inboost-dev/inboost-longrun/releases/latest/download/inboost-longrun-windows-x86_64.zip"
+    $ArchiveName = "inboost-longrun-windows-x86_64.zip"
+    $DownloadUrl = "https://github.com/inboost-dev/inboost-ai-longrun-runtime/releases/latest/download/$ArchiveName"
+    $SumsUrl = "https://github.com/inboost-dev/inboost-ai-longrun-runtime/releases/latest/download/SHA256SUMS"
 
     Invoke-WebRequest -Uri $DownloadUrl -OutFile $TempZip
+
+    # Verify SHA-256 Checksum
+    try {
+        Invoke-WebRequest -Uri $SumsUrl -OutFile $TempSums -ErrorAction SilentlyContinue
+        if (Test-Path $TempSums) {
+            $SumsContent = Get-Content $TempSums
+            $ExpectedLine = $SumsContent | Where-Object { $_ -match $ArchiveName }
+            if ($ExpectedLine) {
+                $ExpectedHash = ($ExpectedLine -split '\s+')[0].Trim().ToLower()
+                $ActualHash = (Get-FileHash -Path $TempZip -Algorithm SHA256).Hash.ToLower()
+                if ($ExpectedHash -ne $ActualHash) {
+                    Write-Host "Security Error: SHA-256 verification failed!" -ForegroundColor Red
+                    Write-Host "Expected: $ExpectedHash" -ForegroundColor Red
+                    Write-Host "Actual:   $ActualHash" -ForegroundColor Red
+                    Remove-Item -Path $TempZip, $TempSums -Force -ErrorAction SilentlyContinue
+                    exit 1
+                }
+                Write-Host "  [✓] SHA-256 checksum verified successfully." -ForegroundColor Green
+            }
+        }
+    } catch {
+        Write-Host "  [○] Warning: SHA256SUMS unavailable, skipping hash check." -ForegroundColor Yellow
+    }
+
     Expand-Archive -Path $TempZip -DestinationPath $TempExtract -Force
     Copy-Item -Path (Join-Path $TempExtract "inboost-longrun.exe") -Destination $TargetBin -Force
-    Remove-Item -Path $TempZip, $TempExtract -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $TempZip, $TempSums, $TempExtract -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 # License installation
@@ -186,7 +213,7 @@ Write-Host "`nVerifying inboost-longrun installation:" -ForegroundColor Cyan
 Write-Host "`nInstallation successful!" -ForegroundColor Green
 Write-Host "Binary:  $TargetBin"
 Write-Host "License: $TargetLic"
-Write-Host "Privacy: InBoost LongRun выполняется локально и не передает код вовне." -ForegroundColor Green
+Write-Host "Privacy: InBoost LongRun runs locally on CPU and never transmits code externally." -ForegroundColor Green
 Write-Host "`nAI Agent Integration:"
 Write-Host "  Cursor:       Add inboost-longrun to .cursor/mcp.json"
 Write-Host "  Claude Code:  claude mcp add inboost-longrun -- inboost-longrun serve"

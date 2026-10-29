@@ -1,7 +1,7 @@
 {
   "cohort_size": 10,
-  "bare_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_08_bare_agy",
-  "longrun_dir": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_08_inboost_longrun",
+  "bare_dir": "benchmarks/runs/cohort_08_bare_agy",
+  "longrun_dir": "benchmarks/runs/cohort_08_inboost_longrun",
   "bare_agy": {
     "resolved": 7,
     "resolve_rate": 70.0,

@@ -1,130 +1,116 @@
 # INBOOST AI LONGRUN EVALUATION & PILOT LICENSE AGREEMENT
-# СОГЛАШЕНИЕ ОБ ОЗНАКОМИТЕЛЬНОЙ ЛИЦЕНЗИИ И ПИЛОТНОМ ТЕСТИРОВАНИИ ПО INBOOST AI LONGRUN
 
-**Version / Версия:** 1.0  
-**Effective Date / Дата вступления в силу:** October 11, 2026 / 11 октября 2026 г.  
-**Classification / Статус:** Proprietary & Confidential / Конфиденциально и для служебного пользования  
+**Version:** 1.1  
+**Effective Date:** October 29, 2026  
+**Classification:** Proprietary Evaluation License  
 
 ---
 
 ### IMPORTANT NOTICE — READ CAREFULLY BEFORE DOWNLOADING, INSTALLING, OR USING:
-This Evaluation & Pilot License Agreement ("**Agreement**") is a legally binding agreement between **InBoost Technologies / InBoost Team** ("**Licensor**", "**InBoost**") and the individual or legal entity downloading, installing, evaluating, or executing the software ("**Licensee**", "**Evaluator**", or "**You**"). 
+This Evaluation & Pilot License Agreement ("**Agreement**") is a legally binding agreement between **InBoost Technologies / InBoost Team** ("**Licensor**", "**InBoost**") and the individual or legal entity downloading, installing, evaluating, or executing the software ("**Licensee**", "**Evaluator**", or "**You**").
 
 BY DOWNLOADING, EXTRACTING, INSTALLING, EXECUTING, REGISTERING AS AN MCP SERVER, OR OTHERWISE USING THE INBOOST AI LONGRUN SOFTWARE (INCLUDING ANY BINARIES, SCRIPTS, LIBRARIES, CRYPTOGRAPHIC LICENSE KEYS, MCP SCHEMAS, SYSTEM RULES, AND ASSOCIATED DOCUMENTATION, COLLECTIVELY THE "**SOFTWARE**"), YOU EXPRESSLY AGREE TO BE BOUND BY ALL TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE WITH ALL PROVISIONS OF THIS AGREEMENT, YOU ARE STRICTLY PROHIBITED FROM INSTALLING, ACCESSING, OR USING THE SOFTWARE, AND YOU MUST IMMEDIATELY DELETE AND DESTROY ALL COPIES IN YOUR POSSESSION.
 
-### ВАЖНОЕ УВЕДОМЛЕНИЕ — ВНИМАТЕЛЬНО ПРОЧТИТЕ ПЕРЕД СКАЧИВАНИЕМ, УСТАНОВКОЙ ИЛИ ИСПОЛЬЗОВАНИЕМ:
-Настоящее Соглашение об ознакомительной лицензии и пилотном тестировании («**Соглашение**») является юридически обязывающим договором между **InBoost Technologies / InBoost Team** («**Лицензиар**», «**InBoost**») и физическим или юридическим лицом, осуществляющим скачивание, установку, оценку или запуск программного обеспечения («**Лицензиат**», «**Тестировщик**» или «**Вы**»).
+---
 
-СКАЧИВАЯ, РАСПАКОВЫВАЯ, УСТАНАВЛИВАЯ, ЗАПУСКАЯ, РЕГИСТРИРУЯ В КАЧЕСТВЕ MCP-СЕРВЕРА ИЛИ ИНЫМ ОБРАЗОМ ИСПОЛЬЗУЯ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ INBOOST AI LONGRUN (ВКЛЮЧАЯ ЛЮБЫЕ БИНАРНЫЕ ФАЙЛЫ, СКРИПТЫ, БИБЛИОТЕКИ, КРИПТОГРАФИЧЕСКИЕ КЛЮЧИ ЛИЦЕНЗИИ, MCP-СХЕМЫ, ПРАВИЛА И СОПУТСТВУЮЩУЮ ДОКУМЕНТАЦИЮ, СОВМЕСТНО ИМЕНУЕМЫЕ «**ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ**»), ВЫ БЕЗОГОВОРОЧНО СОГЛАШАЕТЕСЬ С УСЛОВИЯМИ НАСТОЯЩЕГО СОГЛАШЕНИЯ. ЕСЛИ ВЫ НЕ СОГЛАСНЫ С КАКИМ-ЛИБО ИЗ ПОЛОЖЕНИЙ, ВЫ НЕ ИМЕЕТЕ ПРАВА УСТАНАВЛИВАТЬ ИЛИ ИСПОЛЬЗОВАТЬ ДАННОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ И ОБЯЗАНЫ НЕМЕДЛЕННО УДАЛИТЬ И УНИЧТОЖИТЬ ВСЕ ЕГО КОПИИ.
+## 1. GRANT OF EVALUATION LICENSE
+
+**1.1. Limited Evaluation License.** Subject to the terms and restrictions of this Agreement, Licensor hereby grants Licensee a temporary, revocable, non-exclusive, non-transferable, non-assignable, and fully paid-up license (for the Evaluation Period only), without the right to sublicense, to install and execute the compiled binary form of the Software solely on computers owned or controlled by Licensee, strictly for the purpose of internal evaluation, feasibility testing, and integration verification with authorized AI coding assistants ("**Permitted Purpose**").
+
+**1.2. Scope Limitation.** The Software is licensed solely for the Evaluation Period defined in Section 3 and is cryptographically gated via the `inboost.lic` license envelope. No commercial production deployment, software-as-a-service (SaaS) hosting, or external unauthorized redistribution is licensed hereunder.
 
 ---
 
-## 1. GRANT OF EVALUATION LICENSE / ПРЕДОСТАВЛЕНИЕ ОЗНАКОМИТЕЛЬНОЙ ЛИЦЕНЗИИ
+## 2. PROPRIETARY RIGHTS & RESTRICTIONS
 
-| English | Русский |
-| :--- | :--- |
-| **1.1. Limited Evaluation License.** Subject to the strict terms and restrictions of this Agreement, Licensor hereby grants Licensee a temporary, revocable, non-exclusive, non-transferable, non-assignable, and fully paid-up (for the Evaluation Period only) license, without the right to sublicense, to install and execute the compiled binary form of the Software solely on computers owned or controlled by Licensee, strictly for the purpose of internal evaluation, feasibility testing, and integration verification with authorized AI coding assistants ("**Permitted Purpose**"). | **1.1. Ограниченная ознакомительная лицензия.** При условии строгого соблюдения настоящего Соглашения Лицензиар предоставляет Лицензиату временную, отзывную, неисключительную, непередаваемую (исключительно на Срок тестирования) лицензию без права сублицензирования на установку и запуск скомпилированной версии Программного обеспечения исключительно на компьютерах Лицензиата в целях внутреннего ознакомления, функционального тестирования и проверки интеграции с авторизованными ИИ-ассистентами («**Разрешенная цель**»). |
-| **1.2. Scope Limitation.** The Software is licensed solely for the Evaluation Period defined in Section 3 and is cryptographically gated via the `inboost.lic` license envelope. No commercial deployment, production use, software-as-a-service (SaaS) distribution, or external redistribution is licensed hereunder. | **1.2. Ограничение объема прав.** Лицензия действует исключительно в течение Срока тестирования (Раздел 3) и аппаратно/криптографически ограничена файлом лицензии `inboost.lic`. Коммерческое внедрение, промышленная эксплуатация, предоставление по модели SaaS или внешнее распространение категорически запрещены. |
+**2.1. Intellectual Property Ownership.** The Software contains valuable trade secrets, proprietary algorithms, and patent-pending technologies of InBoost. Licensor retains all worldwide right, title, copyright, patent, trademark, and proprietary interest in and to the Software, including all updates, derivatives, fixes, and modifications. Licensee obtains no title or ownership rights whatsoever.
 
----
-
-## 2. PROPRIETARY RIGHTS & RESTRICTIONS / ПРАВА СОБСТВЕННОСТИ И ОГРАНИЧЕНИЯ
-
-| English | Русский |
-| :--- | :--- |
-| **2.1. Intellectual Property Ownership.** The Software contains valuable trade secrets, proprietary algorithms, and patented or patent-pending technologies of InBoost. Licensor retains all worldwide right, title, copyright, patent, trademark, and proprietary interest in and to the Software, including all updates, derivatives, fixes, and modifications. Licensee obtains no title or ownership rights whatsoever. | **2.1. Интеллектуальная собственность.** Программное обеспечение содержит коммерческую тайну, ноу-хау и патентуемые технологии InBoost. Все исключительные права, авторские права, патенты и товарные знаки сохраняются за Лицензиаром. Лицензиат не приобретает никаких прав собственности на Программное обеспечение. |
-| **2.2. Prohibited Conduct.** Licensee shall not, and shall not permit or assist any third party to: | **2.2. Запрещенные действия.** Лицензиат обязуется не совершать и не допускать со стороны третьих лиц следующих действий: |
-| (a) Reverse engineer, decompile, disassemble, trace, decrypt, modify, or attempt to derive the source code, internal heuristics, or algorithmic architecture of the Software or any portion thereof; | (a) Декомпилировать, дизассемблировать, дешифровать, трассировать, модифицировать или пытаться восстановить исходный код, скрытые эвристики или архитектуру Программного обеспечения; |
-| (b) Bypass, defeat, disable, alter, or circumvent any cryptographic license checks, Ed25519 signatures, expiration dates, rate limits, or security controls of the Software; | (b) Обходить, взламывать, изменять или нейтрализовать криптографические проверки лицензий, подписи Ed25519, сроки действия, лимиты или защитные барьеры; |
-| (c) Distribute, lease, rent, sublicense, assign, sell, host, mirror, timeshare, or transfer the Software, license keys, or credentials to any third party; | (c) Распространять, сдавать в аренду, сублицензировать, продавать, размещать на публичных серверах или передавать третьим лицам Программное обеспечение или ключи лицензии; |
-| (d) Use the Software to develop, train, validate, or benchmark a competing product, service, proxy, router, or prompt optimization technology. | (d) Использовать Программное обеспечение для разработки, обучения моделей, валидации или тестирования конкурирующих продуктов, прокси или систем оптимизации контекста. |
+**2.2. Prohibited Conduct.** Licensee shall not, and shall not permit or assist any third party to:
+(a) Reverse engineer, decompile, disassemble, trace, decrypt, modify, or attempt to derive the source code, internal heuristics, or algorithmic architecture of the Software or any portion thereof;
+(b) Bypass, defeat, disable, alter, or circumvent any cryptographic license checks, Ed25519 signatures, expiration dates, rate limits, or security controls of the Software;
+(c) Distribute, lease, rent, sublicense, assign, sell, host, mirror, timeshare, or transfer the Software, license keys, or credentials to any third party;
+(d) Use the Software to maliciously attack, compromise, or disrupt third-party infrastructure.
 
 ---
 
-## 3. EVALUATION PERIOD & MANDATORY POST-EVALUATION CESSATION / СРОК ТЕСТИРОВАНИЯ И ОБЯЗАТЕЛЬНОЕ ПРЕКРАЩЕНИЕ ИСПОЛЬЗОВАНИЯ
+## 3. EVALUATION PERIOD & CESSATION OF USE
 
-| English | Русский |
-| :--- | :--- |
-| **3.1. Term.** This Agreement and the license granted herein shall commence upon download or installation and shall continue strictly for the duration specified in the cryptographic license key (`inboost.lic`), not to exceed thirty (30) calendar days from issuance ("**Evaluation Period**"), unless terminated earlier by Licensor. Licensor reserves the absolute right to revoke, suspend, or terminate this Agreement at any time, with or without cause, upon written or electronic notice to Licensee. | **3.1. Срок действия.** Настоящее Соглашение и лицензия вступают в силу в момент скачивания или установки и действуют строго в течение периода, указанного в криптографическом ключе (`inboost.lic`), но не более 30 (тридцати) календарных дней с момента выдачи («**Срок тестирования**»), если действие не прекращено Лицензиаром досрочно. Лицензиар оставляет за собой безусловное право прекратить действие Соглашения в любой момент по своему усмотрению. |
-| **3.2. Mandatory Cessation of Use.** Immediately upon expiration of the Evaluation Period, or upon any earlier termination or revocation of this Agreement: | **3.2. Обязательное прекращение использования.** Немедленно по истечении Срока тестирования либо при досрочном расторжении или отзыве лицензии Лицензиат обязан: |
-| (a) Licensee shall immediately and permanently cease all access, execution, and utilization of the Software; | (a) Немедленно и полностью прекратить любой доступ, запуск и эксплуатацию Программного обеспечения; |
-| (b) Licensee shall irrevocably delete, uninstall, purge, and destroy all copies of the Software (including all binary executables across Linux, macOS, and Windows environments, license files `inboost.lic`, configuration rules, system prompts, scripts, cache artifacts, and documentation) from all computers, servers, storage volumes, virtual machines, containers, and backups; | (b) Безвозвратно удалить, деинсталлировать и уничтожить все копии Программного обеспечения (включая исполняемые бинарники под Linux, macOS, Windows, файлы лицензий `inboost.lic`, конфигурации, системные правила, скрипты и документацию) со всех компьютеров, серверов, виртуальных машин и резервных копий; |
-| (c) Upon Licensor's request, an authorized officer of Licensee shall certify in writing under penalty of perjury that all copies of the Software and derived configuration files have been permanently destroyed. | (c) По первому требованию Лицензиара предоставить письменное подтверждение за подписью уполномоченного лица о полном уничтожении всех копий Программного обеспечения. |
-| **3.3. Survival.** Sections 2, 3.2, 4, 5, 6, 7, 8, 9, and 10 shall survive any expiration or termination of this Agreement indefinitely. | **3.3. Сохранение силы положений.** Разделы 2, 3.2, 4, 5, 6, 7, 8, 9 и 10 сохраняют юридическую силу бессрочно после прекращения действия Соглашения. |
+**3.1. Term.** This Agreement and the license granted herein shall commence upon download or installation and shall continue strictly for the duration specified in the cryptographic license key (`inboost.lic`), not to exceed ninety (90) calendar days from issuance ("**Evaluation Period**"), unless extended or terminated earlier in writing by Licensor. Licensor reserves the right to terminate this Agreement upon written notice to Licensee if Licensee breaches any material provision of this Agreement.
 
----
+**3.2. Cessation of Use.** Upon expiration of the Evaluation Period or upon earlier termination of this Agreement:
+(a) Licensee shall promptly cease all access, execution, and utilization of the Software;
+(b) Licensee shall uninstall and delete copies of the Software and evaluation license keys (`inboost.lic`) from its workstations, containers, and test systems;
+(c) Upon Licensor's reasonable request following termination, Licensee shall confirm in writing that the Software has been decommissioned.
 
-## 4. STRICT BENCHMARKING & PUBLICATION RESTRICTION / СТРОГИЙ ЗАПРЕТ НА ПУБЛИКАЦИЮ БЕНЧМАРКОВ И РЕЗУЛЬТАТОВ
-
-| English | Русский |
-| :--- | :--- |
-| **4.1. Confidentiality of Evaluation Data.** The Software, its performance characteristics, token reduction figures, execution timings, latency metrics, accuracy statistics, error rates, failure modes, comparative results, architectural mechanisms, and any test outcomes obtained by Licensee ("**Evaluation Results**") constitute the strictly confidential, proprietary trade secret information of InBoost. | **4.1. Конфиденциальность результатов.** Само Программное обеспечение, показатели его производительности, процент экономии токенов, задержки, статистика точности, логи работы, сравнительные замеры и любые иные результаты тестирования («**Результаты оценки**») являются строго конфиденциальной информацией и коммерческой тайной InBoost. |
-| **4.2. Absolute Prohibition on Unauthorized Publication.** Licensee shall NOT disclose, publish, release, blog, tweet, present, broadcast, circulate, or otherwise disseminate to any third party or public forum (including blogs, social media, academic papers, conferences, GitHub repositories, or press releases) any Evaluation Results, performance benchmarks, competitive comparisons, reviews, critiques, or analytical summaries, without the **prior express written authorization** signed by an authorized corporate officer of InBoost. | **4.2. Запрет на несанкционированную публикацию.** Лицензиату КАТЕГОРИЧЕСКИ ЗАПРЕЩАЕТСЯ публиковать, разглашать, размещать в блогах, социальных сетях, научных статьях, докладах, публичных репозиториях или передавать третьим лицам любые Результаты оценки, бенчмарки, сравнительные тесты, обзоры или аналитические отчеты **без предварительного письменного согласия**, подписанного уполномоченным представителем InBoost. |
-| **4.3. Right of Review.** In the event Licensor grants written consent for any publication, Licensor reserves the right of mandatory prior review (at least 14 business days prior to release) to verify accuracy, audit methodologies, and redact proprietary or misleading disclosures. Licensor may condition or retract publication approval at its sole discretion. | **4.3. Право на предварительный аудит.** В случае предоставления Лицензиаром согласия на публикацию, Лицензиар оставляет за собой право предварительного аудита материалов (не менее 14 рабочих дней до публикации) с правом внесения правок и исключения недостоверных или конфиденциальных сведений. Лицензиар вправе отозвать согласие в любой момент. |
+**3.3. Survival.** Sections 2, 4, 5, 6, 7, 8, and 9 shall survive any expiration or termination of this Agreement.
 
 ---
 
-## 5. DISCLAIMER OF WARRANTIES ("AS IS") / ПОЛНЫЙ ОТКАЗ ОТ ГАРАНТИЙ («КАК ЕСТЬ»)
+## 4. BENCHMARKING & REVIEWS
 
-| English | Русский |
-| :--- | :--- |
-| **5.1. Evaluation "AS IS" Provision.** LICENSEE EXPRESSLY ACKNOWLEDGES AND AGREES THAT THE SOFTWARE IS EXPERIMENTAL PRE-RELEASE TECHNOLOGY PROVIDED SOLELY FOR EVALUATION AND PILOT TESTING PURPOSES. THE SOFTWARE IS PROVIDED BY LICENSOR "**AS IS**", "**WITH ALL FAULTS**", AND "**AS AVAILABLE**", WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE. | **5.1. Предоставление на условиях «КАК ЕСТЬ».** ЛИЦЕНЗИАТ ПРИЗНАЕТ И СОГЛАШАЕТСЯ С ТЕМ, ЧТО ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ЯВЛЯЕТСЯ ЭКСПЕРИМЕНТАЛЬНОЙ РАЗРАБОТКОЙ, ПРЕДОСТАВЛЯЕМОЙ ИСКЛЮЧИТЕЛЬНО ДЛЯ ОЗНАКОМЛЕНИЯ И ПИЛОТНОГО ТЕСТИРОВАНИЯ. ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ НА УСЛОВИЯХ **«КАК ЕСТЬ» (AS IS)**, **«СО ВСЕМИ ОШИБКАМИ И НЕДОСТАТКАМИ»** И **«ПО МЕРЕ ДОСТУПНОСТИ»**, БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. |
-| **5.2. Disclaimer of Implied Warranties.** TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, INBOOST SPECIFICALLY DISCLAIMS ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, QUIET ENJOYMENT, SYSTEM INTEGRATION, ACCURACY, AND NON-INFRINGEMENT. INBOOST DOES NOT WARRANT THAT THE SOFTWARE WILL OPERATE UNINTERRUPTED, SECURELY, OR ERROR-FREE, THAT CODE MODIFICATIONS GENERATED BY THIRD-PARTY AI ASSISTANTS WILL BE CORRECT, SYNTACTICALLY VALID, OR FIT FOR PRODUCTION, OR THAT TOKEN CALCULATIONS ARE BINDING ON THIRD-PARTY API PROVIDERS. | **5.2. Отказ от подразумеваемых гарантий.** В МАКСИМАЛЬНОЙ СТЕПЕНИ, ДОПУСТИМОЙ ЗАКОНОМ, INBOOST ПРЯМО ОТКАЗЫВАЕТСЯ ОТ ВСЕХ ПОДРАЗУМЕВАЕМЫХ ГАРАНТИЙ ТОВАРНОЙ ПРИГОДНОСТИ, СООТВЕТСТВИЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ, ПРАВОВОЙ ЧИСТОТЫ, ТОЧНОСТИ И НЕНАРУШЕНИЯ ПРАВ ТРЕТЬИХ ЛИЦ. INBOOST НЕ ГАРАНТИРУЕТ БЕСПЕРЕБОЙНОСТЬ РАБОТЫ, БЕЗОШИБОЧНОСТЬ, КОРРЕКТНОСТЬ ПРАВОК ИСХОДНОГО КОДА, ВЫПОЛНЕННЫХ СТОРОННИМИ ИИ-МОДЕЛЯМИ, ИЛИ ОБЯЗАТЕЛЬНОСТЬ РАСЧЕТОВ ЭКОНОМИИ ДЛЯ СТОРОННИХ ПРОВАЙДЕРОВ API. |
+**4.1. Permitted Benchmarking & Publication.** Licensee is permitted to conduct and publish performance benchmarks, evaluations, and technical reviews of the Software, provided that such benchmarks:
+(a) Adhere to documented, transparent, and reproducible methodologies;
+(b) Accurately identify the software version, hardware platform, models evaluated, and configuration parameters used;
+(c) Do not intentionally misrepresent the operation, test results, or capabilities of the Software.
 
----
-
-## 6. COMPLETE DISCLAIMER OF LIABILITY & HOLD HARMLESS / ПОЛНЫЙ ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ И ВОЗМЕЩЕНИЕ УЩЕРБА
-
-| English | Русский |
-| :--- | :--- |
-| **6.1. Exclusion of All Consequential and Indirect Damages.** TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, IN NO EVENT SHALL LICENSOR, ITS DIRECTORS, OFFICERS, EMPLOYEES, CONTRACTORS, CONTRIBUTORS, OR AGENTS BE LIABLE TO LICENSEE OR TO ANY THIRD PARTY UNDER ANY LEGAL THEORY (WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, PRODUCT LIABILITY, INDEMNITY, BREACH OF WARRANTY, OR OTHERWISE) FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES WHATSOEVER ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT OR THE USE, INABILITY TO USE, OR PERFORMANCE OF THE SOFTWARE. | **6.1. Исключение любых убытков и последствий.** В МАКСИМАЛЬНОЙ СТЕПЕНИ, РАЗРЕШЕННОЙ ЗАКОНОДАТЕЛЬСТВОМ, НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ ЛИЦЕНЗИАР, ЕГО РУКОВОДИТЕЛИ, СОТРУДНИКИ ИЛИ ПОДРЯДЧИКИ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ПЕРЕД ЛИЦЕНЗИАТОМ ИЛИ ТРЕТЬИМИ ЛИЦАМИ (НИ ПО ДОГОВОРУ, НИ В РЕЗУЛЬТАТЕ ПРИЧИНЕНИЯ ВРЕДА, ХАЛАТНОСТИ ИЛИ ПО ИНЫМ ОСНОВАНИЯМ) ЗА ЛЮБЫЕ ПРЯМЫЕ, КОСВЕННЫЕ, СЛУЧАЙНЫЕ, ШТРАФНЫЕ, ФАКТИЧЕСКИЕ ИЛИ ОПОСРЕДОВАННЫЕ УБЫТКИ. |
-| **6.2. Specific Losses Disclaimed.** Without limiting the generality of Section 6.1, Licensor shall bear ZERO liability for: | **6.2. Перечень исключенных рисков.** Не ограничивая общность п. 6.1, Лицензиар несет НУЛЕВУЮ ответственность за: |
-| (a) Any lost profits, lost revenue, lost anticipated savings, business interruption, lost goodwill, or procurement of substitute software or services; | (a) Любую упущенную выгоду, потерю дохода, недополученную экономию, простой бизнеса, ущерб деловой репутации; |
-| (b) Loss, deletion, alteration, degradation, or corruption of source code, repositories, test suites, databases, data, or developer environments; | (b) Утрату, повреждение, порчу или удаление исходного кода, репозиториев Git, тестов, баз данных или рабочих окружений; |
-| (c) Software defects, regressions, security vulnerabilities, or operational bugs introduced into Licensee's code by AI models, agents, or tools; | (c) Ошибки, регрессии, уязвимости безопасности или дефекты, внесенные в код Лицензиата ИИ-агентами или инструментами; |
-| (d) Any billing charges, rate limit enforcement (HTTP 429), account suspensions, bans, or contractual penalties imposed on Licensee by third-party AI or cloud providers (including Anthropic, OpenAI, Cursor, Google Cloud, AWS, GitHub, or Microsoft). | (d) Любые счета за перерасход квот, блокировки (HTTP 429), штрафы, приостановку подписок или санкции со стороны провайдеров ИИ (Anthropic, OpenAI, Cursor, Google, AWS, GitHub, Microsoft). |
-| **6.3. Aggregate Liability Cap.** Licensee agrees that if, notwithstanding the foregoing disclaimers, liability is imposed upon Licensor by a court of competent jurisdiction, Licensor’s total aggregate cumulative liability arising out of or related to this Agreement shall be strictly capped at and shall not exceed **ten United States Dollars ($10.00 USD)** or the actual amount paid by Licensee to Licensor for this evaluation (which is $0.00). | **6.3. Совокупный лимит ответственности.** Лицензиат соглашается, что если суд возложит ответственность на Лицензиара, совокупная совокупная ответственность Лицензиара по настоящему Соглашению будет строго ограничена суммой в размере **10,00 долларов США (десять долларов США)** либо суммой, фактически уплаченной Лицензиатом за тестирование (составляющей $0.00). |
-| **6.4. Indemnification by Licensee.** Licensee agrees to defend, indemnify, and hold harmless InBoost, its affiliates, and their respective officers and employees from and against any and all claims, liabilities, losses, damages, fines, expenses, and costs (including reasonable attorneys' fees) arising out of or relating to Licensee's installation, operation, modification, repository commits, or misuse of the Software. | **6.4. Возмещение ущерба Лицензиатом.** Лицензиат обязуется защитить, оградить от ответственности и компенсировать Лицензиару любые претензии, судебные иски, убытки, штрафы и расходы (включая судебные издержки), возникшие вследствие использования, коммитов в Git или нарушения условий Соглашения Лицензиатом. |
+**4.2. Technical Collaboration.** Evaluators are invited to share benchmark reproduction datasets, error logs, and improvement suggestions with the InBoost engineering team at inbound@inboost.pro to facilitate continuous accuracy and optimization enhancements.
 
 ---
 
-## 7. FEEDBACK & DERIVED INSIGHTS / ОБРАТНАЯ СВЯЗЬ И ПРЕДЛОЖЕНИЯ
+## 5. DISCLAIMER OF WARRANTIES ("AS IS")
 
-| English | Русский |
-| :--- | :--- |
-| **7.1. Assignment of Feedback.** If Licensee provides any suggestions, bug reports, feature requests, benchmarks, performance insights, or feedback ("**Feedback**") to Licensor, Licensee hereby irrevocably transfers and assigns to InBoost all worldwide right, title, and intellectual property rights in and to such Feedback without any royalty, accounting, or attribution obligation. | **7.1. Отчуждение прав на обратную связь.** Если Лицензиат направляет Лицензиару отзывы, баг-репорты, предложения или комментарии («**Обратная связь**»), Лицензиат безвозмездно и безотзывно уступает InBoost все исключительные права на такую обратную связь без каких-либо роялти или обязательств. |
+**5.1. Evaluation "AS IS" Provision.** LICENSEE EXPRESSLY ACKNOWLEDGES AND AGREES THAT THE SOFTWARE IS PRE-RELEASE EVALUATION TECHNOLOGY PROVIDED SOLELY FOR INTERNAL TESTING AND BENCHMARKING. THE SOFTWARE IS PROVIDED BY LICENSOR "**AS IS**", "**WITH ALL FAULTS**", AND "**AS AVAILABLE**", WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE.
 
----
-
-## 8. EQUITABLE RELIEF / СУДЕБНЫЙ ЗАПРЕТ И СРОЧНАЯ ЗАЩИТА
-
-| English | Русский |
-| :--- | :--- |
-| **8.1. Irreparable Harm.** Licensee acknowledges that any breach of Section 2 (Restrictions), Section 3.2 (Cessation of Use), or Section 4 (Publication Restrictions) will cause immediate, irreparable injury to InBoost for which monetary damages alone would be inadequate. Licensor shall be entitled to seek immediate injunctive relief, specific performance, and equitable remedies in any court of competent jurisdiction without the necessity of posting a bond, proving actual damages, or waiting for arbitration. | **8.1. Непоправимый ущерб.** Лицензиат признает, что нарушение Раздела 2 (Ограничения), Раздела 3.2 (Прекращение использования) или Раздела 4 (Запрет публикаций) нанесет Лицензиару непоправимый ущерб. Лицензиар имеет право требовать немедленного судебного запрета (инъюнкции) и принудительного исполнения в суде без внесения залога и без доказывания размера убытков. |
+**5.2. Disclaimer of Implied Warranties.** TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, INBOOST SPECIFICALLY DISCLAIMS ALL IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, QUIET ENJOYMENT, SYSTEM INTEGRATION, ACCURACY, AND NON-INFRINGEMENT. INBOOST DOES NOT WARRANT THAT THE SOFTWARE WILL OPERATE UNINTERRUPTED, SECURELY, OR ERROR-FREE, OR THAT CODE MODIFICATIONS GENERATED BY THIRD-PARTY AI ASSISTANTS WILL BE SYNTACTICALLY VALID OR FIT FOR PRODUCTION ENVIRONMENTS.
 
 ---
 
-## 9. GOVERNING LAW & CHOICE OF JURISDICTION AT LICENSOR'S ELECTION / ПРИМЕНИМОЕ ПРАВО И ПОДСУДНОСТЬ ПО ВЫБОРУ ЛИЦЕНЗИАРА
+## 6. LIMITATION OF LIABILITY & INDEMNIFICATION
 
-| English | Русский |
-| :--- | :--- |
-| **9.1. Exclusive Right of Licensor to Designate Jurisdiction and Governing Law.** In the event of any dispute, controversy, claim, or proceeding arising out of or relating to this Agreement, the Software, or any breach, termination, or invalidity hereof ("**Dispute**"), **InBoost shall have the sole, absolute, and unreviewable right and option to designate and determine**: (a) the substantive governing law applicable to such Dispute; and (b) the forum, venue, court of competent jurisdiction, or arbitral tribunal (including institutional or ad hoc arbitration in any country, or state/federal courts of any jurisdiction worldwide) where such Dispute shall be resolved. | **9.1. Исключительное право Лицензиара на выбор юрисдикции и применимого права.** В случае возникновения любых споров, разногласий, претензий или требований, вытекающих из настоящего Соглашения, Программного обеспечения или связанных с нарушением, прекращением или недействительностью Соглашения («**Спор**»), **InBoost обладает единоличным, безусловным и исключительным правом по своему выбору определить**: (a) материальное право, подлежащее применению к разрешению Спора; и (b) судебный орган, место разбирательства, компетентный суд или арбитражный трибунал (включая институциональный или ad hoc арбитраж в любой стране либо государственные суды любой юрисдикции по всему миру), в котором подлежит рассмотрению данный Спор. |
-| **9.2. Submission to Designated Jurisdiction & Waiver.** Licensee hereby irrevocably and unconditionally submits to the exclusive personal and subject-matter jurisdiction and venue of whichever court, tribunal, or arbitration institution is selected and designated in writing by InBoost. Licensee expressly and irrevocably waives any objection based on improper venue, lack of personal jurisdiction, or inconvenient forum (*forum non conveniens*), and agrees that any judgment, order, or arbitral award rendered in the forum designated by InBoost shall be final, binding, and universally enforceable in any jurisdiction worldwide. | **9.2. Подчинение выбранной юрисдикции и отказ от возражений.** Лицензиат настоящим безотзывно и безоговорочно подчиняется исключительной юрисдикции и подсудности того суда, трибунала или арбитражного учреждения, которое будет письменно указано InBoost. Лицензиат прямо отказывается от любых возражений относительно ненадлежащей подсудности (*forum non conveniens*) или отсутствия компетенции суда и соглашается, что любое решение или приказ, вынесенный в выбранном InBoost форуме, является окончательным, обязательным и подлежит принудительному исполнению в любой юрисдикции мира. |
-| **9.3. Prohibition on Licensee-Initiated Proceedings.** Licensee shall not commence or file any lawsuit, arbitration, legal proceeding, or administrative action against InBoost in any court or forum without the prior express written consent and jurisdictional designation by InBoost. Any action filed by Licensee in violation of this Section shall be dismissed immediately, and Licensee shall indemnify InBoost for all legal fees, costs, and damages incurred in staying, dismissing, or transferring such action. | **9.3. Запрет самостоятельных исков Лицензиата.** Лицензиат не имеет права возбуждать какие-либо судебные или арбитражные разбирательства против InBoost без предварительного письменного согласия и прямого указания форума со стороны InBoost. Любой иск, поданный Лицензиатом в нарушение настоящего пункта, подлежит немедленному прекращению, а Лицензиат обязан полностью компенсировать InBoost все судебные издержки и расходы на защиту. |
+**6.1. Exclusion of Consequential Damages.** TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, IN NO EVENT SHALL EITHER PARTY, ITS DIRECTORS, OFFICERS, EMPLOYEES, OR AGENTS BE LIABLE UNDER ANY LEGAL THEORY FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING LOST PROFITS, LOST REVENUE, BUSINESS INTERRUPTION, OR CORRUPTION OF DATA) ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT.
 
----
+**6.2. Aggregate Liability Cap.** LICENSOR'S TOTAL AGGREGATE CUMULATIVE LIABILITY ARISING OUT OF OR RELATED TO THIS AGREEMENT SHALL BE STRICTLY LIMITED TO ONE HUNDRED UNITED STATES DOLLARS ($100.00 USD).
 
-## 10. GENERAL PROVISIONS & PRECEDENCE / ОБЩИЕ ПОЛОЖЕНИЯ И ПРИОРИТЕТ
-
-| English | Русский |
-| :--- | :--- |
-| **10.1. Entire Agreement.** This Agreement constitutes the complete and exclusive understanding between the parties concerning the Software and supersedes all prior proposals, marketing discussions, representations, and communications. | **10.1. Полнота соглашения.** Настоящее Соглашение представляет собой исчерпывающую договоренность Сторон относительно Программного обеспечения и заменяет собой любые предшествующие переговоры, предложения и переписку. |
-| **10.2. Severability.** If any provision of this Agreement is held invalid, illegal, or unenforceable, such provision shall be enforced to the maximum extent permissible, and the remaining provisions shall remain in full force and effect. | **10.2. Автономность положений.** Недействительность или неприменимость любого отдельного пункта не влечет недействительности остальных положений Соглашения. |
-| **10.3. Language Precedence.** This Agreement is executed in both the English and Russian languages. In the event of any conflict, ambiguity, or discrepancy between the English and Russian texts, the **English text shall prevail and control** in all respects. | **10.3. Языковой приоритет.** Настоящее Соглашение составлено на английском и русском языках. В случае любых разночтений, двусмысленностей или коллизий между версиями, **текст на английском языке имеет преимущественную силу**. |
+**6.3. Mutual Intellectual Property Indemnification.**
+(a) **Licensor Indemnification:** Licensor warrants that the binary runtime of the Software does not knowingly infringe any valid third-party patent or copyright. Licensor agrees to defend Licensee against any third-party claim alleging that the unmodified Software infringes an intellectual property right, and to indemnify Licensee against damages finally awarded against Licensee, subject to prompt written notification and sole control of the defense.
+(b) **Licensee Indemnification:** Licensee agrees to defend, indemnify, and hold harmless Licensor from and against any claims, losses, or liabilities arising out of Licensee's unauthorized modification, material breach of Section 2, or deployment of the Software in violation of applicable laws.
 
 ---
 
-### ACKNOWLEDGMENT / ПОДТВЕРЖДЕНИЕ СОГЛАСИЯ:
-By launching `./inboost-longrun`, registering `inboost-longrun` in Claude Code, Google Antigravity, Cursor, or importing `inboost.lic`, Licensee unequivocally manifests assent to all terms and conditions set forth above.
+## 7. FEEDBACK & DERIVED INSIGHTS
 
-Запуская `./inboost-longrun`, регистрируя `inboost-longrun` в Claude Code, Google Antigravity, Cursor или используя ключ `inboost.lic`, Лицензиат безоговорочно и полностью принимает все условия настоящего Соглашения.
+**7.1. Feedback.** If Licensee provides any suggestions, bug reports, feature requests, or feedback ("**Feedback**") to Licensor, Licensee grants Licensor a non-exclusive, perpetual, irrevocable, royalty-free, worldwide license to use, incorporate, and commercialize such Feedback into InBoost products and services.
+
+---
+
+## 8. EQUITABLE RELIEF
+
+**8.1. Equitable Relief.** Licensee acknowledges that any material breach of Section 2 (Restrictions) may cause irreparable harm for which monetary damages alone would be inadequate. Licensor shall be entitled to seek temporary or preliminary injunctive relief in any court of competent jurisdiction to protect its intellectual property or trade secrets pending arbitration.
+
+---
+
+## 9. GOVERNING LAW & DISPUTE RESOLUTION
+
+**9.1. Governing Law.** This Agreement, and any dispute, controversy, or claim arising out of or relating to this Agreement or the breach, termination, or validity hereof ("**Dispute**"), shall be governed by and construed in accordance with the substantive laws of the **State of Delaware, United States of America**, without giving effect to any choice of law or conflict of law principles.
+
+**9.2. Binding Arbitration.** Any Dispute that cannot be resolved through amicable good-faith negotiation within thirty (30) days shall be finally settled by binding arbitration administered by the **American Arbitration Association (AAA)** in accordance with its Commercial Arbitration Rules then in effect.
+(a) The place of arbitration shall be Wilmington, Delaware, or conducted virtually via mutual agreement.
+(b) The arbitration shall be conducted in the English language by a single independent arbitrator selected in accordance with AAA rules.
+(c) The arbitral award shall be final, binding, and enforceable in any court of competent jurisdiction worldwide.
+
+**9.3. Court Jurisdiction for Injunctive Relief.** Notwithstanding Section 9.2, either party may apply to state or federal courts located in Delaware for interim injunctive relief to prevent irreparable harm or preserve the status quo pending the appointment of an arbitrator.
+
+---
+
+## 10. GENERAL PROVISIONS
+
+**10.1. Entire Agreement.** This Agreement constitutes the complete and exclusive understanding between the parties concerning the Software and supersedes all prior proposals, marketing discussions, representations, and communications.
+
+**10.2. Severability.** If any provision of this Agreement is held invalid, illegal, or unenforceable, such provision shall be enforced to the maximum extent permissible, and the remaining provisions shall remain in full force and effect.
+
+**10.3. Language.** This Agreement is executed strictly in the English language, which shall govern and control in all respects.
+
+---
+
+### ACKNOWLEDGMENT:
+By launching `./inboost-longrun`, executing `inboost-longrun init`, registering `inboost-longrun` in Claude Code, Google Antigravity, or Cursor, or importing `inboost.lic`, Licensee unequivocally manifests assent to all terms and conditions set forth above.

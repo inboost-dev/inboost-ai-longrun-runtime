@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.4.0] - 2026-10-25
+## [0.4.0] - 2026-10-29
+
+### Added
+- **Multi-Architecture Native Binaries**: Pre-compiled standalone binaries for Linux (x86_64, aarch64), macOS (Apple Silicon arm64, Intel x86_64, universal launcher), and Windows (x86_64 PE32+).
+- **90-Day Pilot Evaluation License**: Extended evaluation runway with embedded license activation and verification engine.
+- **AST Syntax Pre-Validation (`l0_verify_syntax`)**: Local Python AST parser validating edit syntax on host CPU prior to file persistence.
+- **Automated SHA-256 Integrity Verification**: Cryptographic checksum verification for all runtime binaries and distribution archives via `SHA256SUMS`.
+- **Cross-Platform MCP Engine**: Turnkey JSON-RPC stdio support for Claude Code, Cursor, and Google Antigravity (`agy`).
+
+### Packaging & Distribution
+- **PyPI Release**: Published `inboost-longrun` and `inboost-ai-longrun` v0.4.0 wheels.
+- **npm Release**: Published `@inboost-pro/inboost-longrun`, `@inboost-pro/inboost-ai-longrun`, `inboost-longrun`, and `inboost-ai-longrun` v0.4.0 packages.
+- **Turnkey Installers**: Universal POSIX `install.sh` and Windows PowerShell `install.ps1` with dependency validation and automated MCP registration.
+
+---
+
+## [0.4.0-rc1] - 2026-10-25
 
 ### Added
 - **Complete SWE-bench Verified N=500 Benchmark Milestone**:

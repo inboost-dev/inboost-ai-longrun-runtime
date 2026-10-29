@@ -6,7 +6,7 @@
 [![Architecture](https://img.shields.io/badge/arch-x86__64%20%7C%20ARM64-blue.svg)](#supported-platforms)
 [![License](https://img.shields.io/badge/license-Evaluation%20License-orange.svg)](LICENSE_EVALUATION.md)
 [![Privacy](https://img.shields.io/badge/privacy-100%25%20Local%20CPU-brightgreen.svg)](#privacy--data-security)
-[![Tests](https://img.shields.io/badge/tests-23%20passed-brightgreen.svg)](#testing--verification)
+[![Tests](https://img.shields.io/badge/tests-25%20passed-brightgreen.svg)](#testing--verification)
 
 > **Local context conservation, rate-limit extension, and verification engine for AI coding agents.**  
 > *(Universal Multi-Platform Binary & Script Distribution Runtime)*.  

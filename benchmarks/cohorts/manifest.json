@@ -23,7 +23,7 @@
         "scikit-learn/scikit-learn": 2
       },
       "status": "COMPLETED",
-      "scorecard": "/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun-runtime/benchmarks/runs/cohort_01/SCORECARD.md"
+      "scorecard": "benchmarks/runs/cohort_01/SCORECARD.md"
     },
     {
       "cohort_id": 2,

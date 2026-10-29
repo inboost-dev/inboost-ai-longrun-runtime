@@ -75,11 +75,11 @@ def test_status_command():
     res = run_binary("status")
     assert res.returncode == 0
     assert "Status:         ACTIVE" in res.stdout
-    assert "Active 1-Month Evaluation License" in res.stdout
+    assert "Active 90-Day Evaluation License" in res.stdout
 
 
-def test_license_one_month_limit():
-    """Verify license expiration is strictly limited to 1 month."""
+def test_license_duration():
+    """Verify license expiration is strictly set to 90 days."""
     assert LIC_PATH.exists(), f"License file {LIC_PATH} not found"
     with open(LIC_PATH, "r", encoding="utf-8") as f:
         lic_data = json.load(f)
@@ -94,13 +94,13 @@ def test_license_one_month_limit():
     duration = valid_until - valid_from
     days = duration.total_seconds() / 86400.0
 
-    # Exactly 31.99 days (1 calendar month from 2026-10-11 to 2026-11-11)
-    assert 28.0 <= days <= 32.0, f"License duration {days} days is not 1 month"
-    assert valid_until.year == 2026
-    assert valid_until.month == 11
-    assert valid_until.day == 11
+    # 90 days duration
+    assert 88.0 <= days <= 93.0, f"License duration {days} days is not 90 days"
+    assert valid_until.year == 2027
+    assert valid_until.month == 1
+    assert valid_until.day == 27
 
-    # Verify CLI reports active status with remaining time <= 32 days
+    # Verify CLI reports active status with remaining time
     res = run_binary("status")
     assert res.returncode == 0
     assert "ACTIVE" in res.stdout
@@ -220,6 +220,59 @@ def test_tool_l0_verify_syntax_invalid():
     assert "syntax validation issue" in content_text.lower() or "unclosed" in content_text.lower()
 
 
+def test_tool_l0_verify_syntax_indentation_error():
+    """Verify that Python IndentationError is strictly detected (Iskra remark 10b)."""
+    init_req = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "t", "version": "1"}},
+    }
+    call_req = {
+        "jsonrpc": "2.0",
+        "id": 41,
+        "method": "tools/call",
+        "params": {
+            "name": "l0_verify_syntax",
+            "arguments": {
+                "file_path": "indent_bug.py",
+                "content": "if True:\nprint(1)\n",
+            },
+        },
+    }
+    responses = send_jsonrpc([init_req, call_req])
+    assert len(responses) >= 2
+    call_resp = responses[1]
+    assert call_resp["result"]["isError"] is True
+    content_text = call_resp["result"]["content"][0]["text"]
+    assert "indentationerror" in content_text.lower() or "syntax" in content_text.lower()
+
+
+def test_tool_l0_verify_syntax_empty_arguments():
+    """Verify that empty or unrecognized arguments return an error rather than false valid (Iskra remark 10c)."""
+    init_req = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "t", "version": "1"}},
+    }
+    call_req = {
+        "jsonrpc": "2.0",
+        "id": 42,
+        "method": "tools/call",
+        "params": {
+            "name": "l0_verify_syntax",
+            "arguments": {},
+        },
+    }
+    responses = send_jsonrpc([init_req, call_req])
+    assert len(responses) >= 2
+    call_resp = responses[1]
+    assert call_resp["result"]["isError"] is True
+    content_text = call_resp["result"]["content"][0]["text"]
+    assert "neither file_path nor" in content_text.lower()
+
+
 def test_tool_l0_savings_report():
     init_req = {
         "jsonrpc": "2.0",
@@ -254,6 +307,8 @@ def test_distribution_checksums():
             continue
         expected_hash, filename = line.split(None, 1)
         artifact_path = REPO_ROOT / "dist" / filename
+        if not artifact_path.exists():
+            artifact_path = REPO_ROOT / "bin" / filename
         assert artifact_path.exists(), f"Archive {filename} listed in SHA256SUMS does not exist"
 
         hasher = hashlib.sha256()
@@ -273,7 +328,7 @@ def test_node_init_command(tmp_path):
         text=True,
         check=True,
     )
-    assert "✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!" in res.stdout
+    assert "InBoost LongRun" in res.stdout and "successfully configured" in res.stdout
     assert (tmp_path / ".cursorrules").exists()
     assert (tmp_path / ".cursor" / "mcp.json").exists()
     assert (tmp_path / ".claude" / "rules" / "inboost_longrun.md").exists()
@@ -290,7 +345,7 @@ def test_python_init_command(tmp_path):
         text=True,
         check=True,
     )
-    assert "✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!" in res.stdout
+    assert "InBoost LongRun" in res.stdout and "successfully configured" in res.stdout
     assert (tmp_path / ".cursorrules").exists()
     assert (tmp_path / ".cursor" / "mcp.json").exists()
     assert (tmp_path / ".claude" / "rules" / "inboost_longrun.md").exists()

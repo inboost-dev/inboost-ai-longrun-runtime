@@ -5,6 +5,7 @@ Resolves platform-native binary, ensures license is placed, and executes the eng
 """
 
 import contextlib
+import hashlib
 import json
 import os
 import platform
@@ -15,7 +16,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-VERSION = "0.3.0.post1"
+VERSION = "0.4.0"
 GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime"
 
 RULES_CONTENT = """# InBoost LongRun Optimization Rules
@@ -189,22 +190,23 @@ def ensure_license_installed(package_root: Path) -> None:
                     break
 
 
-def handle_init(package_root: Path) -> None:
+def handle_init(package_root: Path, is_global: bool = False) -> None:
     user_home = Path.home()
     cwd = Path.cwd()
 
-    # 1. Global Claude Code rules (~/.claude/rules/inboost_longrun.md)
-    with contextlib.suppress(OSError):
-        global_claude = user_home / ".claude" / "rules"
-        global_claude.mkdir(parents=True, exist_ok=True)
-        (global_claude / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+    # 1. Global Claude Code and agent rules (only when --global is explicitly requested)
+    if is_global:
+        with contextlib.suppress(OSError):
+            global_claude = user_home / ".claude" / "rules"
+            global_claude.mkdir(parents=True, exist_ok=True)
+            (global_claude / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
 
-    with contextlib.suppress(OSError):
-        global_agents = user_home / ".agents" / "rules"
-        global_agents.mkdir(parents=True, exist_ok=True)
-        (global_agents / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
+        with contextlib.suppress(OSError):
+            global_agents = user_home / ".agents" / "rules"
+            global_agents.mkdir(parents=True, exist_ok=True)
+            (global_agents / "inboost_longrun.md").write_text(RULES_CONTENT, encoding="utf-8")
 
-    # 2. Local rules in current directory (.claude/rules and .cursorrules)
+    # 2. Local rules in current project directory (.claude/rules and .cursorrules)
     with contextlib.suppress(OSError):
         local_claude = cwd / ".claude" / "rules"
         local_claude.mkdir(parents=True, exist_ok=True)
@@ -222,7 +224,7 @@ def handle_init(package_root: Path) -> None:
             glue = "\n\n" if existing.strip() else ""
             cursorrules.write_text(existing + glue + RULES_CONTENT, encoding="utf-8")
 
-    # 3. .cursor/mcp.json
+    # 3. .cursor/mcp.json (local workspace MCP configuration)
     with contextlib.suppress(OSError):
         cursor_dir = cwd / ".cursor"
         cursor_dir.mkdir(parents=True, exist_ok=True)
@@ -240,7 +242,13 @@ def handle_init(package_root: Path) -> None:
         mcp_file.write_text(json.dumps(mcp_config, indent=2) + "\n", encoding="utf-8")
 
     ensure_license_installed(package_root)
-    sys.stdout.write("✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!\n")
+    if is_global:
+        sys.stdout.write("✓ InBoost LongRun rules & skills successfully configured globally and locally!\n")
+    else:
+        sys.stdout.write(
+            "✓ InBoost LongRun workspace rules & skills successfully configured for Claude Code and Cursor!\n"
+            "  (Local project configured. To apply globally to user home, run: inboost-longrun init --global)\n"
+        )
 
 
 def find_or_download_binary() -> Path:
@@ -276,24 +284,40 @@ def find_or_download_binary() -> Path:
     inboost_bin_dir.mkdir(parents=True, exist_ok=True)
     target_path = inboost_bin_dir / bin_name
 
-    repos = [GITHUB_REPO, "inboost-dev/inboost-longrun", "inboost-dev/inboost-ai-longrun-runtime"]
+    repos = [GITHUB_REPO, "inboost-dev/inboost-ai-longrun"]
     repos = list(dict.fromkeys(repos))
     last_err: Exception | None = None
 
-    tag_clean = "0.3.0"
-    candidates_urls = []
     for repo in repos:
-        candidates_urls.extend([
-            f"https://raw.githubusercontent.com/{repo}/v{tag_clean}/bin/{bin_name}",
-            f"https://github.com/{repo}/raw/v{tag_clean}/bin/{bin_name}",
-            f"https://github.com/{repo}/releases/download/v{tag_clean}/{bin_name}",
-            f"https://raw.githubusercontent.com/{repo}/main/bin/{bin_name}",
-        ])
-
-    for download_url in candidates_urls:
+        download_url = f"https://github.com/{repo}/releases/download/v{VERSION}/{bin_name}"
+        sums_url = f"https://github.com/{repo}/releases/download/v{VERSION}/SHA256SUMS"
         sys.stderr.write(f"InBoost LongRun binary not found locally. Downloading from {download_url}...\n")
         try:
+            # Download checksums if available
+            checksum_map: dict[str, str] = {}
+            with contextlib.suppress(Exception):
+                req = urllib.request.urlopen(sums_url, timeout=10)
+                for line in req.read().decode("utf-8").splitlines():
+                    parts = line.strip().split()
+                    if len(parts) >= 2:
+                        checksum_map[parts[1].strip()] = parts[0].strip()
+
             urllib.request.urlretrieve(download_url, str(target_path))
+
+            # Verify checksum if present in release manifest
+            if bin_name in checksum_map:
+                hasher = hashlib.sha256()
+                with open(target_path, "rb") as f:
+                    for chunk in iter(lambda: f.read(65536), b""):
+                        hasher.update(chunk)
+                actual_hash = hasher.hexdigest()
+                expected_hash = checksum_map[bin_name]
+                if actual_hash.lower() != expected_hash.lower():
+                    target_path.unlink(missing_ok=True)
+                    raise RuntimeError(
+                        f"SHA-256 verification failed for {bin_name}: expected {expected_hash}, got {actual_hash}"
+                    )
+
             if os.name != "nt":
                 target_path.chmod(target_path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
             return target_path
@@ -314,7 +338,8 @@ def main() -> None:
 
     if "init" in raw_args:
         check_system_dependencies(strict=False)
-        handle_init(package_root)
+        is_global = "--global" in raw_args or "-g" in raw_args
+        handle_init(package_root, is_global=is_global)
         sys.exit(0)
 
     if os.environ.get("INBOOST_STRICT_DEPS") == "1":

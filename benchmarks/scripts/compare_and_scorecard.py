@@ -215,8 +215,10 @@ def generate_markdown_scorecard(cmp: dict[str, Any]) -> str:
     lr = cmp["inboost_longrun"]
     d = cmp["deltas"]
     cohort_n = cmp["cohort_size"]
-    b_dir = cmp.get("bare_dir", "runs/cohort_bare_agy")
-    lr_dir = cmp.get("longrun_dir", "runs/cohort_inboost_longrun")
+    b_dir = Path(cmp.get("bare_dir", "runs/cohort_bare_agy")).name
+    lr_dir = Path(cmp.get("longrun_dir", "runs/cohort_inboost_longrun")).name
+    b_dir = f"benchmarks/runs/{b_dir}"
+    lr_dir = f"benchmarks/runs/{lr_dir}"
 
     bare_empty_ids = set(cmp.get("bare_eval", {}).get("empty_patch_ids", []))
     bare_apply_ids = set(cmp.get("bare_eval", {}).get("apply_error_ids", []))

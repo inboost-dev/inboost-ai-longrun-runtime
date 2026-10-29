@@ -16,9 +16,10 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const https = require("https");
+const crypto = require("crypto");
 
-const VERSION = "0.3.0-eval";
-const GITHUB_REPO = "inboost-dev/inboost-longrun";
+const VERSION = "0.4.0";
+const GITHUB_REPO = "inboost-dev/inboost-ai-longrun-runtime";
 
 const RULES_CONTENT = `# InBoost LongRun Optimization Rules
 
@@ -69,24 +70,26 @@ function ensureLicenseInstalled(packageDir) {
   }
 }
 
-function runInit(packageDir) {
+function runInit(packageDir, isGlobal = false) {
   const userHome = os.homedir();
   const cwd = process.cwd();
 
-  // 1. Копирует правило в глобальный ~/.claude/rules/inboost_longrun.md и ~/.agents/rules/inboost_longrun.md
-  try {
-    const globalClaudeDir = path.join(userHome, ".claude", "rules");
-    fs.mkdirSync(globalClaudeDir, { recursive: true });
-    fs.writeFileSync(path.join(globalClaudeDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
-  } catch (err) {}
+  // 1. Global Claude Code rules (only when --global is explicitly requested)
+  if (isGlobal) {
+    try {
+      const globalClaudeDir = path.join(userHome, ".claude", "rules");
+      fs.mkdirSync(globalClaudeDir, { recursive: true });
+      fs.writeFileSync(path.join(globalClaudeDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+    } catch (err) {}
 
-  try {
-    const globalAgentsDir = path.join(userHome, ".agents", "rules");
-    fs.mkdirSync(globalAgentsDir, { recursive: true });
-    fs.writeFileSync(path.join(globalAgentsDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
-  } catch (err) {}
+    try {
+      const globalAgentsDir = path.join(userHome, ".agents", "rules");
+      fs.mkdirSync(globalAgentsDir, { recursive: true });
+      fs.writeFileSync(path.join(globalAgentsDir, "inboost_longrun.md"), RULES_CONTENT, "utf-8");
+    } catch (err) {}
+  }
 
-  // 2. Копирует правило в текущий ./.cursorrules или ./.claude/rules/ или ./.agents/rules/
+  // 2. Local rules in current directory (.claude/rules, .agents/rules, and .cursorrules)
   try {
     const localClaudeDir = path.join(cwd, ".claude", "rules");
     fs.mkdirSync(localClaudeDir, { recursive: true });
@@ -111,7 +114,7 @@ function runInit(packageDir) {
     }
   } catch (err) {}
 
-  // 3. Добавляет в .cursor/mcp.json (если файл существует или создает его)
+  // 3. Local .cursor/mcp.json workspace configuration
   try {
     const cursorDir = path.join(cwd, ".cursor");
     fs.mkdirSync(cursorDir, { recursive: true });
@@ -137,7 +140,11 @@ function runInit(packageDir) {
   // Ensure license is also verified and installed to ~/.inboost/inboost.lic
   ensureLicenseInstalled(packageDir);
 
-  process.stdout.write("✓ InBoost LongRun rules & skills successfully configured for Claude Code and Cursor!\n");
+  if (isGlobal) {
+    process.stdout.write("✓ InBoost LongRun rules & skills successfully configured globally and locally!\n");
+  } else {
+    process.stdout.write("✓ InBoost LongRun workspace rules & skills successfully configured for Claude Code and Cursor!\n  (Local project configured. To apply globally to user home, run: inboost-longrun init --global)\n");
+  }
   process.exit(0);
 }
 
@@ -184,10 +191,13 @@ function downloadBinary(binName) {
     }
     const targetPath = path.join(targetDir, binName);
     const downloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/${binName}`;
+    const sumsUrl = `https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/SHA256SUMS`;
 
     process.stderr.write(`InBoost LongRun binary not found locally. Downloading from ${downloadUrl}...\n`);
 
     const file = fs.createWriteStream(targetPath);
+    const hash = crypto.createHash("sha256");
+
     function getUrl(url) {
       https.get(url, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -198,13 +208,42 @@ function downloadBinary(binName) {
           try { fs.unlinkSync(targetPath); } catch (e) {}
           return reject(new Error(`Download failed with status ${res.statusCode}`));
         }
+        res.on("data", (chunk) => hash.update(chunk));
         res.pipe(file);
         file.on("finish", () => {
           file.close(() => {
-            if (process.platform !== "win32") {
-              try { fs.chmodSync(targetPath, 0o755); } catch (e) {}
-            }
-            resolve(targetPath);
+            const actualHash = hash.digest("hex").toLowerCase();
+            // Verify checksum against SHA256SUMS if reachable
+            https.get(sumsUrl, (sRes) => {
+              if (sRes.statusCode === 200) {
+                let data = "";
+                sRes.on("data", (c) => { data += c; });
+                sRes.on("end", () => {
+                  const match = data.split("\n").find((line) => line.includes(binName));
+                  if (match) {
+                    const expected = match.trim().split(/\s+/)[0].toLowerCase();
+                    if (expected !== actualHash) {
+                      try { fs.unlinkSync(targetPath); } catch (e) {}
+                      return reject(new Error(`SHA-256 verification failed for ${binName}: expected ${expected}, got ${actualHash}`));
+                    }
+                  }
+                  if (process.platform !== "win32") {
+                    try { fs.chmodSync(targetPath, 0o755); } catch (e) {}
+                  }
+                  resolve(targetPath);
+                });
+              } else {
+                if (process.platform !== "win32") {
+                  try { fs.chmodSync(targetPath, 0o755); } catch (e) {}
+                }
+                resolve(targetPath);
+              }
+            }).on("error", () => {
+              if (process.platform !== "win32") {
+                try { fs.chmodSync(targetPath, 0o755); } catch (e) {}
+              }
+              resolve(targetPath);
+            });
           });
         });
       }).on("error", (err) => {
@@ -374,7 +413,8 @@ async function main() {
 
   if (rawArgs.includes("init")) {
     checkSystemDependencies(false);
-    runInit(packageDir);
+    const isGlobal = rawArgs.includes("--global") || rawArgs.includes("-g");
+    runInit(packageDir, isGlobal);
     process.exit(0);
   }
 

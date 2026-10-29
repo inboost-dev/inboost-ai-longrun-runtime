@@ -1,6 +1,6 @@
 {
   "name": "@inboost-pro/inboost-longrun",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "InBoost LongRun: Local context conservation, quota extension, and verification engine for AI coding agents.",
   "main": "bin/inboost-longrun.js",
   "bin": {
@@ -17,7 +17,7 @@
   "scripts": {
     "start": "node bin/inboost-longrun.js serve",
     "test": "node bin/inboost-longrun.js status",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "postinstall": "node bin/inboost-longrun.js --postinstall"
   },
   "keywords": [

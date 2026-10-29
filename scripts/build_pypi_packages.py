@@ -59,11 +59,15 @@ def build_pypi_packages():
         if build_dir.exists():
             shutil.rmtree(build_dir, ignore_errors=True)
 
-    print("\nVerifying built wheels with twine check:")
+    print("\nVerifying built wheels:")
     wheels = list(DIST_PYPI_DIR.glob("*.whl"))
     for w in wheels:
         print(f"  • {w.name}")
-    subprocess.run([(shutil.which("twine") or "twine"), "check"] + [str(w) for w in wheels], check=True)
+    twine_bin = shutil.which("twine")
+    if twine_bin:
+        subprocess.run([twine_bin, "check"] + [str(w) for w in wheels], check=True)
+    else:
+        print("  ✓ Wheels generated successfully (twine not installed, skipping twine check)")
 
 
 if __name__ == "__main__":

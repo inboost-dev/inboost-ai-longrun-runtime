@@ -72,6 +72,6 @@ INBOOST LONGRUN ACCELERATED:
 ---
 
 ## 6. Verification Reproducibility & Integrity
-- **Bare Output:** `/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_48_bare_agy/predictions.jsonl`
-- **InBoost Output:** `/opt/.gemini/antigravity-cli/scratch/inboost-ai-longrun/benchmarks/runs/cohort_48_inboost_longrun/predictions.jsonl`
+- **Bare Output:** `benchmarks/runs/cohort_48_bare_agy/predictions.jsonl`
+- **InBoost Output:** `benchmarks/runs/cohort_48_inboost_longrun/predictions.jsonl`
 - **Docker Logs:** `eval/test_logs/<instance_id>.eval.log`
